@@ -216,7 +216,7 @@ export function ProductShowcase() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="relative z-10 text-center mt-16 pb-4">
+        <div className="relative z-10 text-center mt-32 mb-12">
           <button className="group px-12 py-4 border border-black/20 rounded-full text-black text-sm uppercase tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-500 font-[family-name:var(--font-inter)]">
             <span className="flex items-center gap-3">
               {t("viewAll")}
