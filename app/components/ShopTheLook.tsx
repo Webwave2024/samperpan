@@ -44,6 +44,7 @@ export function ShopTheLook() {
   const locale = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const mainImageRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const productRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -55,13 +56,28 @@ export function ShopTheLook() {
         }
       });
 
+      // Parallax background effect
+      if (bgRef.current) {
+        gsap.to(bgRef.current, {
+          yPercent: 20,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          }
+        });
+      }
+
       // Spread animation on scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top center",
-          end: "bottom bottom",
-          scrub: 1, // Smooth scrubbing effect
+          start: "top 60%", // Start animation when top of section is 60% down the viewport
+          end: "bottom center",
+          scrub: false, // Don't tie to scroll bar, just play it
+          toggleActions: "play none none reverse", // Play on enter, reverse on leave back
         },
       });
 
@@ -119,10 +135,23 @@ export function ShopTheLook() {
   };
 
   return (
-    <section ref={containerRef} className="relative w-full h-[120vh] bg-[#ffffff] text-black overflow-hidden py-16 border-t border-black/5">
-      <div className="sticky top-0 h-screen flex flex-col items-center justify-center">
+    <section ref={containerRef} className="relative w-full text-white overflow-hidden py-32 border-t border-white/10 bg-black">
+      
+      {/* Background Image - Parallax Scrolling */}
+      <div ref={bgRef} className="absolute inset-0 w-full h-[120%] -top-[10%] z-0">
+        <Image
+          src="/35-1-scaled.webp"
+          alt="Background"
+          fill
+          className="object-cover opacity-40"
+          unoptimized
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/20" />
+      </div>
+
+      <div className="relative z-10 w-full flex flex-col items-center justify-center">
         
-        <h2 className="text-4xl md:text-6xl font-light tracking-wide mb-16 font-[family-name:var(--font-inter)]">
+        <h2 className="text-4xl md:text-6xl font-light tracking-wide mb-24 font-[family-name:var(--font-inter)] text-white">
           Shop The Look
         </h2>
 
