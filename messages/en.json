@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "Collections",
+    "atelier": "Atelier",
+    "contact": "Contact"
+  },
+  "hero": {
+    "titleLeft": "Ethnic Wear That",
+    "titleRight": "Defines You",
+    "subtitle": "Discover Elegant Ethnic Wear for Every Occasion",
+    "paragraph": "Elevate your wardrobe with SIDHANT's latest collection, thoughtfully designed with beautiful patterns, comfortable fabrics, and timeless elegance. Perfect for festive celebrations, special occasions, and effortless everyday style.",
+    "button": "Unveil The Masterpiece"
+  },
+  "footer": {
+    "brandDesc": "The new standard of elegance. Discover ethnic wear thoughtfully designed with timeless patterns and comfort.",
+    "collections": "Collections",
+    "festive": "Festive Edits",
+    "wedding": "Wedding Trousseau",
+    "everyday": "Everyday Luxury",
+    "bespoke": "Bespoke Orders",
+    "atelier": "Atelier",
+    "ourStory": "Our Story",
+    "craftsmanship": "Craftsmanship",
+    "garmentCare": "Garment Care",
+    "contactUs": "Contact Us",
+    "insider": "The Insider",
+    "subscribeDesc": "Subscribe to receive exclusive access to new collections and events.",
+    "emailPlaceholder": "EMAIL ADDRESS",
+    "join": "Join",
+    "rights": "All Rights Reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "products": {
+    "heading": "Our",
+    "headingAccent": "Collections",
+    "subheading": "Crafted with intention. Worn with pride. Each piece tells a story of heritage and modern elegance.",
+    "festive": "Festive",
+    "bridal": "Bridal",
+    "everyday": "Everyday",
+    "heritage": "Heritage",
+    "viewCollection": "View this collection",
+    "explore": "Explore",
+    "viewAll": "View All Collections"
+  }
+}

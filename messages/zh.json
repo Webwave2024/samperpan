@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "系列",
+    "atelier": "工作室",
+    "contact": "联系我们"
+  },
+  "hero": {
+    "titleLeft": "时尚",
+    "titleRight": "定义你",
+    "subtitle": "为每个场合发现优雅的民族服饰",
+    "paragraph": "用SIDHANT的最新系列提升您的衣橱，精心设计有美丽图案、舒适面料和永恒优雅。",
+    "button": "揭开杰作的面纱"
+  },
+  "footer": {
+    "brandDesc": "优雅的新标准。发现以永恒图案和舒适设计的民族服饰。",
+    "collections": "系列",
+    "festive": "节日版本",
+    "wedding": "婚礼嫁妆",
+    "everyday": "日常奢华",
+    "bespoke": "定制订单",
+    "atelier": "工作室",
+    "ourStory": "我们的故事",
+    "craftsmanship": "工艺",
+    "garmentCare": "服装护理",
+    "contactUs": "联系我们",
+    "insider": "内部人士",
+    "subscribeDesc": "订阅以获得新系列的独家访问权限。",
+    "emailPlaceholder": "电子邮件地址",
+    "join": "加入",
+    "rights": "版权所有。",
+    "privacy": "隐私政策",
+    "terms": "服务条款"
+  },
+  "products": {
+    "heading": "我们的",
+    "headingAccent": "系列",
+    "subheading": "用心制作，自豪穿着。每一件作品都讲述着传统与现代优雅的故事。",
+    "festive": "节日",
+    "bridal": "新娘",
+    "everyday": "日常",
+    "heritage": "传统",
+    "viewCollection": "查看此系列",
+    "explore": "探索",
+    "viewAll": "查看所有系列"
+  }
+}

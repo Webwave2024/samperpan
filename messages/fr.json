@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "Collections",
+    "atelier": "Atelier",
+    "contact": "Contact"
+  },
+  "hero": {
+    "titleLeft": "La Mode Qui",
+    "titleRight": "Vous Définit",
+    "subtitle": "Découvrez des tenues ethniques élégantes pour toutes les occasions",
+    "paragraph": "Élevez votre garde-robe avec la dernière collection de SIDHANT, conçue avec soin avec de magnifiques motifs, des tissus confortables et une élégance intemporelle.",
+    "button": "Dévoiler le Chef-d'œuvre"
+  },
+  "footer": {
+    "brandDesc": "Le nouveau standard d'élégance. Découvrez des vêtements ethniques conçus avec soin avec des motifs intemporels et du confort.",
+    "collections": "Collections",
+    "festive": "Éditions Festives",
+    "wedding": "Trousseau de Mariage",
+    "everyday": "Luxe Quotidien",
+    "bespoke": "Commandes sur Mesure",
+    "atelier": "Atelier",
+    "ourStory": "Notre Histoire",
+    "craftsmanship": "Artisanat",
+    "garmentCare": "Entretien des Vêtements",
+    "contactUs": "Nous Contacter",
+    "insider": "L'Initié",
+    "subscribeDesc": "Abonnez-vous pour recevoir un accès exclusif aux nouvelles collections.",
+    "emailPlaceholder": "ADRESSE E-MAIL",
+    "join": "Rejoindre",
+    "rights": "Tous droits réservés.",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation"
+  },
+  "products": {
+    "heading": "Nos",
+    "headingAccent": "Collections",
+    "subheading": "Conçu avec soin. Porté avec fierté. Chaque pièce raconte une histoire de patrimoine et d'élégance moderne.",
+    "festive": "Festif",
+    "bridal": "Nuptial",
+    "everyday": "Quotidien",
+    "heritage": "Héritage",
+    "viewCollection": "Voir cette collection",
+    "explore": "Explorer",
+    "viewAll": "Voir Toutes les Collections"
+  }
+}

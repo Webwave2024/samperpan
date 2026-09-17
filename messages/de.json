@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "Kollektionen",
+    "atelier": "Atelier",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "titleLeft": "Mode, die",
+    "titleRight": "Dich Definiert",
+    "subtitle": "Entdecke elegante Ethno-Mode für jeden Anlass",
+    "paragraph": "Werte deine Garderobe mit SIDHANTs neuester Kollektion auf, sorgfältig gestaltet mit schönen Mustern, bequemen Stoffen und zeitloser Eleganz.",
+    "button": "Das Meisterwerk Enthüllen"
+  },
+  "footer": {
+    "brandDesc": "Der neue Standard der Eleganz. Entdecke ethnische Mode mit zeitlosen Mustern und Komfort.",
+    "collections": "Kollektionen",
+    "festive": "Festliche Editionen",
+    "wedding": "Hochzeits-Ausstattung",
+    "everyday": "Alltäglicher Luxus",
+    "bespoke": "Maßbestellungen",
+    "atelier": "Atelier",
+    "ourStory": "Unsere Geschichte",
+    "craftsmanship": "Handwerkskunst",
+    "garmentCare": "Kleiderpflege",
+    "contactUs": "Kontaktiere uns",
+    "insider": "Der Insider",
+    "subscribeDesc": "Abonniere exklusiven Zugang zu neuen Kollektionen.",
+    "emailPlaceholder": "E-MAIL-ADRESSE",
+    "join": "Beitreten",
+    "rights": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Nutzungsbedingungen"
+  },
+  "products": {
+    "heading": "Unsere",
+    "headingAccent": "Kollektionen",
+    "subheading": "Mit Absicht gefertigt. Mit Stolz getragen. Jedes Stück erzählt eine Geschichte von Erbe und moderner Eleganz.",
+    "festive": "Festlich",
+    "bridal": "Braut",
+    "everyday": "Täglich",
+    "heritage": "Erbe",
+    "viewCollection": "Diese Kollektion ansehen",
+    "explore": "Erkunden",
+    "viewAll": "Alle Kollektionen ansehen"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "Collezioni",
+    "atelier": "Atelier",
+    "contact": "Contatto"
+  },
+  "hero": {
+    "titleLeft": "Moda Che",
+    "titleRight": "Ti Definisce",
+    "subtitle": "Scopri abbigliamento etnico elegante per ogni occasione",
+    "paragraph": "Arricchisci il tuo guardaroba con l'ultima collezione di SIDHANT, progettata con bellissimi motivi, tessuti confortevoli ed eleganza senza tempo.",
+    "button": "Svela il Capolavoro"
+  },
+  "footer": {
+    "brandDesc": "Il nuovo standard di eleganza. Scopri abbigliamento etnico con motivi senza tempo e comfort.",
+    "collections": "Collezioni",
+    "festive": "Edizioni Festive",
+    "wedding": "Corredo Nuziale",
+    "everyday": "Lusso Quotidiano",
+    "bespoke": "Ordini su Misura",
+    "atelier": "Atelier",
+    "ourStory": "La Nostra Storia",
+    "craftsmanship": "Artigianato",
+    "garmentCare": "Cura dei Capi",
+    "contactUs": "Contattaci",
+    "insider": "L'Insider",
+    "subscribeDesc": "Iscriviti per ricevere accesso esclusivo alle nuove collezioni.",
+    "emailPlaceholder": "INDIRIZZO EMAIL",
+    "join": "Unisciti",
+    "rights": "Tutti i diritti riservati.",
+    "privacy": "Politica sulla Privacy",
+    "terms": "Termini di Servizio"
+  },
+  "products": {
+    "heading": "Le Nostre",
+    "headingAccent": "Collezioni",
+    "subheading": "Realizzato con intenzione. Indossato con orgoglio. Ogni pezzo racconta una storia di eredità ed eleganza moderna.",
+    "festive": "Festivo",
+    "bridal": "Nuziale",
+    "everyday": "Quotidiano",
+    "heritage": "Patrimonio",
+    "viewCollection": "Vedi questa collezione",
+    "explore": "Esplora",
+    "viewAll": "Vedi Tutte le Collezioni"
+  }
+}

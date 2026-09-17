@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "コレクション",
+    "atelier": "アトリエ",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "titleLeft": "あなたを",
+    "titleRight": "定義するファッション",
+    "subtitle": "あらゆる場面に合うエレガントなエスニックウェアを発見",
+    "paragraph": "美しいパターン、快適な生地、そして時代を超えたエレガンスで丁寧にデザインされたSIDHANTの最新コレクションであなたのワードローブを格上げしましょう。",
+    "button": "傑作を披露する"
+  },
+  "footer": {
+    "brandDesc": "エレガンスの新基準。時代を超えたパターンと快適さで設計されたエスニックウェアを発見。",
+    "collections": "コレクション",
+    "festive": "フェスティバルエディション",
+    "wedding": "ウェディングトルソー",
+    "everyday": "日常のラグジュアリー",
+    "bespoke": "カスタムオーダー",
+    "atelier": "アトリエ",
+    "ourStory": "私たちのストーリー",
+    "craftsmanship": "職人技",
+    "garmentCare": "衣類のケア",
+    "contactUs": "お問い合わせ",
+    "insider": "インサイダー",
+    "subscribeDesc": "新しいコレクションへの独占アクセスを受け取るために購読してください。",
+    "emailPlaceholder": "メールアドレス",
+    "join": "参加する",
+    "rights": "全著作権所有。",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約"
+  },
+  "products": {
+    "heading": "私たちの",
+    "headingAccent": "コレクション",
+    "subheading": "意図を持って作られ、誇りを持って着用されます。それぞれの作品は、伝統と現代的なエレガンスの物語を語ります。",
+    "festive": "フェスティバル",
+    "bridal": "ブライダル",
+    "everyday": "デイリー",
+    "heritage": "伝統",
+    "viewCollection": "このコレクションを見る",
+    "explore": "探索する",
+    "viewAll": "すべてのコレクションを見る"
+  }
+}

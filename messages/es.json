@@ -1,0 +1,46 @@
+{
+  "header": {
+    "collections": "Colecciones",
+    "atelier": "Taller",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "titleLeft": "Moda Que",
+    "titleRight": "Te Define",
+    "subtitle": "Descubre ropa étnica elegante para cada ocasión",
+    "paragraph": "Eleva tu guardarropa con la última colección de SIDHANT, diseñada con cuidado con hermosos patrones, telas cómodas y una elegancia atemporal.",
+    "button": "Develar la Obra Maestra"
+  },
+  "footer": {
+    "brandDesc": "El nuevo estándar de elegancia. Descubre ropa étnica diseñada con patrones atemporales y comodidad.",
+    "collections": "Colecciones",
+    "festive": "Ediciones Festivas",
+    "wedding": "Ajuar de Boda",
+    "everyday": "Lujo Cotidiano",
+    "bespoke": "Pedidos a Medida",
+    "atelier": "Taller",
+    "ourStory": "Nuestra Historia",
+    "craftsmanship": "Artesanía",
+    "garmentCare": "Cuidado de Prendas",
+    "contactUs": "Contáctenos",
+    "insider": "El Insider",
+    "subscribeDesc": "Suscríbete para recibir acceso exclusivo a nuevas colecciones.",
+    "emailPlaceholder": "CORREO ELECTRÓNICO",
+    "join": "Unirse",
+    "rights": "Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio"
+  },
+  "products": {
+    "heading": "Nuestras",
+    "headingAccent": "Colecciones",
+    "subheading": "Diseñado con intención. Llevado con orgullo. Cada pieza cuenta una historia de herencia y elegancia moderna.",
+    "festive": "Festivo",
+    "bridal": "Nupcial",
+    "everyday": "Cotidiano",
+    "heritage": "Patrimonio",
+    "viewCollection": "Ver esta colección",
+    "explore": "Explorar",
+    "viewAll": "Ver Todas las Colecciones"
+  }
+}
