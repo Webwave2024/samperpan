@@ -25,6 +25,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,11 +44,29 @@ export function Header() {
     return () => document.removeEventListener("click", close);
   }, [langOpen]);
 
+  // Close search on Escape key
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSearchOpen(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
+
   const changeLanguage = (newLocale: string) => {
     const segments = pathname.split("/");
     segments[1] = newLocale;
     router.push(segments.join("/"));
     setLangOpen(false);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/${locale}/collections?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
   };
 
   const currentLocale = LOCALES.find((l) => l.code === locale);
@@ -71,7 +91,7 @@ export function Header() {
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <button className="hover:text-amber-400 transition-colors hidden sm:block" aria-label="Search">
+            <button onClick={() => setSearchOpen(true)} className="hover:text-amber-400 transition-colors hidden sm:block" aria-label="Search">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -197,6 +217,63 @@ export function Header() {
           </nav>
         </div>
       </div>
+
+      {/* Search Overlay — only render when open */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-[100] flex flex-col">
+          {/* Search Panel */}
+          <div className="relative bg-white w-full shadow-2xl px-6 py-8 md:py-12">
+            <p className="text-xs tracking-[0.3em] uppercase text-black/40 mb-6 font-[family-name:var(--font-inter)]">Search Products</p>
+            <form onSubmit={handleSearch} className="flex items-center gap-3 border-b-2 border-black pb-3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-black/40 shrink-0">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                autoFocus
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search kurtis, suits, anarkalis..."
+                className="flex-1 text-xl md:text-3xl font-[family-name:var(--font-playfair)] bg-transparent border-none outline-none placeholder-black/20 text-black"
+              />
+              {searchQuery && (
+                <button type="button" onClick={() => setSearchQuery("")} className="text-black/30 hover:text-black transition-colors p-1">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              )}
+              <button type="submit" className="shrink-0 px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest rounded-full hover:bg-black/80 transition-colors font-[family-name:var(--font-inter)]">
+                Go
+              </button>
+            </form>
+            {/* Quick Tags */}
+            <div className="mt-6 flex gap-3 flex-wrap">
+              <span className="text-xs text-black/40 mr-2 font-[family-name:var(--font-inter)] self-center">Popular:</span>
+              {["KURTIS", "SUIT SETS", "ANARKALIS", "SHARARAS", "DUPATTAS"].map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => { router.push(`/${locale}/collections?q=${tag}`); setSearchOpen(false); setSearchQuery(""); }}
+                  className="px-4 py-1.5 border border-black/20 rounded-full text-xs tracking-widest text-black/60 hover:bg-black hover:text-white hover:border-black transition-all font-[family-name:var(--font-inter)]"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+            {/* Close Button */}
+            <button onClick={() => setSearchOpen(false)} className="absolute top-5 right-6 text-black/40 hover:text-black transition-colors p-2">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          {/* Backdrop — click to close */}
+          <div className="flex-1 bg-black/50 backdrop-blur-sm" onClick={() => setSearchOpen(false)} />
+        </div>
+      )}
     </>
   );
 }

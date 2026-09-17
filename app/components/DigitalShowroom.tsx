@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 interface DigitalShowroomProps {
   mode?: "retail" | "wholesale";
@@ -72,9 +73,21 @@ const PRODUCTS = [
 
 export function DigitalShowroom({ mode }: DigitalShowroomProps) {
   const [activeTab, setActiveTab] = useState(CATEGORIES[0]);
+  const [searchQuery, setSearchQuery] = useState("");
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
-  const filteredProducts = activeTab === "ALL" ? PRODUCTS : PRODUCTS.filter(p => p.category === activeTab);
+  // Pre-fill search from URL query param ?q=
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q) {
+      setSearchQuery(q);
+      setActiveTab("ALL");
+    }
+  }, [searchParams]);
+
+  const filteredProducts = (activeTab === "ALL" ? PRODUCTS : PRODUCTS.filter(p => p.category === activeTab))
+    .filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <div className="w-full min-h-screen bg-[#ffffff] text-black py-24 px-8 lg:px-24">
@@ -86,7 +99,7 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
           <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-playfair)] mb-8">
             SHOP BY CATEGORY
           </h1>
-          
+
           {/* Category Tabs */}
           <div className="flex flex-wrap justify-center gap-8 md:gap-12 mt-4 border-b border-black/10 pb-4">
             {CATEGORIES.map(category => (
@@ -94,18 +107,24 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
                 key={category}
                 onClick={() => setActiveTab(category)}
                 className={`text-sm tracking-[0.15em] transition-all duration-300 pb-2 relative ${
-                  activeTab === category ? "text-[#c8973a] font-medium" : "text-black/60 hover:text-black"
+                  activeTab === category ? "text-black font-medium" : "text-black/50 hover:text-black"
                 }`}
               >
                 {category}
-                {/* Active Underline indicator */}
                 {activeTab === category && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#c8973a]"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black"></span>
                 )}
               </button>
             ))}
           </div>
         </header>
+
+        {/* Result count */}
+        {searchQuery && (
+          <p className="text-center text-sm text-black/50 -mt-8 mb-10 font-[family-name:var(--font-inter)]">
+            {filteredProducts.length} result{filteredProducts.length !== 1 ? "s" : ""} for &ldquo;{searchQuery}&rdquo;
+          </p>
+        )}
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -140,6 +159,24 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
             </Link>
           ))}
         </div>
+
+        {/* Empty State */}
+        {filteredProducts.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-32 text-center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="text-black/20 mb-6">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <p className="text-xl font-[family-name:var(--font-playfair)] text-black/40 mb-2">No products found</p>
+            <p className="text-sm text-black/30 font-[family-name:var(--font-inter)]">Try a different search term or category</p>
+            <button
+              onClick={() => { setSearchQuery(""); setActiveTab("ALL"); }}
+              className="mt-8 px-8 py-3 border border-black/20 rounded-full text-black text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
