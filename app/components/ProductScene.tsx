@@ -20,14 +20,18 @@ export function ProductScene() {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
 
   useLayoutEffect(() => {
-    if (!containerRef.current || !modelRef.current || !cameraRef.current) return;
+    const container = containerRef.current;
+    const model = modelRef.current;
+    const camera = cameraRef.current;
+
+    if (!container || !model || !camera) return;
 
     // We use a context to make sure ScrollTrigger gets cleaned up
     const ctx = gsap.context(() => {
       
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: container,
           start: "top top",
           end: "bottom bottom",
           scrub: 1,
@@ -35,22 +39,22 @@ export function ProductScene() {
       });
 
       // Initial state
-      gsap.set(modelRef.current.position, { y: -2, z: -5 });
-      gsap.set(cameraRef.current.position, { z: 12 });
+      gsap.set(model.position, { y: -2, z: -5 });
+      gsap.set(camera.position, { z: 12 });
 
       // 1. Scene reveal & polo floating forward (0-20%)
-      tl.to(modelRef.current.position, { y: 0, z: 0, duration: 2, ease: "power2.out" }, 0)
+      tl.to(model.position, { y: 0, z: 0, duration: 2, ease: "power2.out" }, 0)
         .to("#title-container", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 0.5)
       
       // 2. Polo rotation (20-35%)
-      tl.to(modelRef.current.rotation, { y: Math.PI * 0.75, duration: 2, ease: "power2.inOut" }, 2)
+      tl.to(model.rotation, { y: Math.PI * 0.75, duration: 2, ease: "power2.inOut" }, 2)
         .to("#title-container", { opacity: 0, y: -20, duration: 1 }, 2)
 
       // 4. Garment deconstruction (50-65%)
-      const torso = modelRef.current?.getObjectByName("torso");
-      const collar = modelRef.current?.getObjectByName("collar");
-      const sleeveL = modelRef.current?.getObjectByName("sleeve-left");
-      const sleeveR = modelRef.current?.getObjectByName("sleeve-right");
+      const torso = model.getObjectByName("torso");
+      const collar = model.getObjectByName("collar");
+      const sleeveL = model.getObjectByName("sleeve-left");
+      const sleeveR = model.getObjectByName("sleeve-right");
 
       if (torso && collar && sleeveL && sleeveR) {
         tl.to(collar.position, { y: "+=1.2", duration: 1.5, ease: "power3.inOut" }, 4)
@@ -66,8 +70,8 @@ export function ProductScene() {
       }
 
       // 6. Macro camera push-in (80-90%)
-      tl.to(cameraRef.current.position, { z: 5, x: -1.2, y: 0.8, duration: 2, ease: "power3.inOut" }, 8)
-        .to(modelRef.current.rotation, { y: Math.PI * 0.1, x: Math.PI * 0.05, duration: 2, ease: "power3.inOut" }, 8)
+      tl.to(camera.position, { z: 5, x: -1.2, y: 0.8, duration: 2, ease: "power3.inOut" }, 8)
+        .to(model.rotation, { y: Math.PI * 0.1, x: Math.PI * 0.05, duration: 2, ease: "power3.inOut" }, 8)
         .to("#macro-text", { opacity: 1, x: 0, duration: 1, ease: "power2.out" }, 8.5)
 
       // 7. CTA (90-100%)
@@ -92,7 +96,7 @@ export function ProductScene() {
             <Lighting />
             <Smoke />
             <ProductModel ref={modelRef} />
-            <EffectComposer disableNormalPass>
+            <EffectComposer>
               <Bloom luminanceThreshold={1} mipmapBlur intensity={0.15} />
               <Vignette eskil={false} offset={0.1} darkness={1.1} />
               <Noise opacity={0.025} />
