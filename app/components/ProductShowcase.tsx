@@ -217,12 +217,14 @@ export function ProductShowcase() {
 
         {/* Bottom CTA */}
         <div className="relative z-10 text-center mt-32 mb-12">
-          <button className="group px-12 py-4 border border-black/20 rounded-full text-black text-sm uppercase tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-500 font-[family-name:var(--font-inter)]">
-            <span className="flex items-center gap-3">
-              {t("viewAll")}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
-            </span>
-          </button>
+          <Link href={`/${locale}/collections`}>
+            <button className="group px-12 py-4 border border-black/20 rounded-full text-black text-sm uppercase tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-500 font-[family-name:var(--font-inter)]">
+              <span className="flex items-center gap-3">
+                {t("viewAll")}
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
+              </span>
+            </button>
+          </Link>
         </div>
       </div>
     </section>

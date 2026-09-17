@@ -185,7 +185,7 @@ export function Header() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
-            <Link href={`/${locale}#collections`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between text-black hover:text-black/60 transition-colors">
+            <Link href={`/${locale}/collections`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between text-black hover:text-black/60 transition-colors">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Collections</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
