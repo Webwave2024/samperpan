@@ -23,18 +23,18 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ lang: string }>;
 }>) {
   const { children } = props;
-  const { locale } = await props.params;
+  const { lang } = await props.params;
 
   // Providing all messages to the client side
   const messages = await getMessages();
 
   return (
     <html
-      lang={locale}
-      dir={locale === "ar" ? "rtl" : "ltr"}
+      lang={lang}
+      dir={lang === "ar" ? "rtl" : "ltr"}
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#ffffff] text-black">
