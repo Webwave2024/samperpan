@@ -29,14 +29,14 @@ export function RoyalGateway() {
     return () => ctx.revert();
   }, []);
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, ref: React.RefObject<HTMLButtonElement>) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, ref: React.RefObject<HTMLButtonElement | null>) => {
     if (!ref.current) return;
     gsap.to(ref.current.querySelector('.card-bg'), { scale: 1.1, duration: 1.5, ease: "power2.out" });
     gsap.to(ref.current.querySelector('.glow-ring'), { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" });
     gsap.to(ref.current.querySelector('.card-content'), { y: -10, duration: 0.5, ease: "power2.out" });
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>, ref: React.RefObject<HTMLButtonElement>) => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>, ref: React.RefObject<HTMLButtonElement | null>) => {
     if (!ref.current) return;
     gsap.to(ref.current.querySelector('.card-bg'), { scale: 1, duration: 1.5, ease: "power2.out" });
     gsap.to(ref.current.querySelector('.glow-ring'), { opacity: 0, scale: 0.9, duration: 0.8, ease: "power2.out" });

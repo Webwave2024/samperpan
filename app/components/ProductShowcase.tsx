@@ -51,7 +51,7 @@ export function ProductShowcase() {
   const headingRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const subRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
