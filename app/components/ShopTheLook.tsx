@@ -59,7 +59,7 @@ export function ShopTheLook() {
       // Parallax background effect
       if (bgRef.current) {
         gsap.to(bgRef.current, {
-          yPercent: 20,
+          yPercent: -20, // Move image UP to reveal its bottom
           ease: "none",
           scrollTrigger: {
             trigger: containerRef.current,
@@ -137,8 +137,8 @@ export function ShopTheLook() {
   return (
     <section ref={containerRef} className="relative w-full text-white overflow-hidden py-32 border-t border-white/10 bg-black">
       
-      {/* Background Image - Parallax Scrolling */}
-      <div ref={bgRef} className="absolute inset-0 w-full h-[120%] -top-[10%] z-0">
+      {/* Background Image - Parallax Scrolling from Top to Bottom */}
+      <div ref={bgRef} className="absolute left-0 w-full h-[125%] top-0 z-0">
         <Image
           src="/35-1-scaled.webp"
           alt="Background"

@@ -74,16 +74,16 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 w-full z-40 transition-all duration-500 ease-in-out ${
-          !isHomePage || scrolled
-            ? "bg-white/95 backdrop-blur-lg border-b border-black/10 py-3 shadow-sm"
-            : "bg-transparent py-5 border-b border-transparent"
+        className={`fixed top-0 w-full z-40 transition-all duration-700 ease-in-out ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-3"
+            : "bg-transparent py-6 border-b border-transparent"
         }`}
       >
         <div className="container mx-auto px-6 grid grid-cols-3 items-center">
           
           {/* Left: Menu & Search */}
-          <div className={`flex items-center gap-6 ${!isHomePage || scrolled ? "text-black/90" : "text-white/90"}`}>
+          <div className="flex items-center gap-6 text-white/80">
             <button onClick={() => setMenuOpen(true)} className="hover:text-amber-400 transition-colors" aria-label="Menu">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -107,13 +107,13 @@ export function Header() {
                 alt="Logo"
                 width={120}
                 height={35}
-                className={`object-contain drop-shadow-md brightness-0 opacity-95 hover:opacity-100 transition-opacity ${!isHomePage || scrolled ? "" : "invert"}`}
+                className="object-contain drop-shadow-md brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
               />
             </Link>
           </div>
 
           {/* Right: Language, User, Bag */}
-          <div className={`flex items-center justify-end gap-5 ${!isHomePage || scrolled ? "text-black/90" : "text-white/90"}`}>
+          <div className="flex items-center justify-end gap-5 text-white/80">
             
             {/* Language Switcher */}
             <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>

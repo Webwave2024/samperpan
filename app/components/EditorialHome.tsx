@@ -1,0 +1,519 @@
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import * as THREE from "three";
+import { GlobalCanvas } from "./GlobalCanvas";
+
+gsap.registerPlugin(ScrollTrigger);
+
+interface LuxuryExperienceProps {
+  modelGroupRef: React.RefObject<THREE.Group | null>;
+}
+
+export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
+  const heroRef = useRef<HTMLElement>(null);
+  const heroTitleRef = useRef<HTMLDivElement>(null);
+  const heroMetaRef = useRef<HTMLParagraphElement>(null);
+  const heroScrollHintRef = useRef<HTMLDivElement>(null);
+
+  const statementRef = useRef<HTMLElement>(null);
+  const line1Ref = useRef<HTMLSpanElement>(null);
+  const line2Ref = useRef<HTMLSpanElement>(null);
+
+  const storyRef = useRef<HTMLElement>(null);
+  const storyTextRef = useRef<HTMLDivElement>(null);
+
+  const horizontalRef = useRef<HTMLElement>(null);
+  const horizontalTrackRef = useRef<HTMLDivElement>(null);
+
+  const craftDetails = [
+    { label: "01", title: "FABRIC", desc: "Super 150s Italian wool, woven for drape and resilience.", img: "/41-scaled.webp" },
+    { label: "02", title: "CUT", desc: "Each pattern piece hand-traced for your exact proportions.", img: "/42-1-scaled.webp" },
+    { label: "03", title: "DETAIL", desc: "Working buttonholes, pick stitching, and surgeon's cuffs.", img: "/43-scaled.webp" },
+    { label: "04", title: "FIT", desc: "Three fittings. One impeccable silhouette.", img: "/36-1-scaled.webp" },
+    { label: "05", title: "FINISH", desc: "Fully canvassed chest, horsehair interlining.", img: "/37-1-scaled.webp" },
+  ];
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // ─── HERO: entry animations ───────────────────────────────
+      gsap.set([heroTitleRef.current, heroMetaRef.current, heroScrollHintRef.current], {
+        opacity: 0,
+        y: 40,
+      });
+      const heroTL = gsap.timeline({ delay: 0.6 });
+      heroTL
+        .to(heroTitleRef.current, { opacity: 1, y: 0, duration: 1.4, ease: "power3.out" })
+        .to(heroMetaRef.current, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=0.8")
+        .to(heroScrollHintRef.current, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.5");
+
+      // ─── HERO → scroll: model zooms out, text fades ───────────
+      if (modelGroupRef.current) {
+        gsap.set(modelGroupRef.current.scale, { x: 1.6, y: 1.6, z: 1.6 });
+        gsap.set(modelGroupRef.current.position, { x: 1.5 });
+
+        ScrollTrigger.create({
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2,
+          onUpdate: (self) => {
+            if (!modelGroupRef.current) return;
+            const p = self.progress;
+            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(1.6, 0.9, p));
+            modelGroupRef.current.position.x = gsap.utils.interpolate(1.5, 0, p);
+            modelGroupRef.current.position.z = gsap.utils.interpolate(0, -3, p);
+          },
+        });
+
+        // Fade out hero text on scroll
+        gsap.to(heroTitleRef.current, {
+          opacity: 0,
+          y: -50,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "40% top",
+            end: "80% top",
+            scrub: 1,
+          },
+        });
+        gsap.to([heroMetaRef.current, heroScrollHintRef.current], {
+          opacity: 0,
+          y: -30,
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "30% top",
+            end: "70% top",
+            scrub: 1,
+          },
+        });
+      }
+
+      // ─── BRAND STATEMENT: word-by-word reveal ────────────────
+      gsap.fromTo(
+        line1Ref.current,
+        { opacity: 0, x: -80, filter: "blur(8px)" },
+        {
+          opacity: 1,
+          x: 0,
+          filter: "blur(0px)",
+          duration: 1,
+          scrollTrigger: {
+            trigger: statementRef.current,
+            start: "top 80%",
+            end: "30% 60%",
+            scrub: 1.5,
+          },
+        }
+      );
+      gsap.fromTo(
+        line2Ref.current,
+        { opacity: 0, x: 80, filter: "blur(8px)" },
+        {
+          opacity: 1,
+          x: 0,
+          filter: "blur(0px)",
+          duration: 1,
+          scrollTrigger: {
+            trigger: statementRef.current,
+            start: "20% 70%",
+            end: "50% 50%",
+            scrub: 1.5,
+          },
+        }
+      );
+
+      // Model moves to right for story section
+      if (modelGroupRef.current) {
+        ScrollTrigger.create({
+          trigger: storyRef.current,
+          start: "top 80%",
+          end: "top 20%",
+          scrub: 1.5,
+          onUpdate: (self) => {
+            if (!modelGroupRef.current) return;
+            const p = self.progress;
+            modelGroupRef.current.position.x = gsap.utils.interpolate(0, 3, p);
+            modelGroupRef.current.position.y = gsap.utils.interpolate(0, 0.5, p);
+          },
+        });
+
+        // Model comes back for CTA section (footer)
+        ScrollTrigger.create({
+          trigger: document.getElementById("cta"),
+          start: "top bottom",
+          end: "center center",
+          scrub: 1.5,
+          onUpdate: (self) => {
+            if (!modelGroupRef.current) return;
+            const p = self.progress;
+            modelGroupRef.current.position.x = gsap.utils.interpolate(3, 0, p);
+            modelGroupRef.current.position.y = gsap.utils.interpolate(0.5, -0.5, p);
+            modelGroupRef.current.position.z = gsap.utils.interpolate(-3, -1, p); // Move it closer
+            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.85, 1.2, p)); // Scale up
+          },
+        });
+      }
+
+      // Story text reveal
+      const storyLines = storyTextRef.current?.querySelectorAll(".reveal-line");
+      if (storyLines) {
+        storyLines.forEach((el, i) => {
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              scrollTrigger: {
+                trigger: storyRef.current,
+                start: `${15 + i * 12}% 70%`,
+                end: `${35 + i * 12}% 50%`,
+                scrub: 1,
+              },
+            }
+          );
+        });
+      }
+
+      // ─── HORIZONTAL CRAFT SECTION ────────────────────────────
+      if (horizontalTrackRef.current && horizontalRef.current) {
+        const trackWidth = horizontalTrackRef.current.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const distance = trackWidth - viewportWidth;
+
+        gsap.to(horizontalTrackRef.current, {
+          x: -distance,
+          ease: "none",
+          scrollTrigger: {
+            trigger: horizontalRef.current,
+            start: "top top",
+            end: `+=${distance}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+          },
+        });
+      }
+    });
+
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, [modelGroupRef]);
+
+  return (
+    <>
+      {/* Fixed 3D Canvas behind everything */}
+      <GlobalCanvas modelGroupRef={modelGroupRef} />
+
+      {/* HTML Content layers above */}
+      <div
+        className="relative z-10 text-white font-[family-name:var(--font-inter)]"
+        style={{ background: "transparent" }}
+      >
+        {/* ═══════════════════════════ HERO ═══════════════════════════ */}
+        <section
+          ref={heroRef}
+          id="hero"
+          className="h-screen w-full flex flex-col justify-center px-8 md:px-20 bg-transparent"
+        >
+          <div className="max-w-7xl mx-auto w-full">
+            <p className="text-[10px] tracking-[0.5em] uppercase text-white/40 mb-10 font-light">
+              SS 2025 — Premium Menswear
+            </p>
+            <div ref={heroTitleRef}>
+              <h1
+                className="text-[13vw] md:text-[10vw] lg:text-[8.5vw] font-light tracking-[-0.03em] leading-[0.88]"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                Tailored
+                <br />
+                <em className="not-italic text-white/50">For The</em>
+                <br />
+                Modern Man.
+              </h1>
+            </div>
+            <p
+              ref={heroMetaRef}
+              className="mt-10 text-[11px] tracking-[0.4em] uppercase text-white/40 max-w-xs leading-loose"
+            >
+              Luxury · Craftsmanship · Technology
+            </p>
+          </div>
+
+          {/* Scroll hint */}
+          <div
+            ref={heroScrollHintRef}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+          >
+            <span className="text-[9px] tracking-[0.4em] uppercase text-white/30">Scroll</span>
+            <div className="w-px h-12 bg-gradient-to-b from-white/30 to-transparent animate-pulse" />
+          </div>
+        </section>
+
+        {/* ═══════════════════════ BRAND STATEMENT ════════════════════ */}
+        <section
+          ref={statementRef}
+          id="statement"
+          className="min-h-screen w-full flex items-center justify-start px-8 md:px-20 bg-black"
+        >
+          <div className="max-w-4xl">
+            <p className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-12">
+              Our Philosophy
+            </p>
+            <div
+              className="text-[9vw] md:text-[6vw] font-light leading-[1.05] tracking-tight"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
+              <span ref={line1Ref} className="block text-white/90">
+                Every suit tells
+              </span>
+              <span className="block text-white/30 italic text-[7vw] md:text-[5vw]">
+                &nbsp;&nbsp;&nbsp;a story.
+              </span>
+              <span ref={line2Ref} className="block text-white mt-4">
+                Ours begins
+              </span>
+              <span className="block text-white/60">with precision.</span>
+            </div>
+          </div>
+        </section>
+
+        {/* ════════════════════ 3D PRODUCT STORY ══════════════════════ */}
+        <section
+          ref={storyRef}
+          id="story"
+          className="min-h-screen w-full flex items-center px-8 md:px-20 bg-[#0a0a0a]"
+        >
+          <div ref={storyTextRef} className="max-w-lg">
+            <span className="reveal-line block text-[10px] tracking-[0.5em] uppercase text-white/30 mb-12">
+              The Art of Tailoring
+            </span>
+            <h2
+              className="reveal-line text-[11vw] md:text-[7vw] font-bold tracking-tighter leading-[0.9] mb-10"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
+              THE ART
+              <br />
+              OF
+              <br />
+              TAILORING
+            </h2>
+            <p className="reveal-line text-base text-white/50 leading-relaxed mb-6 font-light max-w-sm">
+              Crafted from Super 150s Italian wool, each suit is an exercise in
+              mathematical precision. Every seam is deliberate. Every edge is intentional.
+            </p>
+            <p className="reveal-line text-base text-white/40 leading-relaxed font-light max-w-sm">
+              From the first drape of fabric to the final press, your suit
+              undergoes 120 hours of meticulous craftsmanship.
+            </p>
+            <a
+              href="#collection"
+              className="reveal-line inline-flex items-center gap-4 mt-12 text-[11px] tracking-[0.35em] uppercase text-white/60 hover:text-white transition-colors duration-500 group"
+            >
+              Discover the craft
+              <span className="w-8 h-px bg-white/40 group-hover:w-16 group-hover:bg-white transition-all duration-500" />
+            </a>
+          </div>
+        </section>
+
+        {/* ═══════════════ HORIZONTAL CRAFT SECTION ═══════════════════ */}
+        <section
+          ref={horizontalRef}
+          id="craft"
+          className="w-full overflow-hidden bg-[#0f0f0f]"
+          style={{ height: "100vh" }}
+        >
+          <div
+            ref={horizontalTrackRef}
+            className="flex h-full items-center"
+            style={{ width: "500vw" }}
+          >
+            {craftDetails.map((item, i) => (
+              <div
+                key={item.title}
+                className="w-screen h-full flex items-center justify-between px-16 md:px-24 shrink-0 border-r border-white/5"
+              >
+                <div className="flex flex-col gap-8 flex-1">
+                  <span className="text-[10px] tracking-[0.5em] uppercase text-white/25 font-light">
+                    {item.label} / {craftDetails.length.toString().padStart(2, "0")}
+                  </span>
+                  <h3
+                    className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-none text-white"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p className="text-base text-white/40 font-light max-w-xs leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+                <div className="hidden md:block w-1/3 h-2/3 relative mr-20 overflow-hidden bg-white/5 grayscale hover:grayscale-0 transition-all duration-1000">
+                  <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════ SELECTED COLLECTION ════════════════════ */}
+        <section
+          id="collection"
+          className="w-full py-40 px-8 md:px-20 bg-[#f5f2ee] text-black"
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between mb-24">
+              <h2
+                className="text-[10vw] md:text-[7vw] font-light leading-none tracking-tighter text-black"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                Selected
+                <br />
+                Collection
+              </h2>
+              <span className="text-[10px] tracking-[0.5em] uppercase text-black/40 pb-2">
+                SS 2025
+              </span>
+            </div>
+
+            {/* Editorial cards with real product images */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+              {[
+                {
+                  num: "01",
+                  name: "Classic Black",
+                  label: "The Obsidian",
+                  img: "/33-1-scaled.webp",
+                },
+                {
+                  num: "02",
+                  name: "Midnight Blue",
+                  label: "The Nocturne",
+                  img: "/34-1-scaled.webp",
+                },
+                {
+                  num: "03",
+                  name: "Executive Grey",
+                  label: "The Sovereign",
+                  img: "/35-1-scaled.webp",
+                },
+              ].map((item, i) => (
+                <div
+                  key={item.num}
+                  className={`group relative cursor-pointer ${i === 1 ? "md:mt-24" : ""}`}
+                >
+                  <div className="relative overflow-hidden bg-[#1a1a1a] aspect-[3/4]">
+                    <img
+                      src={item.img}
+                      alt={item.label}
+                      className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1200ms] ease-out"
+                    />
+                    {/* Subtle dark overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-700" />
+                    {/* Number watermark */}
+                    <span
+                      className="absolute bottom-4 right-5 text-white/10 text-[5rem] font-bold leading-none select-none"
+                      style={{ fontFamily: "var(--font-playfair)" }}
+                    >
+                      {item.num}
+                    </span>
+                  </div>
+                  <div className="mt-6 flex justify-between items-end">
+                    <div>
+                      <span className="text-[9px] tracking-[0.4em] uppercase text-black/40 block mb-1">
+                        {item.num}
+                      </span>
+                      <h3
+                        className="text-2xl font-light tracking-tight text-black"
+                        style={{ fontFamily: "var(--font-playfair)" }}
+                      >
+                        {item.label}
+                      </h3>
+                      <span className="text-xs text-black/40 mt-1 block">{item.name}</span>
+                    </div>
+                    <a
+                      href="#"
+                      className="text-[9px] tracking-[0.35em] uppercase text-black/40 hover:text-black transition-colors duration-300 group/link flex items-center gap-2"
+                    >
+                      View
+                      <span className="w-0 h-px bg-black group-hover/link:w-6 transition-all duration-500" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════════════ SUIT DETAILS ════════════════════════ */}
+        <section
+          id="details"
+          className="w-full py-40 px-8 md:px-20 bg-[#111111] text-white"
+        >
+          <div className="max-w-7xl mx-auto">
+            <span className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-16 block">
+              The Details
+            </span>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-20">
+              {[
+                { name: "FABRIC", desc: "Super 150s Italian Wool" },
+                { name: "CUT", desc: "Bespoke hand-traced patterns" },
+                { name: "STITCHING", desc: "Hand pick-stitch on lapels" },
+                { name: "COLLAR", desc: "Structured floating canvas" },
+                { name: "LAPEL", desc: "Notch, peak, or shawl" },
+                { name: "BUTTONS", desc: "Italian horn or mother-of-pearl" },
+                { name: "FIT", desc: "Three-fitting process" },
+                { name: "LINING", desc: "Custom monogram Bemberg" },
+              ].map((detail) => (
+                <div key={detail.name} className="group">
+                  <div className="w-8 h-px bg-white/20 mb-6 group-hover:w-16 group-hover:bg-white/60 transition-all duration-500" />
+                  <h4
+                    className="text-2xl font-bold tracking-tighter mb-3"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    {detail.name}
+                  </h4>
+                  <p className="text-sm text-white/40 leading-relaxed font-light">
+                    {detail.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ══════════════════════ FINAL CTA ═══════════════════════════ */}
+        <section
+          id="cta"
+          className="h-screen w-full flex flex-col items-center justify-center text-center px-8 bg-black relative overflow-hidden"
+        >
+          <p className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-12">
+            Begin Your Journey
+          </p>
+          <h2
+            className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] mb-16"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
+            WEAR
+            <br />
+            <span className="text-white/30 italic font-light">the</span>
+            <br />
+            DIFFERENCE.
+          </h2>
+          <a
+            href="#collection"
+            className="inline-flex items-center gap-5 px-12 py-5 border border-white/15 hover:bg-white hover:text-black transition-all duration-700 text-[11px] tracking-[0.4em] uppercase rounded-full group"
+          >
+            Explore Collection
+            <span className="w-4 h-px bg-current group-hover:w-8 transition-all duration-500" />
+          </a>
+        </section>
+      </div>
+    </>
+  );
+}
