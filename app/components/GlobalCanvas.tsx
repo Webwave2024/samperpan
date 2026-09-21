@@ -77,8 +77,8 @@ export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
           <PresentationControls
             global={false} // Only drag when clicking ON the model
             cursor={true}
-            config={{ mass: 2, tension: 500 }}
-            snap={{ mass: 4, tension: 1500 }} // Snaps back when released
+            config={{ mass: 1, tension: 170, friction: 26 }} // Default react-spring config types
+            snap={true} // Snaps back when released (TS expects boolean)
             rotation={[0, 0, 0]}
             polar={[-Math.PI / 3, Math.PI / 3]}
             azimuth={[-Math.PI / 1.4, Math.PI / 2]}
