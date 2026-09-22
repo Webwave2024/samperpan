@@ -153,15 +153,53 @@ interface GlobalCanvasProps {
 
 export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
   const [mounted, setMounted] = React.useState(false);
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
+  // ── Fade canvas out when scrolled past CTA / into footer ──────────────
+  React.useEffect(() => {
+    if (!mounted) return;
+
+    const onScroll = () => {
+      if (!wrapperRef.current) return;
+
+      const docH = document.documentElement.scrollHeight;
+      const winH = window.innerHeight;
+      const scrollY = window.scrollY;
+      const maxScroll = docH - winH;
+
+      // CTA section ends roughly at 80% of total scroll — hide after that
+      const fadeStart = maxScroll * 0.80;
+      const fadeEnd   = maxScroll * 0.92;
+
+      let opacity = 1;
+      if (scrollY > fadeEnd) {
+        opacity = 0;
+      } else if (scrollY > fadeStart) {
+        opacity = 1 - (scrollY - fadeStart) / (fadeEnd - fadeStart);
+      }
+
+      wrapperRef.current.style.opacity = String(opacity);
+      // Disable pointer-events when fully hidden so footer links are clickable
+      wrapperRef.current.style.pointerEvents = opacity < 0.05 ? "none" : "none"; // always none
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // run once on mount
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mounted]);
+
   if (!mounted) return null;
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none">
+    <div
+      ref={wrapperRef}
+      className="fixed inset-0 z-0 pointer-events-none"
+      style={{ transition: "opacity 0.3s ease" }}
+    >
       <Canvas
         eventSource={document.body}
         eventPrefix="client"
