@@ -117,15 +117,7 @@ export function Hero3DModel({ modelRef }: Hero3DModelProps) {
       }
     });
 
-    // Gentle auto-rotation + mouse follow on the parent group
-    modelRef.current.rotation.y += 0.003;
-    // Base rotation might need to be 0 for this model, we'll just apply mouse parallax on X
-    const targetX = (state.pointer.y * Math.PI) / 10;
-    modelRef.current.rotation.x = THREE.MathUtils.lerp(
-      modelRef.current.rotation.x,
-      targetX,
-      0.05
-    );
+    // Gentle auto-rotation and parallax is now handled by ModelControls in GlobalCanvas.
 
     // Scale: zoom in by default, zoom out on scroll
     const targetScale = THREE.MathUtils.lerp(1.6, 0.85, progress);

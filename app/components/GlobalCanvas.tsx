@@ -8,10 +8,10 @@ import {
   ContactShadows,
   AccumulativeShadows,
   RandomizedLight,
-  PresentationControls,
 } from "@react-three/drei";
 import { Hero3DModel } from "./Hero3DModel";
 import * as THREE from "three";
+import { ThreeEvent } from "@react-three/fiber";
 
 // Camera rig for mouse parallax - subtle luxury effect
 function CameraRig({ children }: { children: React.ReactNode }) {
@@ -37,6 +37,83 @@ function CameraRig({ children }: { children: React.ReactNode }) {
   return <group ref={group}>{children}</group>;
 }
 
+// Custom control to allow right-click 360 rotation without snapping back
+function ModelControls({ children }: { children: React.ReactNode }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const isDragging = useRef(false);
+  const previousPosition = useRef({ x: 0, y: 0 });
+  const targetRotation = useRef({ x: 0, y: 0 }); // X is pitch (vertical), Y is yaw (horizontal)
+
+  const handlePointerDown = (e: ThreeEvent<PointerEvent>) => {
+    if (e.button === 2) { // 2 corresponds to Right Mouse Button
+      isDragging.current = true;
+      previousPosition.current = { x: e.clientX, y: e.clientY };
+      e.stopPropagation();
+      try {
+        (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      } catch (err) {}
+    }
+  };
+
+  const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
+    if (isDragging.current && groupRef.current) {
+      const deltaX = e.clientX - previousPosition.current.x;
+      const deltaY = e.clientY - previousPosition.current.y;
+      previousPosition.current = { x: e.clientX, y: e.clientY };
+
+      // Drag right = positive deltaX = positive Y rotation (clockwise)
+      targetRotation.current.y += deltaX * 0.005;
+      
+      // Vertical drag = rotate around X axis
+      targetRotation.current.x += deltaY * 0.005;
+      
+      // Prevent flipping by clamping X rotation to +/- 30 degrees (PI/6)
+      targetRotation.current.x = THREE.MathUtils.clamp(
+        targetRotation.current.x,
+        -Math.PI / 6,
+        Math.PI / 6
+      );
+    }
+  };
+
+  const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+    if (e.button === 2 && isDragging.current) {
+      isDragging.current = false;
+      try {
+        (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch (err) {}
+    }
+  };
+
+  useFrame(() => {
+    if (groupRef.current) {
+      // Smooth interpolation (damping) towards the target rotation
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(
+        groupRef.current.rotation.y,
+        targetRotation.current.y,
+        0.08
+      );
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(
+        groupRef.current.rotation.x,
+        targetRotation.current.x,
+        0.08
+      );
+    }
+  });
+
+  return (
+    <group
+      ref={groupRef}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerUp}
+    >
+      {children}
+    </group>
+  );
+}
+
 interface GlobalCanvasProps {
   modelGroupRef: React.RefObject<THREE.Group | null>;
 }
@@ -55,6 +132,7 @@ export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
       <Canvas
         eventSource={document.body}
         eventPrefix="client"
+        onContextMenu={(e) => e.preventDefault()} // Disable right-click menu on the canvas interactions
         shadows
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
@@ -74,16 +152,9 @@ export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
         <pointLight position={[0, -3, 3]} intensity={0.5} color="#fff5e0" />
 
         <CameraRig>
-          <PresentationControls
-            global={false} // Only drag when clicking ON the model
-            cursor={true}
-            snap={true} // Snaps back when released (TS expects boolean)
-            rotation={[0, 0, 0]}
-            polar={[-Math.PI / 3, Math.PI / 3]}
-            azimuth={[-Math.PI / 1.4, Math.PI / 2]}
-          >
+          <ModelControls>
             <Hero3DModel modelRef={modelGroupRef} />
-          </PresentationControls>
+          </ModelControls>
           <ContactShadows
             position={[0, -3.2, 0]}
             opacity={0.35}
