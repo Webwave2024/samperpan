@@ -2,7 +2,10 @@
 
 :root {
   --background: #0d0d0d;
-  --foreground: #ffffff;
+  /* Royal golden — warm, rich, premium */
+  --foreground: #C9A84C;
+  --gold-light: #E8C96D;
+  --gold-dark:  #A07830;
 }
 
 @theme inline {
@@ -37,6 +40,22 @@ body {
 
 /* Selection */
 ::selection {
-  background: #ffffff;
-  color: #000000;
+  background: #C9A84C;
+  color: #0d0d0d;
+}
+
+@keyframes bg-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-bg-shift {
+  animation: bg-shift 15s ease-in-out infinite;
 }

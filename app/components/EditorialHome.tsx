@@ -263,12 +263,13 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
           className="relative h-screen w-full flex flex-col justify-center bg-transparent overflow-hidden select-none"
           style={{ userSelect: 'none' }}
         >
-          {/* Radial glow behind the product area (pure CSS, zero perf cost) */}
+          {/* Radial glow behind the product area (pure CSS animated) */}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none animate-bg-shift"
             style={{
               background:
-                "radial-gradient(ellipse 55% 70% at 70% 55%, rgba(180,150,100,0.06) 0%, transparent 70%)",
+                "radial-gradient(ellipse 65% 80% at 70% 55%, rgba(180,150,100,0.05) 0%, rgba(200,180,140,0.02) 40%, transparent 80%)",
+              backgroundSize: "200% 200%",
             }}
           />
 

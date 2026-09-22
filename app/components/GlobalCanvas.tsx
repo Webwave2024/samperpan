@@ -26,6 +26,7 @@ function ModelControls({ children }: { children: React.ReactNode }) {
   const previousPosition = useRef({ x: 0, y: 0 });
   const targetRotation = useRef({ x: 0, y: 0 });
   const currentRotation = useRef({ x: 0, y: 0 });
+  const idleIntensity = useRef(1);
 
   // ── Register global window listeners once ──────────────────────────────
   React.useEffect(() => {
@@ -35,12 +36,12 @@ function ModelControls({ children }: { children: React.ReactNode }) {
       const deltaY = e.clientY - previousPosition.current.y;
       previousPosition.current = { x: e.clientX, y: e.clientY };
 
-      // Horizontal drag = Y-axis rotation (unlimited 360° rotation)
-      targetRotation.current.y += deltaX * 0.007;
+      // Horizontal drag = Y-axis rotation — slow & luxurious
+      targetRotation.current.y += deltaX * 0.003;
 
       // X-axis tilt clamped to prevent flipping
       targetRotation.current.x = THREE.MathUtils.clamp(
-        targetRotation.current.x + deltaY * 0.004,
+        targetRotation.current.x + deltaY * 0.002,
         -Math.PI / 8,
         Math.PI / 8
       );
@@ -69,7 +70,7 @@ function ModelControls({ children }: { children: React.ReactNode }) {
   };
 
   // ── Frame loop: smooth lerp to target ─────────────────────────────────
-  useFrame(() => {
+  useFrame((state) => {
     if (!groupRef.current) return;
     currentRotation.current.y = THREE.MathUtils.lerp(
       currentRotation.current.y, targetRotation.current.y, 0.12
@@ -79,6 +80,20 @@ function ModelControls({ children }: { children: React.ReactNode }) {
     );
     groupRef.current.rotation.y = currentRotation.current.y;
     groupRef.current.rotation.x = currentRotation.current.x;
+
+    // ─── Subtle Idle floating — lerps gently, never jumps ───────────
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReducedMotion) {
+      const targetIntensity = isDragging.current ? 0 : 1;
+      idleIntensity.current = THREE.MathUtils.lerp(idleIntensity.current, targetIntensity, 0.03);
+
+      const t = state.clock.getElapsedTime();
+      // Lerp position so there's no abrupt jump on first frame
+      const targetY = Math.sin(t * 0.8) * 0.03 * idleIntensity.current;
+      const targetZ = Math.cos(t * 0.6) * 0.015 * idleIntensity.current;
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.04);
+      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, 0.04);
+    }
   });
 
   return (
@@ -90,6 +105,19 @@ function ModelControls({ children }: { children: React.ReactNode }) {
 
 // ─── Cinematic radial backlight behind the model ─────────────────────────────
 function StudioBacklight() {
+  const rimLightRef = useRef<THREE.SpotLight>(null);
+
+  useFrame((state) => {
+    if (!rimLightRef.current) return;
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReducedMotion) {
+      const t = state.clock.getElapsedTime();
+      // Slowly move the rim light behind the product
+      rimLightRef.current.position.x = Math.sin(t * 0.5) * 2;
+      rimLightRef.current.intensity = 1.2 + Math.sin(t * 1.5) * 0.3; // Subtle brightness pulsing
+    }
+  });
+
   return (
     <>
       {/* Warm key light from top-left */}
@@ -104,6 +132,7 @@ function StudioBacklight() {
       />
       {/* Cool rim light from behind */}
       <SpotLight
+        ref={rimLightRef}
         position={[0, 2, -8]}
         angle={0.5}
         penumbra={1}
@@ -149,10 +178,11 @@ export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
         }}
         style={{ background: "transparent", touchAction: "none" }}
       >
-        <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={42} />
+        {/* Camera shifted up so garment is centered top-to-bottom */}
+        <PerspectiveCamera makeDefault position={[0, 0.0000001, 3]} fov={48} />
 
         {/* Base ambient */}
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={0.3} />
 
         {/* Studio cinematic lighting */}
         <StudioBacklight />
