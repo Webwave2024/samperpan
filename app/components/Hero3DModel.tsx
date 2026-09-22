@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, Float } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -118,15 +118,7 @@ export function Hero3DModel({ modelRef }: Hero3DModelProps) {
 
   return (
     <group ref={modelRef} dispose={null}>
-      {/* Float gives a gentle breathing motion — very subtle for premium feel */}
-      <Float
-        speed={0.8}
-        rotationIntensity={0.04}
-        floatIntensity={0.25}
-        floatingRange={[-0.05, 0.05]}
-      >
-        <primitive object={scene} scale={2.5} position={[0, -1.5, 0]} />
-      </Float>
+      <primitive object={scene} scale={2.5} position={[0, -1.5, 0]} />
     </group>
   );
 }

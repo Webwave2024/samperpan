@@ -89,10 +89,10 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
 
       // ─── HERO → scroll: model zooms out, text fades ───────────
       if (modelGroupRef.current) {
-        // Initial scale — smaller and centered
+        // Initial scale — smaller and centered in right half
         gsap.set(modelGroupRef.current.scale, { x: 0.85, y: 0.85, z: 0.85 });
-        // Center the model
-        gsap.set(modelGroupRef.current.position, { x: 0, y: 0 });
+        // Place in the open right-side space (x=2.5 = right half center in screen space)
+        gsap.set(modelGroupRef.current.position, { x: 2.5, y: 0 });
 
         ScrollTrigger.create({
           trigger: heroRef.current,
@@ -103,7 +103,7 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
             if (!modelGroupRef.current) return;
             const p = self.progress;
             modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.85, 0.5, p));
-            modelGroupRef.current.position.x = gsap.utils.interpolate(0, 0, p);
+            modelGroupRef.current.position.x = gsap.utils.interpolate(2.5, 0, p);
             modelGroupRef.current.position.z = gsap.utils.interpolate(0, -3, p);
           },
         });
@@ -260,7 +260,8 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
         <section
           ref={heroRef}
           id="hero"
-          className="relative h-screen w-full flex flex-col justify-center bg-transparent overflow-hidden"
+          className="relative h-screen w-full flex flex-col justify-center bg-transparent overflow-hidden select-none"
+          style={{ userSelect: 'none' }}
         >
           {/* Radial glow behind the product area (pure CSS, zero perf cost) */}
           <div
