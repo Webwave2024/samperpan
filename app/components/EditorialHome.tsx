@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useLocale } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
@@ -51,6 +53,7 @@ interface LuxuryExperienceProps {
 }
 
 export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
+  const locale = useLocale();
   const heroRef = useRef<HTMLElement>(null);
   const heroTitleRef = useRef<HTMLDivElement>(null);
   const heroMetaRef = useRef<HTMLParagraphElement>(null);
@@ -67,11 +70,11 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
   const horizontalTrackRef = useRef<HTMLDivElement>(null);
 
   const craftDetails = [
-    { label: "01", title: "FABRIC", desc: "Super 150s Italian wool, woven for drape and resilience.", img: "/41-scaled.webp" },
-    { label: "02", title: "CUT", desc: "Each pattern piece hand-traced for your exact proportions.", img: "/42-1-scaled.webp" },
-    { label: "03", title: "DETAIL", desc: "Working buttonholes, pick stitching, and surgeon's cuffs.", img: "/43-scaled.webp" },
-    { label: "04", title: "FIT", desc: "Three fittings. One impeccable silhouette.", img: "/36-1-scaled.webp" },
-    { label: "05", title: "FINISH", desc: "Fully canvassed chest, horsehair interlining.", img: "/37-1-scaled.webp" },
+    { label: "01", title: "FABRIC", desc: "Premium mulmul, chanderi & pure silk — chosen for breathability and royal drape.", img: "/41-scaled.webp", slug: "the-nawab" },
+    { label: "02", title: "CUT", desc: "Each kurta and suit is pattern-drafted to your exact measurements by hand.", img: "/42-1-scaled.webp", slug: "the-regal" },
+    { label: "03", title: "EMBROIDERY", desc: "Zardozi, chikankari & thread work — each stitch placed with purpose.", img: "/43-scaled.webp", slug: "the-rosette" },
+    { label: "04", title: "FIT", desc: "Two fittings per garment. One silhouette that is entirely yours.", img: "/36-1-scaled.webp", slug: "the-rosette" },
+    { label: "05", title: "FINISH", desc: "Hand-pressed, pearl-button detailing, and a signature embroidered cuff.", img: "/37-1-scaled.webp", slug: "the-regal" },
   ];
 
   useEffect(() => {
@@ -281,7 +284,7 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
                 ref={heroMetaRef}
                 className="text-[10px] tracking-[0.5em] uppercase text-white/40 mb-8 font-light"
               >
-                SS 2025 — Premium Menswear
+                SS 2025 — Suits & Ethnic Luxury
               </p>
 
               <div ref={heroTitleRef}>
@@ -289,27 +292,27 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
                   className="text-[15vw] sm:text-[11vw] md:text-[8.5vw] lg:text-[7.5vw] font-light tracking-[-0.03em] leading-[0.9]"
                   style={{ fontFamily: "var(--font-playfair)" }}
                 >
-                  Tailored
+                  Crafted
                   <br />
                   <em className="not-italic text-white/45">For The</em>
                   <br />
-                  Modern Man.
+                  Heritage Look.
                 </h1>
               </div>
 
               <p className="mt-8 text-[10px] tracking-[0.4em] uppercase text-white/35 leading-loose">
-                Luxury · Craftsmanship · Technology
+                Suits · Kurtis · Ethnic Luxury
               </p>
 
               {/* CTA */}
               <div className="mt-12">
-                <a
-                  href="#collection"
+                <Link
+                  href={`/${locale}/collections`}
                   className="inline-flex items-center gap-4 text-[10px] tracking-[0.4em] uppercase text-white/60 hover:text-white transition-colors duration-500 group"
                 >
                   Explore Collection
                   <span className="w-8 h-px bg-white/40 group-hover:w-14 group-hover:bg-white transition-all duration-700" />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -341,22 +344,22 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
         >
           <div className="max-w-4xl">
             <p className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-12">
-              Our Philosophy
+              Our Craft
             </p>
             <div
               className="text-[9vw] md:text-[6vw] font-light leading-[1.05] tracking-tight"
               style={{ fontFamily: "var(--font-playfair)" }}
             >
               <span ref={line1Ref} className="block text-white/90">
-                Every suit tells
+                Every thread holds
               </span>
               <span className="block text-white/30 italic text-[7vw] md:text-[5vw]">
-                &nbsp;&nbsp;&nbsp;a story.
+                &nbsp;&nbsp;&nbsp;a tradition.
               </span>
               <span ref={line2Ref} className="block text-white mt-4">
                 Ours begins
               </span>
-              <span className="block text-white/60">with precision.</span>
+              <span className="block text-white/60">with heritage.</span>
             </div>
           </div>
         </section>
@@ -369,7 +372,7 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
         >
           <div ref={storyTextRef} className="max-w-lg">
             <span className="reveal-line block text-[10px] tracking-[0.5em] uppercase text-white/30 mb-12">
-              The Art of Tailoring
+              The Art of Ethnic Wear
             </span>
             <h2
               className="reveal-line text-[11vw] md:text-[7vw] font-bold tracking-tighter leading-[0.9] mb-10"
@@ -379,23 +382,23 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
               <br />
               OF
               <br />
-              TAILORING
+              ELEGANCE
             </h2>
             <p className="reveal-line text-base text-white/50 leading-relaxed mb-6 font-light max-w-sm">
-              Crafted from Super 150s Italian wool, each suit is an exercise in
-              mathematical precision. Every seam is deliberate. Every edge is intentional.
+              Woven from pure chanderi and mulmul, each kurta and suit is a study in
+              refined proportion. Every pleat deliberate. Every embroidery intentional.
             </p>
             <p className="reveal-line text-base text-white/40 leading-relaxed font-light max-w-sm">
-              From the first drape of fabric to the final press, your suit
-              undergoes 120 hours of meticulous craftsmanship.
+              From the first drape of fabric to the final hand-press, your garment
+              is shaped through 80 hours of artisan craftsmanship.
             </p>
-            <a
-              href="#collection"
+            <Link
+              href={`/${locale}/collections`}
               className="reveal-line inline-flex items-center gap-4 mt-12 text-[11px] tracking-[0.35em] uppercase text-white/60 hover:text-white transition-colors duration-500 group"
             >
               Discover the craft
               <span className="w-8 h-px bg-white/40 group-hover:w-16 group-hover:bg-white transition-all duration-500" />
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -430,9 +433,9 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
                     {item.desc}
                   </p>
                 </div>
-                <div className="hidden md:block w-1/3 h-2/3 relative mr-20 overflow-hidden bg-white/5 grayscale hover:grayscale-0 transition-all duration-1000">
+                <Link href={`/${locale}/product/${item.slug}`} className="hidden md:block w-1/3 h-2/3 relative mr-20 overflow-hidden bg-white/5 grayscale hover:grayscale-0 transition-all duration-1000">
                   <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover opacity-80" />
-                </div>
+                </Link>
               </div>
             ))}
           </div>
@@ -449,12 +452,12 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
                 className="text-[10vw] md:text-[7vw] font-light leading-none tracking-tighter text-black"
                 style={{ fontFamily: "var(--font-playfair)" }}
               >
-                Selected
+                Signature
                 <br />
                 Collection
               </h2>
               <span className="text-[10px] tracking-[0.5em] uppercase text-black/40 pb-2">
-                SS 2025
+                Festive 2025
               </span>
             </div>
 
@@ -463,35 +466,49 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
               {[
                 {
                   num: "01",
-                  name: "Classic Black",
-                  label: "The Obsidian",
+                  name: "Ivory Chanderi Kurta Set",
+                  label: "The Regal",
+                  slug: "the-regal",
                   img: "/33-1-scaled.webp",
+                  hoverImg: "/35-1-scaled.webp",
                 },
                 {
                   num: "02",
-                  name: "Midnight Blue",
-                  label: "The Nocturne",
+                  name: "Deep Navy Sherwani Suit",
+                  label: "The Nawab",
+                  slug: "the-nawab",
                   img: "/34-1-scaled.webp",
+                  hoverImg: "/41-scaled.webp",
                 },
                 {
                   num: "03",
-                  name: "Executive Grey",
-                  label: "The Sovereign",
+                  name: "Blush Pink Anarkali Kurta",
+                  label: "The Rosette",
+                  slug: "the-rosette",
                   img: "/35-1-scaled.webp",
+                  hoverImg: "/36-1-scaled.webp",
                 },
               ].map((item, i) => (
-                <div
+                <Link
                   key={item.num}
-                  className={`group relative cursor-pointer ${i === 1 ? "md:mt-24" : ""}`}
+                  href={`/${locale}/product/${item.slug}`}
+                  className={`group relative cursor-pointer block ${i === 1 ? "md:mt-24" : ""}`}
                 >
                   <div className="relative overflow-hidden bg-[#1a1a1a] aspect-[3/4]">
+                    {/* Front image */}
                     <img
                       src={item.img}
                       alt={item.label}
-                      className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-[1200ms] ease-out"
+                      className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out opacity-100 group-hover:opacity-0"
                     />
-                    {/* Subtle dark overlay on hover */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-700" />
+                    {/* Back / hover image — crossfades in */}
+                    <img
+                      src={item.hoverImg}
+                      alt={`${item.label} — back view`}
+                      className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-all duration-[1200ms] ease-out opacity-0 group-hover:opacity-100"
+                    />
+                    {/* Dark overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-700" />
                     {/* Number watermark */}
                     <span
                       className="absolute bottom-4 right-5 text-white/10 text-[5rem] font-bold leading-none select-none"
@@ -513,15 +530,12 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
                       </h3>
                       <span className="text-xs text-black/40 mt-1 block">{item.name}</span>
                     </div>
-                    <a
-                      href="#"
-                      className="text-[9px] tracking-[0.35em] uppercase text-black/40 hover:text-black transition-colors duration-300 group/link flex items-center gap-2"
-                    >
+                    <span className="text-[9px] tracking-[0.35em] uppercase text-black/40 group-hover:text-black transition-colors duration-300 flex items-center gap-2">
                       View
-                      <span className="w-0 h-px bg-black group-hover/link:w-6 transition-all duration-500" />
-                    </a>
+                      <span className="w-0 h-px bg-black group-hover:w-6 transition-all duration-500" />
+                    </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -538,14 +552,14 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
             </span>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-20">
               {[
-                { name: "FABRIC", desc: "Super 150s Italian Wool" },
-                { name: "CUT", desc: "Bespoke hand-traced patterns" },
-                { name: "STITCHING", desc: "Hand pick-stitch on lapels" },
-                { name: "COLLAR", desc: "Structured floating canvas" },
-                { name: "LAPEL", desc: "Notch, peak, or shawl" },
-                { name: "BUTTONS", desc: "Italian horn or mother-of-pearl" },
-                { name: "FIT", desc: "Three-fitting process" },
-                { name: "LINING", desc: "Custom monogram Bemberg" },
+                { name: "FABRIC", desc: "Pure chanderi, mulmul & raw silk — sourced from Varanasi & Bhopal" },
+                { name: "SILHOUETTE", desc: "Straight, Anarkali & A-line cuts tailored to your posture" },
+                { name: "EMBROIDERY", desc: "Zardozi, chikankari & gota patti — handcrafted by artisans" },
+                { name: "COLLAR", desc: "Mandarin, angrakha & V-neck — chosen per style" },
+                { name: "BUTTONS", desc: "Hand-carved bone, resin & antique brass closures" },
+                { name: "DUPATTA", desc: "Hand-block printed or embroidered to match" },
+                { name: "FIT", desc: "Two-fitting bespoke process, every time" },
+                { name: "LINING", desc: "Breathable cotton inner with signature label" },
               ].map((detail) => (
                 <div key={detail.name} className="group">
                   <div className="w-8 h-px bg-white/20 mb-6 group-hover:w-16 group-hover:bg-white/60 transition-all duration-500" />
@@ -570,25 +584,25 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
           className="h-screen w-full flex flex-col items-center justify-center text-center px-8 bg-black relative overflow-hidden"
         >
           <p className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-12">
-            Begin Your Journey
+            Wear Your Heritage
           </p>
           <h2
             className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] mb-16"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            WEAR
+            DRESS
             <br />
-            <span className="text-white/30 italic font-light">the</span>
+            <span className="text-white/30 italic font-light">with</span>
             <br />
-            DIFFERENCE.
+            PRIDE.
           </h2>
-          <a
-            href="#collection"
+          <Link
+            href={`/${locale}/collections`}
             className="inline-flex items-center gap-5 px-12 py-5 border border-white/15 hover:bg-white hover:text-black transition-all duration-700 text-[11px] tracking-[0.4em] uppercase rounded-full group"
           >
-            Explore Collection
+            Shop the Collection
             <span className="w-4 h-px bg-current group-hover:w-8 transition-all duration-500" />
-          </a>
+          </Link>
         </section>
       </div>
     </>

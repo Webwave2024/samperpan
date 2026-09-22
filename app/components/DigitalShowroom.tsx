@@ -19,6 +19,7 @@ const PRODUCTS = [
     category: "SUIT SETS",
     price: "₹18,999",
     image: "/42-1-scaled.webp",
+    hoverImage: "/41-scaled.webp",
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const PRODUCTS = [
     category: "ANARKALIS",
     price: "₹14,999",
     image: "/33-1-scaled.webp",
+    hoverImage: "/35-1-scaled.webp",
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const PRODUCTS = [
     category: "SUIT SETS",
     price: "₹16,499",
     image: "/2026-08-07-12-53-15-1.pdf-43-scaled.webp",
+    hoverImage: "/43-scaled.webp",
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const PRODUCTS = [
     category: "KURTIS",
     price: "₹8,499",
     image: "/39-1-scaled.webp",
+    hoverImage: "/34-1-scaled.webp",
   },
   {
     id: 5,
@@ -47,6 +51,7 @@ const PRODUCTS = [
     category: "SHARARAS",
     price: "₹9,299",
     image: "/2026-08-07-12-53-15-1.pdf-50-scaled.webp",
+    hoverImage: "/37-1-scaled.webp",
   },
   {
     id: 6,
@@ -54,6 +59,7 @@ const PRODUCTS = [
     category: "DUPATTAS",
     price: "₹24,999",
     image: "/40-1-scaled.webp",
+    hoverImage: "/42-1-scaled.webp",
   },
   {
     id: 7,
@@ -61,6 +67,7 @@ const PRODUCTS = [
     category: "ANARKALIS",
     price: "₹21,999",
     image: "/36-1-scaled.webp",
+    hoverImage: "/35-1-scaled.webp",
   },
   {
     id: 8,
@@ -68,6 +75,7 @@ const PRODUCTS = [
     category: "KURTIS",
     price: "₹7,999",
     image: "/34-1-scaled.webp",
+    hoverImage: "/41-scaled.webp",
   }
 ];
 
@@ -135,7 +143,15 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
                   src={product.image}
                   alt={product.title}
                   fill
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                  className="object-cover transition-all duration-1000 group-hover:scale-105 opacity-100 group-hover:opacity-0"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  unoptimized
+                />
+                <Image
+                  src={product.hoverImage}
+                  alt={`${product.title} hover view`}
+                  fill
+                  className="object-cover transition-all duration-1000 scale-105 group-hover:scale-100 opacity-0 group-hover:opacity-100"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   unoptimized
                 />

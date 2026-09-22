@@ -122,7 +122,7 @@ export function Hero3DModel({ modelRef }: Hero3DModelProps) {
       spinState,
       {
         ry: Math.PI * 2, // full 360°
-        duration: 1.4,
+        duration: 4.0,
         ease: "power2.inOut",
         onUpdate: () => {
           introRotationY.current = spinState.ry;

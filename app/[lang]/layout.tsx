@@ -38,7 +38,7 @@ export default async function RootLayout(props: Readonly<{
       dir={lang === "ar" ? "rtl" : "ltr"}
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0d0d0d] text-white overflow-x-hidden">
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#0d0d0d] text-white overflow-x-hidden">
         <NextIntlClientProvider messages={messages}>
           <SmoothScroll>
             <Header />
