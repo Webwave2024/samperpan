@@ -13,122 +13,118 @@ interface Hero3DModelProps {
   modelRef: React.RefObject<THREE.Group | null>;
 }
 
-// Store original positions and rotations of all mesh children for the explode effect
-const originalPositions = new Map<string, THREE.Vector3>();
-const originalRotations = new Map<string, THREE.Euler>();
-const explodeDirections = new Map<string, THREE.Vector3>();
+// Pre-cached mesh data — avoids scene.traverse() on every frame (performance fix)
+type MeshData = {
+  mesh: THREE.Mesh;
+  origPos: THREE.Vector3;
+  origRot: THREE.Euler;
+  dir: THREE.Vector3;
+};
+
+let cachedMeshData: MeshData[] = [];
 
 export function Hero3DModel({ modelRef }: Hero3DModelProps) {
   const { scene } = useGLTF("/mainmodel.glb");
-  const explodeProgressRef = useRef(0); // 0 = normal, 1 = fully exploded
+  const explodeProgressRef = useRef(0);
   const isInitialized = useRef(false);
 
-  // Initialize: collect all meshes and store their original positions/rotations
   useEffect(() => {
     if (isInitialized.current) return;
     isInitialized.current = true;
 
+    // ─── Cache all mesh data once on mount (major performance fix) ───
+    cachedMeshData = [];
     scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
+        const mesh = child as THREE.Mesh;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
-        if (!originalPositions.has(child.uuid)) {
-          originalPositions.set(child.uuid, child.position.clone());
-          originalRotations.set(child.uuid, child.rotation.clone());
-
-          // Compute a direction from center — random outward vector per mesh
-          const dir = new THREE.Vector3(
+        cachedMeshData.push({
+          mesh,
+          origPos: mesh.position.clone(),
+          origRot: mesh.rotation.clone(),
+          dir: new THREE.Vector3(
             (Math.random() - 0.5) * 2,
             (Math.random() - 0.5) * 2,
             (Math.random() - 0.5) * 2
-          ).normalize();
-          explodeDirections.set(child.uuid, dir);
-        }
+          ).normalize(),
+        });
       }
     });
 
-    // GSAP ScrollTrigger: drive explode progress from scroll over the first two sections
+    // ─── Entrance animation: model fades/scales in from slightly below ───
+    if (modelRef.current) {
+      modelRef.current.scale.setScalar(0.3);
+      gsap.to(modelRef.current.scale, {
+        x: 0.85,
+        y: 0.85,
+        z: 0.85,
+        duration: 1.8,
+        delay: 0.5,
+        ease: "power3.out",
+      });
+    }
+
+    // ─── Scroll → explode effect ───────────────────────────────────────
     const trigger = ScrollTrigger.create({
       trigger: document.getElementById("hero") ?? document.body,
       start: "top top",
-      end: "+=150%", // spread the explosion over hero and start of statement
+      end: "+=200%",
       scrub: 1.5,
       onUpdate: (self) => {
-        // We'll just split it slightly, max progress 1
         explodeProgressRef.current = self.progress;
       },
     });
 
     return () => {
       trigger.kill();
-      originalPositions.clear();
-      originalRotations.clear();
-      explodeDirections.clear();
+      cachedMeshData = [];
       isInitialized.current = false;
     };
-  }, [scene]);
+  }, [scene, modelRef]);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!modelRef.current) return;
 
     const progress = explodeProgressRef.current;
-    const explodeStrength = 2.0; // reduced distance for a more elegant split
 
-    // Animate each mesh piece outward based on scroll progress
-    scene.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const orig = originalPositions.get(child.uuid);
-        const origRot = originalRotations.get(child.uuid);
-        const dir = explodeDirections.get(child.uuid);
-        if (orig && origRot && dir) {
-          child.position.x = THREE.MathUtils.lerp(
-            child.position.x,
-            orig.x + dir.x * progress * explodeStrength,
-            0.08
-          );
-          child.position.y = THREE.MathUtils.lerp(
-            child.position.y,
-            orig.y + dir.y * progress * explodeStrength,
-            0.08
-          );
-          child.position.z = THREE.MathUtils.lerp(
-            child.position.z,
-            orig.z + dir.z * progress * explodeStrength,
-            0.08
-          );
-          // Rotate each piece as it flies apart
-          child.rotation.x = THREE.MathUtils.lerp(
-            child.rotation.x,
-            origRot.x + dir.x * progress * 0.2,
-            0.03
-          );
-          child.rotation.y = THREE.MathUtils.lerp(
-            child.rotation.y,
-            origRot.y + dir.y * progress * 0.2,
-            0.03
-          );
-          child.rotation.z = THREE.MathUtils.lerp(
-            child.rotation.z,
-            origRot.z + dir.z * progress * 0.2,
-            0.03
-          );
-        }
+    // ─── Optimized: iterate pre-cached array instead of traverse() ───
+    if (progress > 0.01) {
+      const strength = 2.0;
+      for (const { mesh, origPos, origRot, dir } of cachedMeshData) {
+        mesh.position.x = THREE.MathUtils.lerp(
+          mesh.position.x, origPos.x + dir.x * progress * strength, 0.08
+        );
+        mesh.position.y = THREE.MathUtils.lerp(
+          mesh.position.y, origPos.y + dir.y * progress * strength, 0.08
+        );
+        mesh.position.z = THREE.MathUtils.lerp(
+          mesh.position.z, origPos.z + dir.z * progress * strength, 0.08
+        );
+        mesh.rotation.x = THREE.MathUtils.lerp(
+          mesh.rotation.x, origRot.x + dir.x * progress * 0.2, 0.05
+        );
+        mesh.rotation.y = THREE.MathUtils.lerp(
+          mesh.rotation.y, origRot.y + dir.y * progress * 0.2, 0.05
+        );
       }
-    });
+    }
 
-    // Gentle auto-rotation and parallax is now handled by ModelControls in GlobalCanvas.
-
-    // Scale: zoom in by default, zoom out on scroll
-    const targetScale = THREE.MathUtils.lerp(1.6, 0.85, progress);
-    modelRef.current.scale.setScalar(
-      THREE.MathUtils.lerp(modelRef.current.scale.x, targetScale, 0.06)
-    );
+    // ─── Scale driven by scroll (hero zoom-out) ───────────────────────
+    // Note: initial scale is controlled by EditorialHome ScrollTrigger.
+    // We only handle fade-out here so both cooperate cleanly.
   });
 
   return (
     <group ref={modelRef} dispose={null}>
-      <Float speed={1.4} rotationIntensity={0.1} floatIntensity={0.4} floatingRange={[-0.08, 0.08]}>
+      {/* Float gives a gentle breathing motion — very subtle for premium feel */}
+      <Float
+        speed={0.8}
+        rotationIntensity={0.04}
+        floatIntensity={0.25}
+        floatingRange={[-0.05, 0.05]}
+      >
         <primitive object={scene} scale={2.5} position={[0, -1.5, 0]} />
       </Float>
     </group>

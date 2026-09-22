@@ -8,6 +8,44 @@ import { GlobalCanvas } from "./GlobalCanvas";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// ─── Drag hint: fades after first right-click ─────────────────────────────────
+function DragHint() {
+  const hintRef = useRef<HTMLDivElement>(null);
+  const hasFired = useRef(false);
+
+  useEffect(() => {
+    const hide = () => {
+      if (hasFired.current || !hintRef.current) return;
+      hasFired.current = true;
+      gsap.to(hintRef.current, { opacity: 0, duration: 0.8, ease: "power2.out" });
+    };
+    window.addEventListener("contextmenu", hide);
+    window.addEventListener("pointerdown", (e) => { if (e.button === 2) hide(); });
+    // Auto-hide after 5s anyway
+    const t = setTimeout(hide, 5000);
+    return () => {
+      window.removeEventListener("contextmenu", hide);
+      clearTimeout(t);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={hintRef}
+      className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none"
+    >
+      <span className="text-[8px] tracking-[0.5em] uppercase text-white/30">
+        Drag to Explore 360°
+      </span>
+      <div className="flex gap-1 items-center">
+        <span className="text-white/20 text-xs">⟵</span>
+        <div className="w-6 h-px bg-white/20" />
+        <span className="text-white/20 text-xs">⟶</span>
+      </div>
+    </div>
+  );
+}
+
 interface LuxuryExperienceProps {
   modelGroupRef: React.RefObject<THREE.Group | null>;
 }
@@ -51,8 +89,10 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
 
       // ─── HERO → scroll: model zooms out, text fades ───────────
       if (modelGroupRef.current) {
-        gsap.set(modelGroupRef.current.scale, { x: 1.6, y: 1.6, z: 1.6 });
-        gsap.set(modelGroupRef.current.position, { x: 1.5 });
+        // Initial scale — smaller and centered
+        gsap.set(modelGroupRef.current.scale, { x: 0.85, y: 0.85, z: 0.85 });
+        // Center the model
+        gsap.set(modelGroupRef.current.position, { x: 0, y: 0 });
 
         ScrollTrigger.create({
           trigger: heroRef.current,
@@ -62,8 +102,8 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
           onUpdate: (self) => {
             if (!modelGroupRef.current) return;
             const p = self.progress;
-            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(1.6, 0.9, p));
-            modelGroupRef.current.position.x = gsap.utils.interpolate(1.5, 0, p);
+            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.85, 0.5, p));
+            modelGroupRef.current.position.x = gsap.utils.interpolate(0, 0, p);
             modelGroupRef.current.position.z = gsap.utils.interpolate(0, -3, p);
           },
         });
@@ -220,39 +260,74 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
         <section
           ref={heroRef}
           id="hero"
-          className="h-screen w-full flex flex-col justify-center px-8 md:px-20 bg-transparent"
+          className="relative h-screen w-full flex flex-col justify-center bg-transparent overflow-hidden"
         >
-          <div className="max-w-7xl mx-auto w-full">
-            <p className="text-[10px] tracking-[0.5em] uppercase text-white/40 mb-10 font-light">
-              SS 2025 — Premium Menswear
-            </p>
-            <div ref={heroTitleRef}>
-              <h1
-                className="text-[13vw] md:text-[10vw] lg:text-[8.5vw] font-light tracking-[-0.03em] leading-[0.88]"
-                style={{ fontFamily: "var(--font-playfair)" }}
+          {/* Radial glow behind the product area (pure CSS, zero perf cost) */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse 55% 70% at 70% 55%, rgba(180,150,100,0.06) 0%, transparent 70%)",
+            }}
+          />
+
+          {/* Split layout: Typography (left 45%) + Product space (right 55%) */}
+          <div className="relative z-10 w-full h-full flex items-center">
+            {/* ── Typography block — left side, never overlaps model ── */}
+            <div className="w-full md:w-[48%] px-8 md:px-16 lg:px-20 flex flex-col justify-center">
+              <p
+                ref={heroMetaRef}
+                className="text-[10px] tracking-[0.5em] uppercase text-white/40 mb-8 font-light"
               >
-                Tailored
-                <br />
-                <em className="not-italic text-white/50">For The</em>
-                <br />
-                Modern Man.
-              </h1>
+                SS 2025 — Premium Menswear
+              </p>
+
+              <div ref={heroTitleRef}>
+                <h1
+                  className="text-[15vw] sm:text-[11vw] md:text-[8.5vw] lg:text-[7.5vw] font-light tracking-[-0.03em] leading-[0.9]"
+                  style={{ fontFamily: "var(--font-playfair)" }}
+                >
+                  Tailored
+                  <br />
+                  <em className="not-italic text-white/45">For The</em>
+                  <br />
+                  Modern Man.
+                </h1>
+              </div>
+
+              <p className="mt-8 text-[10px] tracking-[0.4em] uppercase text-white/35 leading-loose">
+                Luxury · Craftsmanship · Technology
+              </p>
+
+              {/* CTA */}
+              <div className="mt-12">
+                <a
+                  href="#collection"
+                  className="inline-flex items-center gap-4 text-[10px] tracking-[0.4em] uppercase text-white/60 hover:text-white transition-colors duration-500 group"
+                >
+                  Explore Collection
+                  <span className="w-8 h-px bg-white/40 group-hover:w-14 group-hover:bg-white transition-all duration-700" />
+                </a>
+              </div>
             </div>
-            <p
-              ref={heroMetaRef}
-              className="mt-10 text-[11px] tracking-[0.4em] uppercase text-white/40 max-w-xs leading-loose"
-            >
-              Luxury · Craftsmanship · Technology
-            </p>
+
+            {/* ── Right side: model lives here in 3D space (not in DOM) ── */}
+            {/* This is deliberately empty — the 3D Canvas is fixed and positions the model here */}
+            <div className="hidden md:flex md:w-[52%] h-full items-center justify-center relative">
+              {/* Drag hint — fades after first interaction */}
+              <DragHint />
+            </div>
           </div>
 
-          {/* Scroll hint */}
+          {/* Scroll indicator */}
           <div
             ref={heroScrollHintRef}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           >
-            <span className="text-[9px] tracking-[0.4em] uppercase text-white/30">Scroll</span>
-            <div className="w-px h-12 bg-gradient-to-b from-white/30 to-transparent animate-pulse" />
+            <span className="text-[9px] tracking-[0.4em] uppercase text-white/25">
+              Scroll
+            </span>
+            <div className="w-px h-10 bg-gradient-to-b from-white/25 to-transparent animate-pulse" />
           </div>
         </section>
 
