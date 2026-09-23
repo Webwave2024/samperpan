@@ -51,12 +51,25 @@ function ModelControls({ children }: { children: React.ReactNode }) {
       if (e.button === 0) isDragging.current = false;
     };
 
+    let wasPastHero = window.scrollY > 100;
+    const onScroll = () => {
+      const isPastHero = window.scrollY > 100;
+      // Reset rotation to default mode only when scrolling BACK into the hero section
+      if (wasPastHero && !isPastHero) {
+        targetRotation.current.x = 0;
+        targetRotation.current.y = 0;
+      }
+      wasPastHero = isPastHero;
+    };
+
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 

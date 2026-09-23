@@ -90,12 +90,14 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
         .to(heroMetaRef.current, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=0.8")
         .to(heroScrollHintRef.current, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.5");
 
-      // ─── HERO → scroll: model zooms out, text fades ───────────
+      // ─── SINGLE SOURCE OF TRUTH (Default Transform) ───────────
+      const DEFAULT_POSITION = { x: 2.5, y: 0.3, z: 0 };
+      const DEFAULT_SCALE = 0.85;
+
       if (modelGroupRef.current) {
-        // Initial scale — smaller and centered in right half
-        gsap.set(modelGroupRef.current.scale, { x: 0.85, y: 0.85, z: 0.85 });
-        // Place in the open right-side space (x=2.5 = right half center in screen space)
-        gsap.set(modelGroupRef.current.position, { x: 2.5, y: 0 });
+        // Apply default canonical transform initially
+        gsap.set(modelGroupRef.current.scale, { x: DEFAULT_SCALE, y: DEFAULT_SCALE, z: DEFAULT_SCALE });
+        gsap.set(modelGroupRef.current.position, { x: DEFAULT_POSITION.x, y: DEFAULT_POSITION.y, z: DEFAULT_POSITION.z });
 
         ScrollTrigger.create({
           trigger: heroRef.current,
@@ -105,10 +107,11 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
           onUpdate: (self) => {
             if (!modelGroupRef.current) return;
             const p = self.progress;
-            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.85, 0.5, p));
-            modelGroupRef.current.position.x = gsap.utils.interpolate(2.5, 0, p);
-            modelGroupRef.current.position.y = 0; // Explicitly set y
-            modelGroupRef.current.position.z = gsap.utils.interpolate(0, -3, p);
+            // Always calculate relative to the DEFAULT state, never accumulate
+            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(DEFAULT_SCALE, 0.5, p));
+            modelGroupRef.current.position.x = gsap.utils.interpolate(DEFAULT_POSITION.x, 0, p);
+            modelGroupRef.current.position.y = gsap.utils.interpolate(DEFAULT_POSITION.y, 0, p);
+            modelGroupRef.current.position.z = gsap.utils.interpolate(DEFAULT_POSITION.z, -3, p);
           },
         });
 

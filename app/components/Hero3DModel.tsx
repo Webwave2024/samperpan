@@ -56,15 +56,22 @@ export function Hero3DModel({ modelRef }: Hero3DModelProps) {
           });
         }
 
-        cachedMeshData.push({
-          mesh,
-          origPos: mesh.position.clone(),
-          origRot: mesh.rotation.clone(),
-          dir: new THREE.Vector3(
+        // Store true original transforms in userData so they survive remounts/HMR
+        if (!mesh.userData.origPos) {
+          mesh.userData.origPos = mesh.position.clone();
+          mesh.userData.origRot = mesh.rotation.clone();
+          mesh.userData.dir = new THREE.Vector3(
             (Math.random() - 0.5) * 2,
             (Math.random() - 0.5) * 2,
             (Math.random() - 0.5) * 2
-          ).normalize(),
+          ).normalize();
+        }
+
+        cachedMeshData.push({
+          mesh,
+          origPos: mesh.userData.origPos.clone(),
+          origRot: mesh.userData.origRot.clone(),
+          dir: mesh.userData.dir.clone(),
         });
       }
     });
@@ -162,36 +169,34 @@ export function Hero3DModel({ modelRef }: Hero3DModelProps) {
 
     const progress = explodeProgressRef.current;
 
-    // ─── Optimized: iterate pre-cached array instead of traverse() ────────
-    if (progress > 0.01) {
-      const strength = 2.0;
-      for (const { mesh, origPos, origRot, dir } of cachedMeshData) {
-        mesh.position.x = THREE.MathUtils.lerp(
-          mesh.position.x,
-          origPos.x + dir.x * progress * strength,
-          0.08
-        );
-        mesh.position.y = THREE.MathUtils.lerp(
-          mesh.position.y,
-          origPos.y + dir.y * progress * strength,
-          0.08
-        );
-        mesh.position.z = THREE.MathUtils.lerp(
-          mesh.position.z,
-          origPos.z + dir.z * progress * strength,
-          0.08
-        );
-        mesh.rotation.x = THREE.MathUtils.lerp(
-          mesh.rotation.x,
-          origRot.x + dir.x * progress * 0.2,
-          0.05
-        );
-        mesh.rotation.y = THREE.MathUtils.lerp(
-          mesh.rotation.y,
-          origRot.y + dir.y * progress * 0.2,
-          0.05
-        );
-      }
+    // ─── ALWAYS lerp towards target so it correctly returns to 0 ────────
+    const strength = 2.0;
+    for (const { mesh, origPos, origRot, dir } of cachedMeshData) {
+      mesh.position.x = THREE.MathUtils.lerp(
+        mesh.position.x,
+        origPos.x + dir.x * progress * strength,
+        0.08
+      );
+      mesh.position.y = THREE.MathUtils.lerp(
+        mesh.position.y,
+        origPos.y + dir.y * progress * strength,
+        0.08
+      );
+      mesh.position.z = THREE.MathUtils.lerp(
+        mesh.position.z,
+        origPos.z + dir.z * progress * strength,
+        0.08
+      );
+      mesh.rotation.x = THREE.MathUtils.lerp(
+        mesh.rotation.x,
+        origRot.x + dir.x * progress * 0.2,
+        0.05
+      );
+      mesh.rotation.y = THREE.MathUtils.lerp(
+        mesh.rotation.y,
+        origRot.y + dir.y * progress * 0.2,
+        0.05
+      );
     }
   });
 
