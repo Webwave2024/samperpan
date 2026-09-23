@@ -31,6 +31,8 @@ export function Header() {
   const pathname = usePathname();
 
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
+  // On product/collection/retail/wholesale pages the background is white so icons must be black
+  const isLightPage = !isHomePage;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -83,15 +85,17 @@ export function Header() {
         <div className="container mx-auto px-6 grid grid-cols-3 items-center">
           
           {/* Left: Menu & Search */}
-          <div className="flex items-center gap-6 text-white/80">
-            <button onClick={() => setMenuOpen(true)} className="hover:text-amber-400 transition-colors" aria-label="Menu">
+          <div className={`flex items-center gap-6 transition-colors duration-300 ${
+            scrolled ? "text-white/80" : isLightPage ? "text-black/70" : "text-white/80"
+          }`}>
+            <button onClick={() => setMenuOpen(true)} className="hover:text-amber-500 transition-colors" aria-label="Menu">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <button onClick={() => setSearchOpen(true)} className="hover:text-amber-400 transition-colors hidden sm:block" aria-label="Search">
+            <button onClick={() => setSearchOpen(true)} className="hover:text-amber-500 transition-colors hidden sm:block" aria-label="Search">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -107,13 +111,22 @@ export function Header() {
                 alt="Logo"
                 width={120}
                 height={35}
-                className="object-contain drop-shadow-md brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+                className={`object-contain drop-shadow-md transition-all duration-300 opacity-90 hover:opacity-100 ${
+                  scrolled
+                    ? "brightness-0 invert"          /* white on dark scrolled bar */
+                    : isLightPage
+                    ? "brightness-0"                  /* black on light pages */
+                    : "brightness-0 invert"           /* white on homepage */
+                }`}
+                style={{ width: "auto", height: "auto" }}
               />
             </Link>
           </div>
 
           {/* Right: Language, User, Bag */}
-          <div className="flex items-center justify-end gap-5 text-white/80">
+          <div className={`flex items-center justify-end gap-5 transition-colors duration-300 ${
+            scrolled ? "text-white/80" : isLightPage ? "text-black/70" : "text-white/80"
+          }`}>
             
             {/* Language Switcher */}
             <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>

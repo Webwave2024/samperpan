@@ -547,42 +547,129 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
           </div>
         </section>
 
-        {/* ══════════════════════ SUIT DETAILS ════════════════════════ */}
+
+        {/* ══════════════════════ PARTNERSHIP TIERS ════════════════════════ */}
         <section
-          id="details"
-          className="w-full py-40 px-8 md:px-20 bg-[#111111] text-white"
+          id="partnerships"
+          className="w-full py-32 px-8 md:px-20 bg-[#0a0a0a] text-white"
         >
-          <div className="max-w-7xl mx-auto">
-            <span className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-16 block">
-              The Details
-            </span>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-20">
-              {[
-                { name: "FABRIC", desc: "Pure chanderi, mulmul & raw silk — sourced from Varanasi & Bhopal" },
-                { name: "SILHOUETTE", desc: "Straight, Anarkali & A-line cuts tailored to your posture" },
-                { name: "EMBROIDERY", desc: "Zardozi, chikankari & gota patti — handcrafted by artisans" },
-                { name: "COLLAR", desc: "Mandarin, angrakha & V-neck — chosen per style" },
-                { name: "BUTTONS", desc: "Hand-carved bone, resin & antique brass closures" },
-                { name: "DUPATTA", desc: "Hand-block printed or embroidered to match" },
-                { name: "FIT", desc: "Two-fitting bespoke process, every time" },
-                { name: "LINING", desc: "Breathable cotton inner with signature label" },
-              ].map((detail) => (
-                <div key={detail.name} className="group">
-                  <div className="w-8 h-px bg-white/20 mb-6 group-hover:w-16 group-hover:bg-white/60 transition-all duration-500" />
-                  <h4
-                    className="text-2xl font-bold tracking-tighter mb-3"
-                    style={{ fontFamily: "var(--font-playfair)" }}
-                  >
-                    {detail.name}
-                  </h4>
-                  <p className="text-sm text-white/40 leading-relaxed font-light">
-                    {detail.desc}
-                  </p>
+          <div className="max-w-6xl mx-auto">
+            {/* Header */}
+            <div className="mb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <p className="text-[10px] tracking-[0.5em] uppercase text-white/30 mb-4">
+                  Exclusive Access
+                </p>
+                <h2
+                  className="text-5xl md:text-6xl font-bold tracking-tighter leading-[0.9]"
+                  style={{ fontFamily: "var(--font-playfair)" }}
+                >
+                  Partner<br />
+                  <span className="text-white/30 italic font-light">with us</span>
+                </h2>
+              </div>
+              <p className="text-sm text-white/40 max-w-xs leading-relaxed font-light tracking-wide">
+                Curated access for those who understand the value of heritage craftsmanship.
+              </p>
+            </div>
+
+            {/* Two Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              {/* Card 1 — Retail Curators */}
+              <Link
+                href={`/${locale}/retail`}
+                className="group relative block overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-700"
+                style={{ background: "linear-gradient(135deg, #111 0%, #1a1a1a 100%)" }}
+              >
+                {/* Ambient glow on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.06) 0%, transparent 70%)" }}
+                />
+
+                <div className="relative p-10 md:p-12 flex flex-col justify-between min-h-[360px]">
+                  {/* Tag */}
+                  <div className="flex items-center justify-between mb-auto">
+                    <span className="text-[9px] tracking-[0.45em] uppercase text-white/25 border border-white/10 px-3 py-1.5">
+                      Boutique & Direct
+                    </span>
+                    <span className="text-white/20 group-hover:text-white/60 transition-colors duration-500 text-xl">
+                      ↗
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="mt-16">
+                    <div className="w-8 h-px bg-[#c9a96e]/40 mb-8 group-hover:w-16 group-hover:bg-[#c9a96e] transition-all duration-500" />
+                    <h3
+                      className="text-3xl md:text-4xl font-bold tracking-tighter leading-tight mb-4"
+                      style={{ fontFamily: "var(--font-playfair)" }}
+                    >
+                      Retail<br />Curators
+                    </h3>
+                    <p className="text-sm text-white/40 leading-relaxed font-light max-w-xs">
+                      For boutique owners and direct retailers who want to carry heritage pieces their customers will treasure.
+                    </p>
+                    <div className="mt-8 flex items-center gap-3 text-[10px] tracking-[0.4em] uppercase text-white/30 group-hover:text-white/70 transition-colors duration-500">
+                      Explore Collection
+                      <span className="w-4 h-px bg-current group-hover:w-8 transition-all duration-500" />
+                    </div>
+                  </div>
                 </div>
-              ))}
+              </Link>
+
+              {/* Card 2 — Wholesale Partners */}
+              <Link
+                href={`/${locale}/wholesale`}
+                className="group relative block overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-700"
+                style={{ background: "linear-gradient(135deg, #0d0d0d 0%, #161616 100%)" }}
+              >
+                {/* Ambient glow on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{ background: "radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.08) 0%, transparent 70%)" }}
+                />
+
+                {/* Premium corner accent */}
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-20"
+                  style={{ background: "linear-gradient(225deg, rgba(201,169,110,0.4) 0%, transparent 60%)" }}
+                />
+
+                <div className="relative p-10 md:p-12 flex flex-col justify-between min-h-[360px]">
+                  {/* Tag */}
+                  <div className="flex items-center justify-between mb-auto">
+                    <span className="text-[9px] tracking-[0.45em] uppercase text-[#c9a96e]/50 border border-[#c9a96e]/15 px-3 py-1.5">
+                      High Volume
+                    </span>
+                    <span className="text-white/20 group-hover:text-[#c9a96e]/80 transition-colors duration-500 text-xl">
+                      ↗
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="mt-16">
+                    <div className="w-8 h-px bg-[#c9a96e]/60 mb-8 group-hover:w-16 group-hover:bg-[#c9a96e] transition-all duration-500" />
+                    <h3
+                      className="text-3xl md:text-4xl font-bold tracking-tighter leading-tight mb-4"
+                      style={{ fontFamily: "var(--font-playfair)" }}
+                    >
+                      Bespoke<br />Wholesale<br />
+                      <span className="text-[#c9a96e]/70 italic font-light">Partners</span>
+                    </h3>
+                    <p className="text-sm text-white/40 leading-relaxed font-light max-w-xs">
+                      Reserved for our high-volume partners who demand consistency, scale, and the finest craftsmanship at every order.
+                    </p>
+                    <div className="mt-8 flex items-center gap-3 text-[10px] tracking-[0.4em] uppercase text-[#c9a96e]/40 group-hover:text-[#c9a96e] transition-colors duration-500">
+                      Explore Collection
+                      <span className="w-4 h-px bg-current group-hover:w-8 transition-all duration-500" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
             </div>
           </div>
         </section>
+
 
         {/* ══════════════════════ FINAL CTA ═══════════════════════════ */}
         <section

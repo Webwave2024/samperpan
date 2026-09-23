@@ -1,15 +1,10 @@
 import { DigitalShowroom } from "../../components/DigitalShowroom";
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
 
 export default function RetailPage() {
   return (
-    <div className="w-full min-h-screen bg-[#ffffff]">
-      <Header />
-      <div className="pt-24">
-        <DigitalShowroom mode="retail" />
-      </div>
-      <Footer />
+    <div className="w-full min-h-screen bg-[#0a0a0a]">
+      <DigitalShowroom mode="retail" />
     </div>
   );
 }
+

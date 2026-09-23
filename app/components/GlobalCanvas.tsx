@@ -8,10 +8,100 @@ import {
   ContactShadows,
   Sparkles,
   SpotLight,
+  useProgress,
 } from "@react-three/drei";
 import { Hero3DModel } from "./Hero3DModel";
 import * as THREE from "three";
 import { ThreeEvent } from "@react-three/fiber";
+import Image from "next/image";
+
+// ─── Runs INSIDE Canvas so useProgress() has access to the R3F context ────────
+function LoaderBridge({ onProgress }: { onProgress: (p: number, active: boolean) => void }) {
+  const { progress, active } = useProgress();
+  React.useEffect(() => {
+    onProgress(progress, active);
+  }, [progress, active, onProgress]);
+  return null;
+}
+
+// ─── Full-screen luxury loader overlay ───────────────────────────────────────
+function LuxuryLoader({ visible }: { visible: boolean }) {
+  const overlayRef = React.useRef<HTMLDivElement>(null);
+
+  // Lock/unlock body scroll
+  React.useEffect(() => {
+    if (visible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [visible]);
+
+  return (
+    <div
+      ref={overlayRef}
+      aria-label="Loading"
+      role="status"
+      aria-live="polite"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        background: "#000",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "2rem",
+        pointerEvents: visible ? "all" : "none",
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1)",
+      }}
+    >
+      {/* Logo */}
+      <Image
+        src="/Untitled-design-18.webp"
+        alt="Sidhant"
+        width={160}
+        height={48}
+        priority
+        className="object-contain brightness-0 invert opacity-90"
+        style={{ width: "auto", height: "auto" }}
+      />
+
+      {/* Thin circular spinner */}
+      <div style={{ position: "relative", width: 56, height: 56 }}>
+        <svg
+          width="56"
+          height="56"
+          viewBox="0 0 56 56"
+          fill="none"
+          style={{ animation: "_loaderSpin 1.6s linear infinite" }}
+        >
+          {/* Background track */}
+          <circle cx="28" cy="28" r="24" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" />
+          {/* Animated arc */}
+          <circle
+            cx="28"
+            cy="28"
+            r="24"
+            stroke="rgba(201,169,110,0.85)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeDasharray="40 110"
+          />
+        </svg>
+        <style>{`
+          @keyframes _loaderSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    </div>
+  );
+}
 
 // ─── No parallax camera drift (model stays still unless dragged) ──────────────
 function CameraRig({ children }: { children: React.ReactNode }) {
@@ -167,6 +257,18 @@ interface GlobalCanvasProps {
 export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
   const [mounted, setMounted] = React.useState(false);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const [loaderVisible, setLoaderVisible] = React.useState(true);
+  // Track whether we ever completed loading (to not re-show loader on re-renders)
+  const hasCompleted = React.useRef(false);
+
+  const handleProgress = React.useCallback((progress: number, active: boolean) => {
+    if (hasCompleted.current) return;
+    // Hide loader when: progress hit 100 AND drei is no longer active
+    if (progress >= 100 && !active) {
+      hasCompleted.current = true;
+      setLoaderVisible(false);
+    }
+  }, []);
 
   React.useEffect(() => {
     setMounted(true);
@@ -208,6 +310,10 @@ export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
   if (!mounted) return null;
 
   return (
+    <>
+      {/* Full-screen luxury loader — controlled by real useProgress state */}
+      <LuxuryLoader visible={loaderVisible} />
+
     <div
       ref={wrapperRef}
       className="fixed inset-0 z-0 pointer-events-none"
@@ -264,7 +370,11 @@ export function GlobalCanvas({ modelGroupRef }: GlobalCanvasProps) {
         </CameraRig>
 
         <Environment preset="studio" />
+
+        {/* LoaderBridge runs inside Canvas to access useProgress R3F context */}
+        <LoaderBridge onProgress={handleProgress} />
       </Canvas>
     </div>
+    </>
   );
 }
