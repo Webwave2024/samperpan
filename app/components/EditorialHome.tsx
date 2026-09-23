@@ -107,6 +107,7 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
             const p = self.progress;
             modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.85, 0.5, p));
             modelGroupRef.current.position.x = gsap.utils.interpolate(2.5, 0, p);
+            modelGroupRef.current.position.y = 0; // Explicitly set y
             modelGroupRef.current.position.z = gsap.utils.interpolate(0, -3, p);
           },
         });
@@ -180,6 +181,8 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
             const p = self.progress;
             modelGroupRef.current.position.x = gsap.utils.interpolate(0, 3, p);
             modelGroupRef.current.position.y = gsap.utils.interpolate(0, 0.5, p);
+            modelGroupRef.current.position.z = -3; // Maintain z from previous trigger
+            modelGroupRef.current.scale.setScalar(0.5); // Maintain scale from previous trigger
           },
         });
 
@@ -195,7 +198,7 @@ export function LuxuryExperience({ modelGroupRef }: LuxuryExperienceProps) {
             modelGroupRef.current.position.x = gsap.utils.interpolate(3, 0, p);
             modelGroupRef.current.position.y = gsap.utils.interpolate(0.5, -0.5, p);
             modelGroupRef.current.position.z = gsap.utils.interpolate(-3, -1, p); // Move it closer
-            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.85, 1.2, p)); // Scale up
+            modelGroupRef.current.scale.setScalar(gsap.utils.interpolate(0.5, 1.2, p)); // Scale up from 0.5 (not 0.85)
           },
         });
       }
