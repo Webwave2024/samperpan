@@ -1,11 +1,12 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #0d0d0d;
   /* Royal golden — warm, rich, premium */
-  --foreground: #C9A84C;
-  --gold-light: #E8C96D;
-  --gold-dark:  #A07830;
+  --foreground: #ffffff;
+  --gold-light: #ffffff;
+  --gold-dark:  #ffffff;
 }
 
 @theme inline {
@@ -20,8 +21,6 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
   margin: 0;
   padding: 0;
@@ -40,7 +39,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: #C9A84C;
+  background: #ffffff;
   color: #0d0d0d;
 }
 

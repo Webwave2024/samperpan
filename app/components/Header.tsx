@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const LOCALES = [
   { code: "en", label: "English", flag: "🇬🇧" },
@@ -33,6 +34,11 @@ export function Header() {
   const isHomePage = pathname === `/${locale}` || pathname === `/${locale}/`;
   // On product/collection/retail/wholesale pages the background is white so icons must be black
   const isLightPage = !isHomePage;
+
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -78,7 +84,7 @@ export function Header() {
       <header
         className={`fixed top-0 w-full z-40 transition-all duration-700 ease-in-out ${
           scrolled
-            ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-3"
+            ? "bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 py-3"
             : "bg-transparent py-6 border-b border-transparent"
         }`}
       >
@@ -86,7 +92,7 @@ export function Header() {
           
           {/* Left: Menu & Search */}
           <div className={`flex items-center gap-6 transition-colors duration-300 ${
-            scrolled ? "text-white/80" : isLightPage ? "text-black/70" : "text-white/80"
+            scrolled ? "text-black dark:text-white dark:text-white" : isHomePage ? "text-black dark:text-white" : "text-black dark:text-white dark:text-white"
           }`}>
             <button onClick={() => setMenuOpen(true)} className="hover:text-amber-500 transition-colors" aria-label="Menu">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -112,20 +118,18 @@ export function Header() {
                 width={120}
                 height={35}
                 className={`object-contain drop-shadow-md transition-all duration-300 opacity-90 hover:opacity-100 ${
-                  scrolled
-                    ? "brightness-0 invert"          /* white on dark scrolled bar */
-                    : isLightPage
-                    ? "brightness-0"                  /* black on light pages */
-                    : "brightness-0 invert"           /* white on homepage */
+                  scrolled || theme === "dark" || isHomePage
+                    ? "brightness-0 invert sepia hue-rotate-180 saturate-200"          /* green on dark */
+                    : "brightness-0 sepia hue-rotate-[80deg] saturate-200"                  /* green on light pages */
                 }`}
-                style={{ width: "auto", height: "auto" }}
+                style={{ width: "auto", height: "auto", filter: "invert(34%) sepia(85%) saturate(417%) hue-rotate(99deg) brightness(91%) contrast(89%)" }}
               />
             </Link>
           </div>
 
           {/* Right: Language, User, Bag */}
           <div className={`flex items-center justify-end gap-5 transition-colors duration-300 ${
-            scrolled ? "text-white/80" : isLightPage ? "text-black/70" : "text-white/80"
+            scrolled ? "text-black dark:text-white dark:text-white" : isHomePage ? "text-black dark:text-white" : "text-black dark:text-white dark:text-white"
           }`}>
             
             {/* Language Switcher */}
@@ -139,13 +143,13 @@ export function Header() {
               </button>
 
               {langOpen && (
-                <div className="absolute top-full right-0 mt-4 w-40 bg-white/80 backdrop-blur-xl border border-black/10 shadow-2xl rounded-sm overflow-hidden">
+                <div className="absolute top-full right-0 mt-4 w-40 bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl rounded-sm overflow-hidden">
                   {LOCALES.map((l) => (
                     <button
                       key={l.code}
                       onClick={() => changeLanguage(l.code)}
-                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-black/10 transition-colors text-xs tracking-wider ${
-                        locale === l.code ? "text-amber-400 bg-black/5" : "text-black/80"
+                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-xs tracking-wider ${
+                        locale === l.code ? "text-amber-400 bg-black/5 dark:bg-white/5" : "text-black dark:text-white dark:text-white"
                       }`}
                     >
                       <span className="text-base">{l.flag}</span>
@@ -162,6 +166,21 @@ export function Header() {
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
             </button>
+
+            {/* Theme Switcher */}
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="hover:text-amber-400 transition-colors"
+                aria-label="Toggle Theme"
+              >
+                {theme === "dark" ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                )}
+              </button>
+            )}
             
             <button className="hover:text-amber-400 transition-colors relative group" aria-label="Cart">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -178,6 +197,7 @@ export function Header() {
       </header>
 
       {/* Slide-out Sidebar Menu */}
+       {/* Slide-out Sidebar Menu */}
       <div 
         className={`fixed inset-0 z-[100] flex transition-opacity duration-500 ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
@@ -185,20 +205,27 @@ export function Header() {
       >
         {/* Backdrop */}
         <div 
-          className="absolute inset-0 bg-white/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/50 dark:bg-white/10 backdrop-blur-sm"
           onClick={() => setMenuOpen(false)}
         />
         
-        {/* Sidebar */}
+        {/* Sidebar — dark theme with royal green accents */}
         <div 
-          className={`relative w-80 max-w-[80vw] h-full bg-[#ffffff]/90 backdrop-blur-3xl border-r border-amber-900/30 p-8 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[10px_0_50px_rgba(0,0,0,0.5)] ${
+          className={`relative w-80 max-w-[80vw] h-full backdrop-blur-3xl border-r p-8 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[10px_0_60px_rgba(0,0,0,0.8)] bg-white dark:bg-[#080808] ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
+          style={{ borderColor: "rgba(46,139,87,0.25)" }}
         >
+          {/* Green accent line at top */}
+          <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0d6b3e, #2e8b57, transparent)" }} />
+
           {/* Close Button */}
           <button 
             onClick={() => setMenuOpen(false)}
-            className="absolute top-6 right-6 text-amber-500/70 hover:text-amber-400 transition-colors"
+            className="absolute top-6 right-6 transition-colors"
+            style={{ color: "rgba(46,139,87,0.6)" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#2e8b57")}
+            onMouseLeave={e => (e.currentTarget.style.color = "rgba(46,139,87,0.6)")}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -206,27 +233,53 @@ export function Header() {
             </svg>
           </button>
 
+          {/* Logo area */}
+          <div className="mt-2 mb-10">
+            <span className="text-[9px] tracking-[0.5em] uppercase" style={{ color: "#2e8b57" }}>SIDHANT</span>
+          </div>
+
           {/* Menu Items */}
-          <nav className="mt-20 flex flex-col gap-10">
-            <Link href={`/${locale}`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between text-black hover:text-black/60 transition-colors">
+          <nav className="flex flex-col gap-8">
+            <Link href={`/${locale}`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Home</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
-            <Link href={`/${locale}/about`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between text-black hover:text-black/60 transition-colors">
+            <Link href={`/${locale}/about`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">About Us</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
-            <Link href={`/${locale}/collections`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between text-black hover:text-black/60 transition-colors">
+            <Link href={`/${locale}/collections`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Collections</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
-            <Link href={`/${locale}/contact`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between text-black hover:text-black/60 transition-colors">
+            <Link href={`/${locale}/contact`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Contact</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
+
+            {/* ── Atelier Experience — 360° Virtual Tour ── */}
+            <div className="border-t mt-2 pt-8" style={{ borderColor: "rgba(46,139,87,0.2)" }}>
+              <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(46,139,87,0.6)" }}>Virtual Experience</p>
+              <a
+                href="https://tourmkr.com/F1cqhLlGg3/47874105p&251.09h&78.25t"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="group flex items-center justify-between transition-colors"
+                style={{ color: "#2e8b57" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#5cb87a")}
+                onMouseLeave={e => (e.currentTarget.style.color = "#2e8b57")}
+              >
+                <div className="flex flex-col">
+                  <span className="text-base font-[family-name:var(--font-inter)] font-light tracking-wide">The Atelier Experience</span>
+                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(46,139,87,0.5)" }}>360° Virtual Tour ↗</span>
+                </div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+            </div>
           </nav>
         </div>
       </div>
@@ -235,10 +288,10 @@ export function Header() {
       {searchOpen && (
         <div className="fixed inset-0 z-[100] flex flex-col">
           {/* Search Panel */}
-          <div className="relative bg-white w-full shadow-2xl px-6 py-8 md:py-12">
-            <p className="text-xs tracking-[0.3em] uppercase text-black/40 mb-6 font-[family-name:var(--font-inter)]">Search Products</p>
-            <form onSubmit={handleSearch} className="flex items-center gap-3 border-b-2 border-black pb-3">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-black/40 shrink-0">
+          <div className="relative bg-white dark:bg-[#000] w-full shadow-2xl px-6 py-8 md:py-12 transition-colors duration-300">
+            <p className="text-xs tracking-[0.3em] uppercase text-black dark:text-white dark:text-white mb-6 font-[family-name:var(--font-inter)]">Search Products</p>
+            <form onSubmit={handleSearch} className="flex items-center gap-3 border-b-2 border-black dark:border-white pb-3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-black dark:text-white dark:text-white shrink-0">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
@@ -248,35 +301,35 @@ export function Header() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search kurtis, suits, anarkalis..."
-                className="flex-1 text-xl md:text-3xl font-[family-name:var(--font-playfair)] bg-transparent border-none outline-none placeholder-black/20 text-black"
+                className="flex-1 text-xl md:text-3xl font-[family-name:var(--font-playfair)] bg-transparent border-none outline-none placeholder-black/20 dark:placeholder-white/20 text-black dark:text-white"
               />
               {searchQuery && (
-                <button type="button" onClick={() => setSearchQuery("")} className="text-black/30 hover:text-black transition-colors p-1">
+                <button type="button" onClick={() => setSearchQuery("")} className="text-black dark:text-white dark:text-white hover:text-black dark:hover:text-white transition-colors p-1">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                   </svg>
                 </button>
               )}
-              <button type="submit" className="shrink-0 px-6 py-2.5 bg-black text-white text-xs uppercase tracking-widest rounded-full hover:bg-black/80 transition-colors font-[family-name:var(--font-inter)]">
+              <button type="submit" className="shrink-0 px-6 py-2.5 bg-black dark:bg-white text-white dark:text-black text-xs uppercase tracking-widest rounded-full hover:bg-black/80 dark:hover:bg-white/80 transition-colors font-[family-name:var(--font-inter)]">
                 Go
               </button>
             </form>
             {/* Quick Tags */}
             <div className="mt-6 flex gap-3 flex-wrap">
-              <span className="text-xs text-black/40 mr-2 font-[family-name:var(--font-inter)] self-center">Popular:</span>
+              <span className="text-xs text-black dark:text-white dark:text-white mr-2 font-[family-name:var(--font-inter)] self-center">Popular:</span>
               {["KURTIS", "SUIT SETS", "ANARKALIS", "SHARARAS", "DUPATTAS"].map(tag => (
                 <button
                   key={tag}
                   onClick={() => { router.push(`/${locale}/collections?q=${tag}`); setSearchOpen(false); setSearchQuery(""); }}
-                  className="px-4 py-1.5 border border-black/20 rounded-full text-xs tracking-widest text-black/60 hover:bg-black hover:text-white hover:border-black transition-all font-[family-name:var(--font-inter)]"
+                  className="px-4 py-1.5 border border-black/20 dark:border-white/20 rounded-full text-xs tracking-widest text-black dark:text-white dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all font-[family-name:var(--font-inter)]"
                 >
                   {tag}
                 </button>
               ))}
             </div>
             {/* Close Button */}
-            <button onClick={() => setSearchOpen(false)} className="absolute top-5 right-6 text-black/40 hover:text-black transition-colors p-2">
+            <button onClick={() => setSearchOpen(false)} className="absolute top-5 right-6 text-black dark:text-white dark:text-white hover:text-black dark:hover:text-white transition-colors p-2">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>

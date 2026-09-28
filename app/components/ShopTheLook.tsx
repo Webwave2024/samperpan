@@ -180,7 +180,7 @@ export function ShopTheLook() {
               
               {/* Product Details (Hidden by default, shown on hover) */}
               <div className="product-details absolute bottom-0 left-0 w-full p-4 text-center opacity-0 translate-y-2 bg-gradient-to-t from-black via-black to-transparent">
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1 line-clamp-1">{product.title}</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-black dark:text-white mb-1 line-clamp-1">{product.title}</p>
                 <p className="text-sm font-bold text-white">{product.price}</p>
               </div>
             </Link>

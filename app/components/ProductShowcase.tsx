@@ -142,7 +142,7 @@ export function ProductShowcase() {
             ref={lineRef}
             className="mx-auto mt-6 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent w-64 origin-center"
           />
-          <p ref={subRef} className="mt-6 text-black/70 text-base md:text-lg max-w-xl mx-auto font-[family-name:var(--font-inter)] leading-relaxed">
+          <p ref={subRef} className="mt-6 text-black dark:text-white text-base md:text-lg max-w-xl mx-auto font-[family-name:var(--font-inter)] leading-relaxed">
             {t("subheading")}
           </p>
         </div>
@@ -197,7 +197,7 @@ export function ProductShowcase() {
                 <h3 className="text-white font-semibold text-lg font-[family-name:var(--font-playfair)] mb-1">
                   SIDHANT {t(product.tagKey)}
                 </h3>
-                <p className="text-white/80 text-xs tracking-wider mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                <p className="text-black dark:text-white text-xs tracking-wider mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
                   {t("viewCollection")}
                 </p>
                 <button

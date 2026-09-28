@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
+import { useTheme } from "next-themes";
 
 interface ProductProps {
   id: string;
@@ -122,21 +123,26 @@ const FALLBACK = {
 
 export function ProductDetails({ id }: ProductProps) {
   const locale = useLocale();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const product = PRODUCTS[id] ?? { ...FALLBACK, name: `SIDHANT — ${id}` };
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   return (
-    <div className="w-full min-h-screen bg-[#faf9f7] pt-28 pb-24 text-black">
+    <div
+      className="w-full min-h-screen pt-28 pb-24 transition-colors duration-300"
+      style={{ backgroundColor: isDark ? "#000" : "#fff", color: isDark ? "#fff" : "#000" }}
+    >
       <div className="container mx-auto px-6 max-w-7xl">
 
         {/* ── Breadcrumb ─────────────────────────────────────────────── */}
-        <div className="text-[10px] tracking-[0.3em] uppercase text-black/40 mb-10 font-[family-name:var(--font-inter)] flex items-center gap-2">
-          <Link href={`/${locale}`} className="hover:text-black transition-colors">Home</Link>
+        <div className={`text-[10px] tracking-[0.3em] uppercase mb-10 font-[family-name:var(--font-inter)] flex items-center gap-2 ${isDark ? "text-white/70" : "text-black/70"}`}>
+          <Link href={`/${locale}`} className="hover:text-[#2e8b57] transition-colors">Home</Link>
           <span>/</span>
-          <Link href={`/${locale}#collection`} className="hover:text-black transition-colors">Collection</Link>
+          <Link href={`/${locale}#collection`} className="hover:text-[#2e8b57] transition-colors">Collection</Link>
           <span>/</span>
-          <span className="text-black/70">{product.name}</span>
+          <span>{product.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
@@ -144,7 +150,7 @@ export function ProductDetails({ id }: ProductProps) {
           {/* ── Image Gallery ──────────────────────────────────────────── */}
           <div className="flex flex-col gap-4">
             {/* Main Image */}
-            <div className="relative w-full aspect-[3/4] bg-[#f0ece4] overflow-hidden">
+            <div className="relative w-full aspect-[3/4] overflow-hidden" style={{ backgroundColor: isDark ? "#111" : "#f3f4f6" }}>
               <Image
                 src={product.images[activeImage]}
                 alt={product.name}
@@ -166,8 +172,8 @@ export function ProductDetails({ id }: ProductProps) {
                   onClick={() => setActiveImage(idx)}
                   className={`relative aspect-[3/4] overflow-hidden transition-all duration-300 ${
                     activeImage === idx
-                      ? "ring-2 ring-black ring-offset-1"
-                      : "opacity-55 hover:opacity-90"
+                      ? `ring-2 ring-[#2e8b57] ring-offset-1 ${isDark ? "ring-offset-black" : "ring-offset-white"}`
+                      : "opacity-50 hover:opacity-100"
                   }`}
                 >
                   <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" unoptimized />
@@ -180,43 +186,43 @@ export function ProductDetails({ id }: ProductProps) {
           <div className="flex flex-col pt-2 lg:sticky lg:top-28">
 
             {/* Label & Name */}
-            <p className="text-[10px] tracking-[0.4em] uppercase text-black/40 mb-3 font-[family-name:var(--font-inter)]">
+            <p className={`text-[10px] tracking-[0.4em] uppercase mb-3 font-[family-name:var(--font-inter)] ${isDark ? "text-white/70" : "text-black/70"}`}>
               {product.label}
             </p>
             <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-playfair)] mb-2 leading-tight tracking-tight">
               {product.name}
             </h1>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-black/40 mb-6 font-[family-name:var(--font-inter)]">
+            <p className="text-[11px] tracking-[0.3em] uppercase text-[#2e8b57] mb-6 font-[family-name:var(--font-inter)]">
               {product.fabric}
             </p>
 
             {/* Price */}
             <div className="flex items-baseline gap-4 mb-8">
-              <span className="text-2xl font-[family-name:var(--font-inter)] font-semibold text-black">
+              <span className="text-2xl font-[family-name:var(--font-inter)] font-semibold">
                 {product.price}
               </span>
               {product.originalPrice && (
-                <span className="text-sm text-black/35 line-through font-[family-name:var(--font-inter)]">
+                <span className={`text-sm line-through font-[family-name:var(--font-inter)] ${isDark ? "text-white/60" : "text-black/60"}`}>
                   {product.originalPrice}
                 </span>
               )}
             </div>
 
             {/* Divider */}
-            <div className="w-full h-px bg-black/8 mb-8" />
+            <div className="w-full h-px mb-8" style={{ backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
 
             {/* Description */}
-            <p className="text-sm text-black/65 leading-relaxed font-[family-name:var(--font-inter)] mb-10 max-w-lg">
+            <p className={`text-sm leading-relaxed font-[family-name:var(--font-inter)] mb-10 max-w-lg ${isDark ? "text-white/70" : "text-black/70"}`}>
               {product.description}
             </p>
 
             {/* Size Selector */}
             <div className="mb-10">
               <div className="flex justify-between items-center mb-5">
-                <span className="text-[10px] tracking-[0.25em] uppercase font-semibold font-[family-name:var(--font-inter)]">
-                  Select Size {selectedSize && <span className="text-black/50 ml-2">— {selectedSize}</span>}
+                <span className={`text-[10px] tracking-[0.25em] uppercase font-semibold font-[family-name:var(--font-inter)] ${isDark ? "text-white" : "text-black"}`}>
+                  Select Size {selectedSize && <span className="text-[#2e8b57] ml-2">— {selectedSize}</span>}
                 </span>
-                <button className="text-[10px] text-black/40 hover:text-black transition-colors tracking-wider uppercase underline underline-offset-4">
+                <button className={`text-[10px] tracking-wider uppercase underline underline-offset-4 transition-colors ${isDark ? "text-white/70 hover:text-white" : "text-black/70 hover:text-black"}`}>
                   Size Guide
                 </button>
               </div>
@@ -227,8 +233,8 @@ export function ProductDetails({ id }: ProductProps) {
                     onClick={() => setSelectedSize(size)}
                     className={`w-12 h-12 border text-sm font-medium transition-all duration-200 font-[family-name:var(--font-inter)] ${
                       selectedSize === size
-                        ? "border-black bg-black text-white"
-                        : "border-black/20 hover:border-black text-black/70 hover:text-black"
+                        ? "border-[#2e8b57] bg-[#2e8b57] text-white"
+                        : `${isDark ? "border-white/20 hover:border-white text-white" : "border-black/20 hover:border-black text-black"}`
                     }`}
                   >
                     {size}
@@ -239,36 +245,36 @@ export function ProductDetails({ id }: ProductProps) {
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-3 mb-12">
-              <button className="w-full py-4 bg-black text-white text-[11px] tracking-[0.3em] uppercase font-semibold hover:bg-black/80 transition-colors duration-300 font-[family-name:var(--font-inter)]">
+              <button className="w-full py-4 bg-[#0d6b3e] text-white text-[11px] tracking-[0.3em] uppercase font-semibold hover:bg-[#2e8b57] transition-colors duration-300 font-[family-name:var(--font-inter)]">
                 Add to Bag
               </button>
-              <button className="w-full py-4 bg-transparent border border-black text-black text-[11px] tracking-[0.3em] uppercase font-semibold hover:bg-black/5 transition-colors duration-300 font-[family-name:var(--font-inter)]">
+              <button className={`w-full py-4 bg-transparent text-[11px] tracking-[0.3em] uppercase font-semibold transition-colors duration-300 font-[family-name:var(--font-inter)] ${isDark ? "border border-white/30 text-white hover:bg-white/10" : "border border-black/30 text-black hover:bg-black/10"}`}>
                 Buy it Now
               </button>
             </div>
 
             {/* Product Details Accordion */}
-            <div className="border-t border-black/10">
-              <div className="py-6 border-b border-black/10">
+            <div className={`border-t ${isDark ? "border-white/10" : "border-black/10"}`}>
+              <div className={`py-6 border-b ${isDark ? "border-white/10" : "border-black/10"}`}>
                 <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold mb-5 font-[family-name:var(--font-inter)]">
                   Product Details
                 </h3>
                 <ul className="space-y-2.5">
                   {product.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-sm text-black/60 font-[family-name:var(--font-inter)]">
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-black/30 shrink-0" />
+                    <li key={idx} className={`flex items-start gap-3 text-sm font-[family-name:var(--font-inter)] ${isDark ? "text-white/70" : "text-black/70"}`}>
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-[#2e8b57] shrink-0" />
                       {detail}
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="py-5 border-b border-black/10">
+              <div className={`py-5 border-b ${isDark ? "border-white/10" : "border-black/10"}`}>
                 <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold font-[family-name:var(--font-inter)] flex justify-between items-center">
                   Shipping & Returns
                   <span className="text-lg font-light">+</span>
                 </h3>
               </div>
-              <div className="py-5 border-b border-black/10">
+              <div className={`py-5 border-b ${isDark ? "border-white/10" : "border-black/10"}`}>
                 <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold font-[family-name:var(--font-inter)] flex justify-between items-center">
                   Care Instructions
                   <span className="text-lg font-light">+</span>
@@ -279,9 +285,9 @@ export function ProductDetails({ id }: ProductProps) {
             {/* Back link */}
             <Link
               href={`/${locale}#collection`}
-              className="mt-8 inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-black/40 hover:text-black transition-colors font-[family-name:var(--font-inter)] group"
+              className="mt-8 inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#2e8b57]/80 hover:text-[#2e8b57] transition-colors font-[family-name:var(--font-inter)] group"
             >
-              <span className="w-6 h-px bg-black/30 group-hover:w-10 group-hover:bg-black transition-all duration-500" />
+              <span className="w-6 h-px bg-[#2e8b57]/50 group-hover:w-10 group-hover:bg-[#2e8b57] transition-all duration-500" />
               Back to Collection
             </Link>
           </div>

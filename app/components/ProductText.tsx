@@ -7,7 +7,7 @@ export function ProductText() {
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.04em] mb-4">
           NOIR COLLECTION
         </h1>
-        <p className="font-sans text-xs md:text-sm tracking-[0.18em] uppercase text-black/70">
+        <p className="font-sans text-xs md:text-sm tracking-[0.18em] uppercase text-black dark:text-white">
           Cinematic Realism in Three.js
         </p>
       </div>
@@ -15,7 +15,7 @@ export function ProductText() {
       {/* Detail / Fabric text for the macro shot */}
       <div id="macro-text" className="absolute left-[10%] top-[40%] opacity-0 -translate-x-10 max-w-xs">
         <h2 className="font-serif text-3xl mb-2">Woven Perfection</h2>
-        <p className="font-sans text-xs tracking-widest leading-loose text-black/70">
+        <p className="font-sans text-xs tracking-widest leading-loose text-black dark:text-white">
           Every thread calculated. A masterpiece of digital tailoring and realistic PBR rendering.
         </p>
       </div>

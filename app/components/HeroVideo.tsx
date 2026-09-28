@@ -57,11 +57,11 @@ export function HeroVideo() {
           </div>
         </div>
 
-        <div ref={subtitleRef} className="mt-8 text-lg md:text-2xl tracking-[0.2em] uppercase text-gray-100 font-[family-name:var(--font-inter)] drop-shadow-md">
+        <div ref={subtitleRef} className="mt-8 text-lg md:text-2xl tracking-[0.2em] uppercase text-black dark:text-white font-[family-name:var(--font-inter)] drop-shadow-md">
           {t("subtitle")}
         </div>
 
-        <p ref={paragraphRef} className="mt-6 text-sm md:text-base text-gray-200 font-[family-name:var(--font-inter)] max-w-3xl leading-relaxed drop-shadow-md">
+        <p ref={paragraphRef} className="mt-6 text-sm md:text-base text-black dark:text-white font-[family-name:var(--font-inter)] max-w-3xl leading-relaxed drop-shadow-md">
           {t("paragraph")}
         </p>
 

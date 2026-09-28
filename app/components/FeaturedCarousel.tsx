@@ -17,20 +17,6 @@ const items = [
     src: '/33-1-scaled.webp',
     title: 'CROW THEORY SUIT SET',
     subtitle: 'ZARI EMBROIDERY'
-  },
-  {
-    id: 3,
-    type: 'video',
-    src: '/WhatsApp%20Video%202026-09-17%20at%2010.05.41%20AM.mp4',
-    title: 'MANGO ANARKALI',
-    subtitle: 'FESTIVE COLLECTION'
-  },
-  {
-    id: 4,
-    type: 'image',
-    src: '/34-1-scaled.webp',
-    title: 'GAMBLER SHARARA SET',
-    subtitle: 'SILK BLEND'
   }
 ];
 
@@ -39,9 +25,9 @@ export function FeaturedCarousel() {
   const locale = useLocale();
 
   return (
-    <section className="w-full bg-[#ffffff] text-black py-12 px-6 md:px-16 border-b border-black/5">
+    <section className="w-full transition-colors duration-300 bg-white dark:bg-[#000] text-black dark:text-white py-12 px-6 md:px-16 border-b border-black/5 dark:border-white/5">
       <div className="mb-8">
-        <h2 className="text-sm font-sans tracking-widest uppercase text-black/60">Limited Edition Kurtis & Suits</h2>
+        <h2 className="text-sm font-sans tracking-widest uppercase text-black dark:text-white dark:text-white">Limited Edition Kurtis & Suits</h2>
       </div>
       
       <div 
@@ -86,7 +72,7 @@ export function FeaturedCarousel() {
             
             <div className="mt-6 text-center px-2">
               <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase mb-1">{item.title}</h3>
-              <p className="text-[8px] text-black/40 tracking-[0.25em] uppercase">{item.subtitle}</p>
+              <p className="text-[8px] text-black dark:text-white tracking-[0.25em] uppercase">{item.subtitle}</p>
             </div>
           </Link>
         ))}

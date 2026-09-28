@@ -6,6 +6,7 @@ import "../globals.css";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { SmoothScroll } from "../components/SmoothScroll";
+import { ThemeProvider } from "../components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,17 +38,20 @@ export default async function RootLayout(props: Readonly<{
       lang={lang}
       dir={lang === "ar" ? "rtl" : "ltr"}
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#0d0d0d] text-white overflow-x-hidden">
-        <NextIntlClientProvider messages={messages}>
-          <SmoothScroll>
-            <Header />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-          </SmoothScroll>
-        </NextIntlClientProvider>
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#ffffff] text-black dark:bg-[#0d0d0d] dark:text-white overflow-x-hidden overflow-y-auto transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <NextIntlClientProvider messages={messages}>
+            <SmoothScroll>
+              <Header />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer />
+            </SmoothScroll>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
