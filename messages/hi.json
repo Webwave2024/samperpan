@@ -2,7 +2,23 @@
   "header": {
     "collections": "संग्रह",
     "atelier": "एटेलियर",
-    "contact": "संपर्क"
+    "contact": "संपर्क",
+    "home": "होम",
+    "aboutUs": "हमारे बारे में",
+    "virtualExperience": "आभासी अनुभव",
+    "theAtelierExperience": "एटेलियर अनुभव",
+    "virtualTour": "360° आभासी यात्रा ↗",
+    "searchProducts": "उत्पाद खोजें",
+    "searchPlaceholder": "कुर्तियां, सूट, अनारकली खोजें...",
+    "go": "खोजें",
+    "popular": "लोकप्रिय:",
+    "yourBag": "आपका बैग",
+    "yourBagEmpty": "आपका बैग खाली है",
+    "continueShopping": "खरीदारी जारी रखें",
+    "size": "आकार:",
+    "subtotal": "उप-योग",
+    "shippingCalculated": "शिपिंग और करों की गणना चेकआउट पर की जाएगी",
+    "checkout": "चेकआउट"
   },
   "hero": {
     "titleLeft": "फैशन जो",

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTheme } from "next-themes";
+import { useTheme } from "./ThemeProvider";
 
 export function AboutUs() {
   const { resolvedTheme } = useTheme();

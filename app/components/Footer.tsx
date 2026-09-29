@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslation } from "../i18n/client";
 
-export function Footer() {
-  const t = useTranslations("footer");
-  const locale = useLocale();
+export function Footer({ lang = 'en' }: { lang?: string }) {
+  const { t } = useTranslation(lang, "footer");
+  const locale = lang;
 
   return (
     <footer className="w-full bg-[#ffffff] text-black dark:text-white pt-16 pb-6 px-6 border-t border-black/5 mt-auto dark:bg-[#0a0a0a] dark:text-white dark:border-white/5 transition-colors duration-300">

@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
+import { useParams } from "next/navigation";
 
 const items = [
   {
@@ -22,7 +22,7 @@ const items = [
 
 export function FeaturedCarousel() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const locale = useLocale();
+  const locale = useParams().lang as string;
 
   return (
     <section className="w-full transition-colors duration-300 bg-white dark:bg-[#000] text-black dark:text-white py-12 px-6 md:px-16 border-b border-black/5 dark:border-white/5">

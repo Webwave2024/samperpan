@@ -5,13 +5,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function RoyalGateway() {
   const router = useRouter();
-  const locale = useLocale();
+  const locale = useParams().lang as string;
   const containerRef = useRef<HTMLDivElement>(null);
   const retailCardRef = useRef<HTMLButtonElement>(null);
   const wholesaleCardRef = useRef<HTMLButtonElement>(null);

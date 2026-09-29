@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale } from "next-intl";
-import { useTheme } from "next-themes";
+import { useParams } from "next/navigation";
+import { useTheme } from "./ThemeProvider";
 import { useCurrency } from "../context/CurrencyContext";
 
 interface ProductProps {
@@ -153,7 +153,7 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function ProductDetails({ id }: ProductProps) {
-  const locale = useLocale();
+  const locale = useParams().lang as string;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);

@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useTranslations, useLocale } from "next-intl";
+import { useParams } from "next/navigation";
+import { useTranslation } from "../i18n/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -45,8 +46,8 @@ const products = [
 ];
 
 export function ProductShowcase() {
-  const t = useTranslations("products");
-  const locale = useLocale();
+  const locale = useParams().lang as string;
+  const { t } = useTranslation(locale, "products");
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);

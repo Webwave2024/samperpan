@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 import { useCurrency } from "../context/CurrencyContext";
-import { useTheme } from "next-themes";
+import { useTheme } from "./ThemeProvider";
 
 type Step = "contact" | "shipping" | "payment";
 
@@ -22,7 +22,7 @@ const SHIPPING_OPTIONS = [
 ];
 
 export function CheckoutClient() {
-  const locale = useLocale();
+  const locale = useParams().lang as string;
   const { formatPrice, currency } = useCurrency();
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [mounted, setMounted] = useState(false);

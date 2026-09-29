@@ -1,9 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { useTranslation } from "../i18n/client";
 
 export function ContactForm() {
-  const t = useTranslations("footer");
+  const locale = useParams().lang as string;
+  const { t } = useTranslation(locale, "footer");
 
   return (
     <div className="w-full min-h-screen bg-[#ffffff] dark:bg-[#0d0d0d] pt-32 pb-24 text-black dark:text-white transition-colors duration-300">

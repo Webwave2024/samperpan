@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { useTheme } from "next-themes";
+import { useTheme } from "./ThemeProvider";
 import { useCurrency } from "../context/CurrencyContext";
 
 interface DigitalShowroomProps {
@@ -565,7 +565,7 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
     setModalType(type);
     setModalOpen(true);
   };
-  const locale = useLocale();
+  const locale = useParams().lang as string;
   const searchParams = useSearchParams();
   const { resolvedTheme } = useTheme();
   // Avoid hydration mismatch: use a stable default until client mounts

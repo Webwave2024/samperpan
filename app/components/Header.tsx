@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslation } from "../i18n/client";
 import { useRouter, usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
+import { useTheme } from "./ThemeProvider";
 import { useCurrency } from "../context/CurrencyContext";
 
 const CURRENCIES = [
@@ -33,9 +33,9 @@ const LOCALES = [
   { code: "pt", label: "Português", flag: "🇵🇹" },
 ];
 
-export function Header() {
-  const t = useTranslations("header");
-  const locale = useLocale();
+export function Header({ lang = 'en' }: { lang?: string }) {
+  const { t, i18n } = useTranslation(lang, "header");
+  const locale = lang;
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [currencyOpen, setCurrencyOpen] = useState(false);
@@ -321,28 +321,28 @@ export function Header() {
           {/* Menu Items */}
           <nav className="flex flex-col gap-8">
             <Link href={`/${locale}`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Home</span>
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('home')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
             <Link href={`/${locale}/about`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">About Us</span>
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('aboutUs')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
             <Link href={`/${locale}/collections`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Collections</span>
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('collections')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
             <Link href={`/${locale}/contact`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Contact</span>
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('contact')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
             {/* ── Atelier Experience — 360° Virtual Tour ── */}
             <div className="border-t mt-2 pt-8" style={{ borderColor: "rgba(46,139,87,0.2)" }}>
-              <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(46,139,87,0.6)" }}>Virtual Experience</p>
+              <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(46,139,87,0.6)" }}>{t('virtualExperience')}</p>
               <a
                 href="https://tourmkr.com/F1cqhLlGg3/47874105p&251.09h&78.25t"
                 target="_blank"
@@ -354,8 +354,8 @@ export function Header() {
                 onMouseLeave={e => (e.currentTarget.style.color = "#2e8b57")}
               >
                 <div className="flex flex-col">
-                  <span className="text-base font-[family-name:var(--font-inter)] font-light tracking-wide">The Atelier Experience</span>
-                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(46,139,87,0.5)" }}>360° Virtual Tour ↗</span>
+                  <span className="text-base font-[family-name:var(--font-inter)] font-light tracking-wide">{t('theAtelierExperience')}</span>
+                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(46,139,87,0.5)" }}>{t('virtualTour')}</span>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </a>
@@ -369,7 +369,7 @@ export function Header() {
         <div className="fixed inset-0 z-[100] flex flex-col">
           {/* Search Panel */}
           <div className="relative bg-white dark:bg-[#000] w-full shadow-2xl px-6 py-8 md:py-12 transition-colors duration-300">
-            <p className="text-xs tracking-[0.3em] uppercase text-black dark:text-white dark:text-white mb-6 font-[family-name:var(--font-inter)]">Search Products</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-black dark:text-white dark:text-white mb-6 font-[family-name:var(--font-inter)]">{t('searchProducts')}</p>
             <form onSubmit={handleSearch} className="flex items-center gap-3 border-b-2 border-black dark:border-white pb-3">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-black dark:text-white dark:text-white shrink-0">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -380,7 +380,7 @@ export function Header() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search kurtis, suits, anarkalis..."
+                placeholder={t('searchPlaceholder')}
                 className="flex-1 text-xl md:text-3xl font-[family-name:var(--font-playfair)] bg-transparent border-none outline-none placeholder-black/20 dark:placeholder-white/20 text-black dark:text-white"
               />
               {searchQuery && (
@@ -397,7 +397,7 @@ export function Header() {
             </form>
             {/* Quick Tags */}
             <div className="mt-6 flex gap-3 flex-wrap">
-              <span className="text-xs text-black dark:text-white dark:text-white mr-2 font-[family-name:var(--font-inter)] self-center">Popular:</span>
+              <span className="text-xs text-black dark:text-white dark:text-white mr-2 font-[family-name:var(--font-inter)] self-center">{t('popular')}</span>
               {["KURTIS", "SUIT SETS", "ANARKALIS", "SHARARAS", "DUPATTAS"].map(tag => (
                 <button
                   key={tag}
@@ -436,7 +436,7 @@ export function Header() {
           style={{ borderColor: "rgba(46,139,87,0.25)" }}
         >
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-[family-name:var(--font-playfair)]">Your Bag</h2>
+            <h2 className="text-2xl font-[family-name:var(--font-playfair)]">{t('yourBag')}</h2>
             <button onClick={() => setCartOpen(false)} className="hover:text-amber-500 transition-colors p-2">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
@@ -446,8 +446,8 @@ export function Header() {
             {cartItems.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-black/50 dark:text-white/50">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mb-4 opacity-50"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                <p className="text-xs font-[family-name:var(--font-inter)] tracking-[0.2em] uppercase">Your bag is empty</p>
-                <button onClick={() => setCartOpen(false)} className="mt-6 text-[10px] tracking-widest text-[#2e8b57] uppercase underline">Continue Shopping</button>
+                <p className="text-xs font-[family-name:var(--font-inter)] tracking-[0.2em] uppercase">{t('yourBagEmpty')}</p>
+                <button onClick={() => setCartOpen(false)} className="mt-6 text-[10px] tracking-widest text-[#2e8b57] uppercase underline">{t('continueShopping')}</button>
               </div>
             ) : (
               <div className="flex flex-col gap-6">
@@ -471,7 +471,7 @@ export function Header() {
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                       </div>
-                      <p className="text-xs text-black/60 dark:text-white/60 mb-3 uppercase tracking-wider font-[family-name:var(--font-inter)]">Size: {item.size}</p>
+                      <p className="text-xs text-black/60 dark:text-white/60 mb-3 uppercase tracking-wider font-[family-name:var(--font-inter)]">{t('size')} {item.size}</p>
                       
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center gap-3 border border-black/10 dark:border-white/10 rounded-full px-2 py-1">
@@ -511,7 +511,7 @@ export function Header() {
           {cartItems.length > 0 && (
             <div className="pt-6 mt-6 border-t border-black/10 dark:border-white/10">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-xs font-semibold uppercase tracking-widest text-black/60 dark:text-white/60">Subtotal</span>
+                <span className="text-xs font-semibold uppercase tracking-widest text-black/60 dark:text-white/60">{t('subtotal')}</span>
                 <span className="text-xl font-bold font-[family-name:var(--font-inter)]">
                   {formatPrice(cartItems.reduce((acc, item) => acc + (parseInt(item.price.replace(/\D/g, '')) * item.quantity), 0))}
                 </span>

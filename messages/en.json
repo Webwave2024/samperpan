@@ -2,7 +2,23 @@
   "header": {
     "collections": "Collections",
     "atelier": "Atelier",
-    "contact": "Contact"
+    "contact": "Contact",
+    "home": "Home",
+    "aboutUs": "About Us",
+    "virtualExperience": "Virtual Experience",
+    "theAtelierExperience": "The Atelier Experience",
+    "virtualTour": "360° Virtual Tour ↗",
+    "searchProducts": "Search Products",
+    "searchPlaceholder": "Search kurtis, suits, anarkalis...",
+    "go": "Go",
+    "popular": "Popular:",
+    "yourBag": "Your Bag",
+    "yourBagEmpty": "Your bag is empty",
+    "continueShopping": "Continue Shopping",
+    "size": "Size:",
+    "subtotal": "Subtotal",
+    "shippingCalculated": "Shipping & taxes calculated at checkout",
+    "checkout": "Checkout"
   },
   "hero": {
     "titleLeft": "Ethnic Wear That",

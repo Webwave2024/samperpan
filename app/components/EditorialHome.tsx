@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -256,7 +256,7 @@ function JaliPartnerSection({ locale }: { locale: string }) {
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
 export function LuxuryExperience() {
-  const locale = useLocale();
+  const locale = useParams().lang as string;
   const heroRef = useRef<HTMLElement>(null);
   const heroTitleRef = useRef<HTMLDivElement>(null);
   const heroMetaRef = useRef<HTMLParagraphElement>(null);

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import "../globals.css";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
@@ -31,9 +29,6 @@ export default async function RootLayout(props: Readonly<{
   const { children } = props;
   const { lang } = await props.params;
 
-  // Providing all messages to the client side
-  const messages = await getMessages();
-
   return (
     <html
       lang={lang}
@@ -44,15 +39,13 @@ export default async function RootLayout(props: Readonly<{
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-[#ffffff] text-black dark:bg-[#0d0d0d] dark:text-white overflow-x-hidden overflow-y-auto transition-colors duration-300">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <CurrencyProvider>
-            <NextIntlClientProvider messages={messages}>
               <SmoothScroll>
-                <Header />
+                <Header lang={lang} />
                 <main className="flex-grow">
                   {children}
                 </main>
-                <Footer />
+                <Footer lang={lang} />
               </SmoothScroll>
-            </NextIntlClientProvider>
           </CurrencyProvider>
         </ThemeProvider>
       </body>

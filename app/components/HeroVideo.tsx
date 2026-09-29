@@ -2,12 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { useTranslations, useLocale } from "next-intl";
+import { useParams } from "next/navigation";
+import { useTranslation } from "../i18n/client";
 import { useRouter } from "next/navigation";
 
 export function HeroVideo() {
-  const t = useTranslations("hero");
-  const locale = useLocale();
+  const locale = useParams().lang as string;
+  const { t } = useTranslation(locale, "hero");
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const leftTextRef = useRef<HTMLDivElement>(null);
