@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
@@ -10,228 +11,249 @@ interface ProductProps {
   id: string;
 }
 
-// ─── Product Database ─────────────────────────────────────────────────────────
+// ─── Product Database (keyed by numeric string ID matching retail grid) ────────
 const PRODUCTS: Record<string, {
-  name: string;
-  label: string;
+  title: string;
   price: string;
-  originalPrice?: string;
+  rating: number;
+  reviews: number;
   category: string;
   fabric: string;
   description: string;
   details: string[];
   sizes: string[];
-  images: string[];
+  image: string;
 }> = {
-  "the-regal": {
-    name: "The Regal",
-    label: "Ivory Chanderi Kurta Set",
-    price: "₹12,500",
-    originalPrice: "₹15,000",
-    category: "Kurta Set",
-    fabric: "Pure Chanderi Silk",
-    description:
-      "The Regal is an ode to quiet opulence. Woven from pure chanderi silk sourced from Madhya Pradesh, this ivory kurta set features hand-embroidered zardozi on the neckline and cuffs. Its straight silhouette drapes effortlessly, making it perfect for festive occasions, weddings, and formal events.",
-    details: [
-      "Pure chanderi silk — sourced from Chanderi, Madhya Pradesh",
-      "Hand-embroidered zardozi neckline and cuffs",
-      "Straight silhouette with side slits",
-      "Comes with matching palazzo pants & dupatta",
-      "Dry clean only",
-      "Made in India — artisan-crafted",
-    ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    images: [
-      "/33-1-scaled.webp",
-      "/35-1-scaled.webp",
-      "/36-1-scaled.webp",
-      "/37-1-scaled.webp",
-    ],
-  },
-  "the-nawab": {
-    name: "The Nawab",
-    label: "Deep Navy Sherwani Suit",
-    price: "₹28,000",
-    originalPrice: "₹34,000",
-    category: "Sherwani Suit",
-    fabric: "Premium Wool Blend",
-    description:
-      "The Nawab commands presence. Tailored from a premium wool-silk blend in a deep navy colourway, this sherwani suit features intricate thread-work on the collar and sleeves. A structured silhouette with a bandhgala collar and hand-stitched buttonholes makes this the definitive choice for wedding seasons and celebrations.",
-    details: [
-      "Premium wool-silk blend fabric",
-      "Hand-stitched bandhgala (Nehru) collar",
-      "Intricate silver thread embroidery on collar & cuffs",
-      "Fully lined with breathable bemberg silk",
-      "Custom trouser with side seam detailing included",
-      "Two fittings included with bespoke orders",
-      "Dry clean only",
-      "Made in India — master tailor crafted",
-    ],
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    images: [
-      "/34-1-scaled.webp",
-      "/33-1-scaled.webp",
-      "/41-scaled.webp",
-      "/42-1-scaled.webp",
-    ],
-  },
-  "the-rosette": {
-    name: "The Rosette",
-    label: "Blush Pink Anarkali Kurta",
-    price: "₹9,800",
-    originalPrice: "₹12,000",
-    category: "Anarkali Kurta",
-    fabric: "Georgette & Mulmul",
-    description:
-      "The Rosette is femininity in motion. Crafted from layered georgette over a mulmul inner, this blush pink Anarkali flows with every step. Delicate chikankari embroidery across the bodice and hem is done entirely by hand by artisans from Lucknow. A timeless piece that transitions seamlessly from celebrations to intimate gatherings.",
-    details: [
-      "Layered georgette over mulmul base",
-      "Lucknowi chikankari embroidery — 100% handcrafted",
-      "Flared Anarkali silhouette with full sweep",
-      "Includes matching churidar & organza dupatta",
-      "Pearl button closures at back neck",
-      "Dry clean recommended; hand wash in cold water",
-      "Made in India — Lucknow artisan collective",
-    ],
-    sizes: ["XS", "S", "M", "L", "XL"],
-    images: [
-      "/35-1-scaled.webp",
-      "/36-1-scaled.webp",
-      "/37-1-scaled.webp",
-      "/34-1-scaled.webp",
-    ],
-  },
+  "1":  { title: "The Ruby Flagship Set",       price: "₹18,999", rating: 4.5, reviews: 128, category: "Kurta Set",       fabric: "Pure Chanderi Silk",  description: "An exquisite kurta set crafted from pure chanderi silk with hand-embroidered zardozi on the neckline and cuffs. Its straight silhouette drapes effortlessly for festive occasions.",                                                                                            details: ["Pure chanderi silk","Hand-embroidered zardozi","Straight silhouette with side slits","Comes with palazzo & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM.jpeg" },
+  "2":  { title: "Midnight Zari Kurta",          price: "₹14,999", rating: 4.2, reviews: 94,  category: "Kurta",           fabric: "Premium Silk Blend", description: "Premium silk blend in deep midnight hue with intricate zari detailing. A structured silhouette perfect for festive occasions.",                                                                                                                                              details: ["Premium silk blend","Intricate zari detailing","Structured silhouette","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM (1).jpeg" },
+  "3":  { title: "Ivory Silk Ensemble",          price: "₹16,499", rating: 4.7, reviews: 211, category: "Ensemble",        fabric: "Pure Silk",          description: "Femininity in motion. This ivory ensemble flows with every step with delicate chikankari embroidery done entirely by hand by artisans from Lucknow.",                                                                                                                        details: ["Pure silk","Lucknowi chikankari embroidery","Flared silhouette","Includes dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM (2).jpeg" },
+  "4":  { title: "Royal Emerald Kurti",          price: "₹8,499",  rating: 4.3, reviews: 76,  category: "Kurti",           fabric: "Georgette",          description: "A regal emerald green kurti crafted from luxurious georgette with delicate embroidery. Perfect for both casual and semi-formal occasions.",                                                                                                                               details: ["Premium georgette","Hand-embroidered details","A-line silhouette","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM (3).jpeg" },
+  "5":  { title: "Golden Thread Sharara",        price: "₹9,299",  rating: 4.6, reviews: 153, category: "Sharara Set",     fabric: "Net & Georgette",    description: "Intricate golden thread work on a soft net and georgette base. This sharara set brings regal elegance to every celebration.",                                                                                                                                           details: ["Net and georgette blend","Golden thread embroidery","Wide-leg sharara","Includes kurta & dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.38 PM.jpeg" },
+  "6":  { title: "Organza Handloom Dupatta",     price: "₹24,999", rating: 4.8, reviews: 307, category: "Dupatta Set",     fabric: "Pure Organza",       description: "Handwoven organza with intricate handloom detailing. A timeless piece that adds grace to any ensemble.",                                                                                                                                                                  details: ["Pure organza fabric","Handloom woven","Hand-embroidered border","Dry clean only","Made in India"], sizes: ["Free Size"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.38 PM (1).jpeg" },
+  "7":  { title: "Crimson Velvet Anarkali",      price: "₹21,999", rating: 4.1, reviews: 88,  category: "Anarkali",        fabric: "Premium Velvet",     description: "Luxurious crimson velvet Anarkali with stone-studded yoke and embroidered hem. A statement piece for grand occasions.",                                                                                                                                                  details: ["Premium velvet","Stone-studded yoke","Embroidered hem","Flared Anarkali silhouette","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.38 PM (2).jpeg" },
+  "8":  { title: "Sapphire Silk Kurti",          price: "₹7,999",  rating: 4.4, reviews: 142, category: "Kurti",           fabric: "Pure Silk",          description: "A sapphire blue silk kurti with delicate pintuck detailing. Elegant enough for formal gatherings, comfortable enough for daily wear.",                                                                                                                                         details: ["Pure silk","Pintuck detailing","Mandarin collar","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.39 PM.jpeg" },
+  "9":  { title: "Blush Pink Anarkali",          price: "₹12,499", rating: 4.6, reviews: 179, category: "Anarkali",        fabric: "Georgette & Mulmul", description: "Crafted from layered georgette over mulmul, this blush pink Anarkali flows with every step. Delicate chikankari done by Lucknow artisans.",                                                                                                                          details: ["Layered georgette over mulmul","Chikankari embroidery","Flared silhouette","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.39 PM (1).jpeg" },
+  "10": { title: "Deep Navy Sherwani",           price: "₹19,999", rating: 4.9, reviews: 264, category: "Sherwani",        fabric: "Premium Wool Blend", description: "Commands presence. Tailored from premium wool-silk blend in deep navy with intricate thread-work on collar and sleeves. The definitive wedding season choice.",                                                                                                       details: ["Premium wool-silk blend","Bandhgala collar","Silver thread embroidery","Fully lined","Custom trouser included","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM.jpeg" },
+  "11": { title: "Mustard Chanderi Suit",        price: "₹11,499", rating: 4.3, reviews: 97,  category: "Suit Set",        fabric: "Pure Chanderi",      description: "Mustard chanderi suit set with intricate block printing and subtle zari border. A perfect fusion of traditional craft and contemporary style.",                                                                                                                        details: ["Pure chanderi","Block print design","Zari border detailing","Includes dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM (1).jpeg" },
+  "12": { title: "Teal Banarasi Lehenga",        price: "₹32,999", rating: 4.7, reviews: 193, category: "Lehenga Set",     fabric: "Banarasi Silk",      description: "Woven in the looms of Varanasi, this teal Banarasi lehenga features traditional gold zari motifs. An heirloom-worthy piece for bridal occasions.",                                                                                                                details: ["Pure Banarasi silk","Traditional gold zari motifs","Flared lehenga with dupatta","Heavy embroidered blouse","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM (2).jpeg" },
+  "13": { title: "Coral Georgette Kurta",        price: "₹6,999",  rating: 4.2, reviews: 61,  category: "Kurta",           fabric: "Georgette",          description: "A breezy coral georgette kurta with delicate floral embroidery. Light and comfortable, perfect for daytime festivities.",                                                                                                                                              details: ["Premium georgette","Floral embroidery","Regular fit","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM (3).jpeg" },
+  "14": { title: "Jade Silk Sherwani",           price: "₹22,999", rating: 4.5, reviews: 118, category: "Sherwani",        fabric: "Pure Silk",          description: "A distinguished jade green silk sherwani with gold embroidery on the collar and cuffs. Tailored to perfection for grand celebrations.",                                                                                                                           details: ["Pure silk","Gold embroidery on collar & cuffs","Bandhgala silhouette","Lining included","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.41 PM.jpeg" },
+  "15": { title: "Lavender Chikankari Set",      price: "₹13,499", rating: 4.6, reviews: 204, category: "Suit Set",        fabric: "Cotton Cambric",     description: "Elegantly embroidered lavender chikankari suit set by master artisans of Lucknow. Light fabric ideal for festive summer occasions.",                                                                                                                              details: ["Cotton cambric","Lucknowi chikankari","Straight cut kurta","Includes palazzo & dupatta","Hand wash recommended","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.41 PM (1).jpeg" },
+  "16": { title: "Maroon Brocade Jacket",        price: "₹17,999", rating: 4.3, reviews: 89,  category: "Jacket Kurta",    fabric: "Brocade & Silk",     description: "A rich maroon brocade jacket kurta set. The intricate brocade weave catches light beautifully at every angle.",                                                                                                                                                     details: ["Brocade outer jacket","Silk inner kurta","Nehru collar","Paired with trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.41 PM (2).jpeg" },
+  "17": { title: "Peach Embroidered Lehenga",    price: "₹28,999", rating: 4.8, reviews: 312, category: "Lehenga Set",     fabric: "Net & Satin",        description: "A dreamy peach lehenga with heavy thread and sequin embroidery. Perfect for bridal functions and grand receptions.",                                                                                                                                                details: ["Net overlay on satin base","Thread & sequin embroidery","Flared lehenga","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.42 PM.jpeg" },
+  "18": { title: "Forest Green Kurta Pajama",    price: "₹10,499", rating: 4.4, reviews: 137, category: "Kurta Pajama",    fabric: "Pure Cotton",        description: "A classic forest green kurta pajama with block print detailing. Breathable pure cotton makes it ideal for long festive days.",                                                                                                                                      details: ["Pure cotton","Block print design","Regular fit","Includes pajama","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.42 PM (1).jpeg" },
+  "19": { title: "Wine Velvet Anarkali",         price: "₹23,499", rating: 4.7, reviews: 186, category: "Anarkali",        fabric: "Premium Velvet",     description: "A rich wine velvet Anarkali with intricate mirror work and embroidered yoke. Designed to make a lasting impression.",                                                                                                                                               details: ["Premium velvet","Mirror work detailing","Embroidered yoke","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM.jpeg" },
+  "20": { title: "Butter Yellow Salwar Suit",    price: "₹8,999",  rating: 4.1, reviews: 72,  category: "Salwar Suit",     fabric: "Cotton Blend",       description: "A cheerful butter yellow salwar suit with delicate floral block prints. Light and comfortable for casual festive occasions.",                                                                                                                                      details: ["Cotton blend","Floral block prints","Straight cut kurta","Includes salwar & dupatta","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM (1).jpeg" },
+  "21": { title: "Steel Blue Bandhgala",         price: "₹15,999", rating: 4.5, reviews: 145, category: "Bandhgala",       fabric: "Premium Wool",       description: "A sophisticated steel blue bandhgala with subtle texture and impeccable tailoring. The go-to for formal events and corporate celebrations.",                                                                                                                        details: ["Premium wool","Structured bandhgala collar","Fully lined","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM (2).jpeg" },
+  "22": { title: "Rose Gold Sharara Set",        price: "₹19,499", rating: 4.6, reviews: 231, category: "Sharara Set",     fabric: "Silk & Net",         description: "An enchanting rose gold sharara set with delicate sequin work that shimmers with every movement. Ideal for sangeet and cocktail functions.",                                                                                                                   details: ["Silk kurta with net sharara","Sequin embroidery","Wide-leg silhouette","Includes dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM (3).jpeg" },
+  "23": { title: "Indigo Block Print Kurta",     price: "₹7,499",  rating: 4.3, reviews: 108, category: "Kurta",           fabric: "Pure Cotton",        description: "Hand-crafted indigo block print kurta from artisans of Bagru, Rajasthan. The natural indigo dye gives each piece a unique character.",                                                                                                                            details: ["Pure cotton","Natural indigo block print","Mandarin collar","Machine washable","Made in India — Bagru artisans"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.44 PM.jpeg" },
+  "24": { title: "Champagne Silk Dupatta",       price: "₹5,999",  rating: 4.4, reviews: 83,  category: "Dupatta",         fabric: "Pure Silk",          description: "A luxurious champagne silk dupatta with delicate zari border and hand-embroidered motifs at the edges.",                                                                                                                                                             details: ["Pure silk","Zari border","Hand-embroidered motifs","Dry clean only","Made in India"], sizes: ["Free Size"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.44 PM (1).jpeg" },
+  "25": { title: "Olive Khadi Jacket Kurta",     price: "₹12,999", rating: 4.2, reviews: 67,  category: "Jacket Kurta",    fabric: "Pure Khadi",         description: "A refined olive khadi jacket kurta set. Sustainable, breathable khadi fabric with a contemporary cut.",                                                                                                                                                         details: ["Pure khadi","Minimal embroidery","Structured jacket","Includes kurta & trousers","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.44 PM (2).jpeg" },
+  "26": { title: "Fuchsia Lehenga Choli",        price: "₹26,499", rating: 4.9, reviews: 278, category: "Lehenga Set",     fabric: "Silk & Organza",     description: "A stunning fuchsia lehenga choli with heavy resham and gota patti work. The vibrant colour and intricate craftsmanship make it a showstopper.",                                                                                                                  details: ["Silk lehenga","Organza dupatta","Resham & gota patti work","Flared silhouette","Includes blouse","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.45 PM.jpeg" },
+  "27": { title: "Turquoise Zardosi Kurta",      price: "₹16,999", rating: 4.5, reviews: 159, category: "Kurta Set",       fabric: "Pure Silk",          description: "A radiant turquoise silk kurta with elaborate zardosi embroidery on the yoke and sleeves. A piece of wearable art.",                                                                                                                                              details: ["Pure silk","Elaborate zardosi embroidery","Yoke & sleeve detailing","Includes palazzo","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.45 PM (1).jpeg" },
+  "28": { title: "Rust Angrakha Suit",           price: "₹11,999", rating: 4.3, reviews: 91,  category: "Angrakha Set",    fabric: "Cotton Silk",        description: "A traditional rust angrakha suit. The wrap-front silhouette is a revival of Mughal-era fashion, reimagined for today.",                                                                                                                                       details: ["Cotton silk blend","Wrap-front angrakha style","Includes salwar & dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.45 PM (2).jpeg" },
+  "29": { title: "Pearl White Sherwani",         price: "₹29,999", rating: 4.8, reviews: 322, category: "Sherwani",        fabric: "Premium Silk",       description: "Immaculate pearl white sherwani with intricate gold thread embroidery and pearl button detailing. The ultimate groom ensemble.",                                                                                                                                details: ["Premium silk","Gold thread embroidery","Pearl button closure","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM.jpeg" },
+  "30": { title: "Mauve Crepe Anarkali",         price: "₹13,999", rating: 4.4, reviews: 126, category: "Anarkali",        fabric: "Premium Crepe",      description: "A graceful mauve crepe Anarkali with subtle geometric embroidery. The fluid drape makes it ideal for long celebrations.",                                                                                                                                         details: ["Premium crepe","Geometric embroidery","Flared Anarkali","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM (1).jpeg" },
+  "31": { title: "Cobalt Kota Doria Kurta",      price: "₹9,499",  rating: 4.2, reviews: 79,  category: "Kurta",           fabric: "Kota Doria",         description: "Cobalt blue Kota Doria kurta with traditional hand-woven checks. Lightweight with a distinctive crispness ideal for summers.",                                                                                                                                  details: ["Authentic Kota Doria","Hand-woven checks","Straight fit","Machine washable","Made in India — Kota, Rajasthan"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM (2).jpeg" },
+  "32": { title: "Mint Chanderi Saree",          price: "₹18,499", rating: 4.6, reviews: 198, category: "Saree",           fabric: "Pure Chanderi",      description: "A delicate mint Chanderi saree with silver zari border and pallu. The translucent weave gives this saree an ethereal quality.",                                                                                                                                  details: ["Pure chanderi silk","Silver zari border & pallu","6 yards","Unstitched blouse fabric included","Dry clean only","Made in India — Chanderi, MP"], sizes: ["Free Size"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM (3).jpeg" },
+  "33": { title: "Bronze Embroidered Sherwani",  price: "₹27,999", rating: 4.7, reviews: 241, category: "Sherwani",        fabric: "Brocade Silk",       description: "A distinguished bronze brocade sherwani with heavy embroidery on the chest and cuffs. The rich texture makes it a timeless celebration choice.",                                                                                                             details: ["Brocade silk","Heavy chest & cuff embroidery","Bandhgala","Fully lined","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.47 PM.jpeg" },
+  "34": { title: "Dusty Rose Kurti",             price: "₹6,499",  rating: 4.3, reviews: 84,  category: "Kurti",           fabric: "Cotton Cambric",     description: "A charming dusty rose kurti with delicate floral embroidery on the yoke. Casual elegance at its finest.",                                                                                                                                                       details: ["Cotton cambric","Floral embroidery on yoke","A-line silhouette","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.47 PM (1).jpeg" },
+  "35": { title: "Tangerine Patola Suit",        price: "₹20,999", rating: 4.5, reviews: 167, category: "Suit Set",        fabric: "Patola Silk",        description: "Vibrant tangerine Patola silk suit with authentic double ikat weaving from the weavers of Patan, Gujarat.",                                                                                                                                                   details: ["Authentic Patola silk","Double ikat weaving","Includes salwar & dupatta","Dry clean only","Made in India — Patan, Gujarat"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.47 PM (2).jpeg" },
+  "36": { title: "Slate Grey Bandhgala Set",     price: "₹24,499", rating: 4.4, reviews: 113, category: "Bandhgala",       fabric: "Wool Blend",         description: "An elegant slate grey bandhgala suit with minimal embroidery and exceptional tailoring.",                                                                                                                                                                 details: ["Wool blend","Minimal embroidery","Bandhgala collar","Fully lined","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.48 PM.jpeg" },
+  "37": { title: "Lilac Net Lehenga",            price: "₹31,999", rating: 4.8, reviews: 289, category: "Lehenga Set",     fabric: "Net & Silk",         description: "A whimsical lilac net lehenga with intricate floral embroidery. The layers of net create a magical, voluminous silhouette.",                                                                                                                                   details: ["Layered net","Silk lining","Floral & sequin embroidery","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.48 PM (1).jpeg" },
+  "38": { title: "Saffron Mirror Work Kurta",    price: "₹10,999", rating: 4.6, reviews: 172, category: "Kurta Set",       fabric: "Cotton Silk",        description: "A vibrant saffron kurta with traditional Kutchi mirror work hand-stitched by artisans of Gujarat.",                                                                                                                                                       details: ["Cotton silk","Kutchi mirror work","Hand-stitched embellishments","Includes palazzo","Dry clean only","Made in India — Kutch, Gujarat"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.48 PM (2).jpeg" },
+  "39": { title: "Black Zari Sherwani",          price: "₹34,999", rating: 4.9, reviews: 341, category: "Sherwani",        fabric: "Premium Silk",       description: "The pinnacle of festive menswear — a black silk sherwani with gold zari embroidery masterfully tailored for grand occasions.",                                                                                                                              details: ["Premium silk","Gold zari embroidery","Bandhgala collar","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM.jpeg" },
+  "40": { title: "Peacock Blue Suit",            price: "₹14,499", rating: 4.5, reviews: 148, category: "Suit Set",        fabric: "Dupion Silk",        description: "A stunning peacock blue dupion silk suit with subtle texture and embroidered detailing.",                                                                                                                                                                    details: ["Dupion silk","Subtle texture","Embroidered detailing","Includes salwar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM (1).jpeg" },
+  "41": { title: "Cream Banarasi Dupatta",       price: "₹7,999",  rating: 4.2, reviews: 59,  category: "Dupatta",         fabric: "Banarasi Silk",      description: "A luxurious cream Banarasi silk dupatta with traditional gold zari motifs and richly embroidered pallu border.",                                                                                                                                            details: ["Banarasi silk","Gold zari motifs","Embroidered pallu border","Dry clean only","Made in India — Varanasi"], sizes: ["Free Size"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM (2).jpeg" },
+  "42": { title: "Magenta Silk Lehenga",         price: "₹29,499", rating: 4.7, reviews: 217, category: "Lehenga Set",     fabric: "Pure Silk",          description: "A breathtaking magenta silk lehenga with intricate zardosi embroidery and a sweeping flared skirt.",                                                                                                                                                      details: ["Pure silk","Zardosi embroidery","Flared lehenga","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM (3).jpeg" },
+  "43": { title: "Amber Linen Kurta",            price: "₹8,999",  rating: 4.3, reviews: 95,  category: "Kurta",           fabric: "Pure Linen",         description: "A refined amber linen kurta with minimal embroidery and a contemporary straight cut.",                                                                                                                                                                      details: ["Pure linen","Minimal embroidery","Straight cut","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.50 PM.jpeg" },
+  "44": { title: "Aqua Chikankari Kurti",        price: "₹9,999",  rating: 4.4, reviews: 132, category: "Kurti",           fabric: "Cotton Cambric",     description: "A fresh aqua chikankari kurti with delicate shadowwork by Lucknow artisans. Light, breathable, and endlessly elegant.",                                                                                                                                     details: ["Cotton cambric","Lucknowi shadowwork chikankari","A-line silhouette","Hand wash recommended","Made in India — Lucknow"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.50 PM (1).jpeg" },
+  "45": { title: "Beige Embroidered Sherwani",   price: "₹23,999", rating: 4.6, reviews: 188, category: "Sherwani",        fabric: "Silk Cotton",        description: "A sophisticated beige sherwani with intricate resham embroidery on the yoke and hem. Understated luxury for the discerning groom.",                                                                                                                         details: ["Silk cotton blend","Resham embroidery","Structured bandhgala","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.50 PM (2).jpeg" },
+  "46": { title: "Burgundy Velvet Lehenga",      price: "₹36,999", rating: 4.8, reviews: 334, category: "Lehenga Set",     fabric: "Premium Velvet",     description: "A regal burgundy velvet lehenga with heavy gold embroidery and a dramatic trail. The richness of velvet and masterful embroidery create an unforgettable bridal piece.",                                                                            details: ["Premium velvet","Heavy gold embroidery","Dramatic flared skirt","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM.jpeg" },
+  "47": { title: "Sea Green Georgette Suit",     price: "₹11,999", rating: 4.3, reviews: 101, category: "Suit Set",        fabric: "Georgette",          description: "A graceful sea green georgette suit with floral printed panels and delicate embroidery at the hem.",                                                                                                                                                        details: ["Premium georgette","Floral printed panels","Embroidered hem","Includes salwar & dupatta","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM (1).jpeg" },
+  "48": { title: "Gold Tissue Sharara",          price: "₹22,499", rating: 4.7, reviews: 209, category: "Sharara Set",     fabric: "Tissue Silk",        description: "A dazzling gold tissue sharara with intricate foil work and sequin detailing. The luminous fabric catches every light beautifully.",                                                                                                                        details: ["Tissue silk","Foil & sequin work","Wide-leg sharara","Includes kurta & dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM (2).jpeg" },
+  "49": { title: "Charcoal Nehru Jacket",        price: "₹12,999", rating: 4.4, reviews: 116, category: "Jacket Set",      fabric: "Wool Blend",         description: "A sharp charcoal Nehru jacket with subtle texture and brass button detailing. Pairs equally well over kurta or with a shirt.",                                                                                                                           details: ["Wool blend","Brass button detailing","Structured Nehru collar","Fully lined","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.52 PM.jpeg" },
+  "50": { title: "Pistachio Kalamkari Kurta",    price: "₹10,499", rating: 4.2, reviews: 74,  category: "Kurta Set",       fabric: "Cotton",             description: "A cheerful pistachio kurta with traditional Kalamkari hand-painted motifs from Andhra artisans. Unique, sustainable, and utterly beautiful.",                                                                                                        details: ["Pure cotton","Hand-painted Kalamkari","Straight silhouette","Includes palazzo","Machine washable","Made in India — Andhra Pradesh"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.52 PM (1).jpeg" },
+  "51": { title: "Crimson Bridal Lehenga",       price: "₹44,999", rating: 4.9, reviews: 398, category: "Bridal Lehenga",  fabric: "Pure Silk",          description: "The ultimate bridal statement — a crimson silk lehenga with over 500 hours of hand embroidery. Zardosi, dabka, and sequin work combine to create an heirloom piece.",                                                                                       details: ["Pure silk","500+ hours hand embroidery","Zardosi, dabka & sequin work","Includes blouse & dupatta","Complimentary alterations","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.52 PM (2).jpeg" },
+  "52": { title: "Sky Blue Lucknowi Kurta",      price: "₹13,499", rating: 4.5, reviews: 162, category: "Kurta Set",       fabric: "Cotton Silk",        description: "A celestial sky blue kurta set with elaborate Lucknowi chikankari. Artisan-crafted over several weeks by master embroiderers.",                                                                                                                           details: ["Cotton silk blend","Elaborate chikankari embroidery","Includes palazzo & dupatta","Hand wash recommended","Made in India — Lucknow"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.53 PM.jpeg" },
+  "53": { title: "Dark Teal Bandhgala",          price: "₹18,999", rating: 4.6, reviews: 201, category: "Bandhgala",       fabric: "Premium Wool",       description: "A commanding dark teal bandhgala with precision tailoring. Versatile for both formal occasions and festive celebrations.",                                                                                                                               details: ["Premium wool","Subtle herringbone texture","Bandhgala collar","Fully lined","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.53 PM (1).jpeg" },
+  "54": { title: "Flamingo Pink Anarkali",       price: "₹17,499", rating: 4.4, reviews: 138, category: "Anarkali",        fabric: "Georgette",          description: "A vivid flamingo pink Anarkali with dramatic flare and intricate embroidery, designed to turn heads at every festive occasion.",                                                                                                                          details: ["Premium georgette","Intricate embroidery","Dramatic flared skirt","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.53 PM (2).jpeg" },
+  "55": { title: "Mocha Linen Suit Set",         price: "₹15,999", rating: 4.3, reviews: 93,  category: "Suit Set",        fabric: "Pure Linen",         description: "A sophisticated mocha linen suit set with minimal detailing and exceptional tailoring.",                                                                                                                                                               details: ["Pure linen","Minimal embroidery","Straight kurta","Includes palazzo & dupatta","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.54 PM.jpeg" },
+  "56": { title: "Emerald Zari Kurta Pajama",    price: "₹20,499", rating: 4.7, reviews: 224, category: "Kurta Pajama",    fabric: "Silk",               description: "A majestic emerald green silk kurta pajama with elaborate zari embroidery. The perfect choice for Diwali and festive celebrations.",                                                                                                                    details: ["Silk fabric","Elaborate zari embroidery","Includes pajama","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.54 PM (1).jpeg" },
+  "57": { title: "Silver Tissue Lehenga",        price: "₹38,999", rating: 4.8, reviews: 287, category: "Lehenga Set",     fabric: "Tissue Silk",        description: "An ethereal silver tissue lehenga with delicate foil work and crystal embellishments. A celestial appearance perfect for bridal occasions.",                                                                                                       details: ["Tissue silk","Foil & crystal embellishments","Flared lehenga","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.54 PM (2).jpeg" },
+  "58": { title: "Copper Brocade Jacket",        price: "₹16,499", rating: 4.5, reviews: 144, category: "Jacket Kurta",    fabric: "Brocade",            description: "A distinguished copper brocade jacket kurta set with rich self-woven patterns. Warm tones for a timeless festive ensemble.",                                                                                                                          details: ["Copper brocade jacket","Inner silk kurta","Nehru collar","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.55 PM.jpeg" },
+  "59": { title: "Plum Silk Saree",              price: "₹21,999", rating: 4.6, reviews: 176, category: "Saree",           fabric: "Pure Silk",          description: "A rich plum silk saree with traditional gold zari border and intricate pallu. Handwoven by master weavers, a timeless heirloom.",                                                                                                                    details: ["Pure silk","Gold zari border","Intricate pallu","6 yards","Unstitched blouse fabric included","Dry clean only","Made in India"], sizes: ["Free Size"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.55 PM (1).jpeg" },
+  "60": { title: "Neon Lime Sharara",            price: "₹9,999",  rating: 4.1, reviews: 65,  category: "Sharara Set",     fabric: "Georgette",          description: "A bold and contemporary neon lime sharara set. A modern take on traditional silhouettes for the fashion-forward woman.",                                                                                                                              details: ["Premium georgette","Minimal embellishments","Wide-leg sharara","Includes kurta & dupatta","Machine washable","Made in India"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.56 PM.jpeg" },
+  "61": { title: "Nude Georgette Anarkali",      price: "₹14,999", rating: 4.5, reviews: 157, category: "Anarkali",        fabric: "Georgette",          description: "A sophisticated nude georgette Anarkali with subtle shimmer and delicate embroidery. Understated elegance for the modern woman.",                                                                                                                        details: ["Premium georgette","Subtle shimmer","Delicate embroidery","Flared Anarkali","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.56 PM (1).jpeg" },
+  "62": { title: "Khaki Handloom Kurta",         price: "₹8,499",  rating: 4.3, reviews: 87,  category: "Kurta",           fabric: "Handloom Cotton",    description: "A refined khaki handloom cotton kurta with traditional woven texture. Sustainability and style woven together.",                                                                                                                                         details: ["Handloom cotton","Woven texture","Straight fit","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.56 PM (2).jpeg" },
+  "63": { title: "Cobalt Sherwani Set",          price: "₹25,999", rating: 4.7, reviews: 232, category: "Sherwani",        fabric: "Dupion Silk",        description: "A striking cobalt blue dupion silk sherwani with silver zari embroidery and a structured bandhgala collar.",                                                                                                                                             details: ["Dupion silk","Silver zari embroidery","Structured bandhgala","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.57 PM.jpeg" },
+  "64": { title: "Blush Embroidered Kurti",      price: "₹7,499",  rating: 4.4, reviews: 109, category: "Kurti",           fabric: "Cotton Silk",        description: "A delicate blush cotton silk kurti with exquisite hand embroidery on the yoke and sleeves. Effortless elegance for everyday occasions.",                                                                                                              details: ["Cotton silk blend","Hand embroidery on yoke","A-line silhouette","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.57 PM (1).jpeg" },
+  "65": { title: "Taupe Kota Silk Suit",         price: "₹13,999", rating: 4.2, reviews: 78,  category: "Suit Set",        fabric: "Kota Silk",          description: "An understated taupe Kota silk suit with traditional woven checks. Lightweight fabric ensures comfort through long festivities.",                                                                                                                        details: ["Kota silk","Traditional woven checks","Includes salwar & dupatta","Dry clean only","Made in India — Kota, Rajasthan"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.58 PM.jpeg" },
+  "66": { title: "Violet Net Lehenga",           price: "₹33,999", rating: 4.8, reviews: 301, category: "Lehenga Set",     fabric: "Net & Silk",         description: "A dramatic violet net lehenga with elaborate floral embroidery. Layered net creates a voluminous silhouette for grand celebrations.",                                                                                                                   details: ["Layered net","Silk lining","Floral & sequin embroidery","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.58 PM (1).jpeg" },
+  "67": { title: "Orange Patola Kurta",          price: "₹11,499", rating: 4.5, reviews: 143, category: "Kurta Set",       fabric: "Patola Silk",        description: "A vibrant orange Patola kurta with authentic ikat weaving from Patan, Gujarat. Centuries of weaving tradition in every thread.",                                                                                                                     details: ["Patola silk","Authentic ikat weaving","Includes palazzo","Dry clean only","Made in India — Patan, Gujarat"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.58 PM (2).jpeg" },
+  "68": { title: "Pink Embroidered Sherwani",    price: "₹28,999", rating: 4.6, reviews: 197, category: "Sherwani",        fabric: "Silk",               description: "A unique blush pink sherwani with intricate floral embroidery. Breaking convention beautifully for the modern groom.",                                                                                                                              details: ["Silk fabric","Floral embroidery","Bandhgala collar","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.59 PM.jpeg" },
+  "69": { title: "Grey Block Print Kurta Set",   price: "₹10,999", rating: 4.3, reviews: 96,  category: "Kurta Set",       fabric: "Cotton",             description: "A refined grey block print kurta set with traditional Bagru printing techniques from Rajasthan.",                                                                                                                                                   details: ["Pure cotton","Bagru block print","Natural dyes","Includes palazzo & dupatta","Machine washable","Made in India — Bagru, Rajasthan"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.59 PM (1).jpeg" },
+  "70": { title: "Cerise Banarasi Lehenga",      price: "₹39,999", rating: 4.9, reviews: 356, category: "Bridal Lehenga",  fabric: "Banarasi Silk",      description: "A magnificent cerise Banarasi silk lehenga with traditional gold and silver zari weaving. A true heirloom from the looms of Varanasi.",                                                                                                                details: ["Banarasi silk","Gold & silver zari weaving","Includes blouse & dupatta","Dry clean only","Made in India — Varanasi"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.06.59 PM (2).jpeg" },
+  "71": { title: "Denim Blue Kurta Pajama",      price: "₹12,499", rating: 4.4, reviews: 121, category: "Kurta Pajama",    fabric: "Cotton Linen",       description: "A contemporary denim blue kurta pajama with minimal block print. A modern take on traditional silhouettes.",                                                                                                                                         details: ["Cotton linen blend","Minimal block print","Includes pajama","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.00 PM.jpeg" },
+  "72": { title: "Poppy Red Anarkali Suit",      price: "₹15,499", rating: 4.5, reviews: 155, category: "Anarkali",        fabric: "Georgette",          description: "A bold poppy red Anarkali with dramatic flare and intricate embroidery. The vivid colour makes this a showstopper.",                                                                                                                                  details: ["Premium georgette","Intricate embroidery","Dramatic flared skirt","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.00 PM (1).jpeg" },
+  "73": { title: "Forest Zari Sherwani",         price: "₹31,999", rating: 4.7, reviews: 218, category: "Sherwani",        fabric: "Silk",               description: "A commanding forest green silk sherwani with elaborate gold zari embroidery. Rich colour and meticulous embroidery create a royal presence.",                                                                                                       details: ["Pure silk","Gold zari embroidery","Bandhgala collar","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.01 PM.jpeg" },
+  "74": { title: "Honey Chikankari Kurta",       price: "₹9,499",  rating: 4.3, reviews: 86,  category: "Kurta",           fabric: "Cotton",             description: "A warm honey-toned cotton kurta with delicate chikankari embroidery. Earthy tone and handcrafted embroidery for a grounded yet elegant look.",                                                                                                      details: ["Pure cotton","Chikankari embroidery","Straight silhouette","Hand wash recommended","Made in India — Lucknow"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.01 PM (1).jpeg" },
+  "75": { title: "Lilac Embroidered Lehenga",    price: "₹27,999", rating: 4.6, reviews: 241, category: "Lehenga Set",     fabric: "Georgette",          description: "A romantic lilac georgette lehenga with floral thread embroidery and delicate mirror work. Perfect for sangeet celebrations.",                                                                                                                    details: ["Premium georgette","Floral thread embroidery","Mirror work accents","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.01 PM (2).jpeg" },
+  "76": { title: "Ivory Bandhgala Jacket",       price: "₹19,499", rating: 4.4, reviews: 134, category: "Jacket Set",      fabric: "Linen Blend",        description: "A crisp ivory bandhgala jacket with subtle detailing. Pairs beautifully over a kurta or shirt for a refined festive look.",                                                                                                                          details: ["Linen blend","Subtle embroidery","Bandhgala collar","Fully lined","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.02 PM.jpeg" },
+  "77": { title: "Teal Mirror Work Kurti",       price: "₹8,999",  rating: 4.2, reviews: 69,  category: "Kurti",           fabric: "Cotton",             description: "A vibrant teal cotton kurti with traditional Gujarati mirror work by artisans of Kutch. Colourful, festive, and utterly unique.",                                                                                                                 details: ["Pure cotton","Kutchi mirror work","A-line silhouette","Machine washable","Made in India — Kutch, Gujarat"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.02 PM (1).jpeg" },
+  "78": { title: "Brick Red Silk Suit",          price: "₹17,999", rating: 4.7, reviews: 203, category: "Suit Set",        fabric: "Pure Silk",          description: "A sophisticated brick red silk suit with intricate block motif embroidery and rich sheen.",                                                                                                                                                           details: ["Pure silk","Block motif embroidery","Straight kurta","Includes salwar & dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.02 PM (2).jpeg" },
+  "79": { title: "Aqua Embroidered Sharara",     price: "₹21,499", rating: 4.5, reviews: 168, category: "Sharara Set",     fabric: "Georgette",          description: "A fresh aqua sharara set with delicate floral embroidery and sequin accents. Breezy georgette fabric flows beautifully.",                                                                                                                          details: ["Premium georgette","Floral embroidery","Sequin accents","Wide-leg sharara","Includes kurta & dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.03 PM.jpeg" },
+  "80": { title: "Caramel Linen Sherwani",       price: "₹26,999", rating: 4.6, reviews: 189, category: "Sherwani",        fabric: "Pure Linen",         description: "A refined caramel linen sherwani with minimal embroidery. The natural texture of linen creates a relaxed yet sophisticated silhouette.",                                                                                                          details: ["Pure linen","Minimal embroidery","Bandhgala collar","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.03 PM (1).jpeg" },
+  "81": { title: "Lavender Palazzo Suit",        price: "₹11,999", rating: 4.3, reviews: 102, category: "Suit Set",        fabric: "Georgette",          description: "A graceful lavender palazzo suit with floral printed fabric and delicate embroidery. Wide-leg palazzo creates an elegant silhouette.",                                                                                                               details: ["Premium georgette","Floral print","Wide-leg palazzo","Includes kurta & dupatta","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.03 PM (2).jpeg" },
+  "82": { title: "Jet Black Velvet Kurta",       price: "₹18,499", rating: 4.8, reviews: 276, category: "Kurta Set",       fabric: "Premium Velvet",     description: "A sophisticated jet black velvet kurta with gold zari embroidery. Understated power dressing at its finest.",                                                                                                                                         details: ["Premium velvet","Gold zari embroidery","Structured silhouette","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.04 PM.jpeg" },
+  "83": { title: "Sunset Orange Lehenga",        price: "₹35,999", rating: 4.9, reviews: 319, category: "Lehenga Set",     fabric: "Silk & Net",         description: "A breathtaking sunset orange lehenga with ombre effect and heavy embroidery. The gradient from orange to gold is captivating.",                                                                                                                    details: ["Silk base with net overlay","Ombre effect","Heavy embroidery","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.04 PM (1).jpeg" },
+  "84": { title: "Sage Green Handloom Suit",     price: "₹14,999", rating: 4.4, reviews: 127, category: "Suit Set",        fabric: "Handloom Cotton",    description: "A serene sage green handloom suit with block print detailing. Sustainable fashion that celebrates Indian weaving heritage.",                                                                                                                        details: ["Handloom cotton","Block print detailing","Straight kurta","Includes salwar & dupatta","Machine washable","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.05 PM.jpeg" },
+  "85": { title: "Rose Red Bridal Sherwani",     price: "₹42,999", rating: 4.9, reviews: 387, category: "Bridal Sherwani", fabric: "Silk Brocade",       description: "An extraordinary rose red brocade sherwani with extensive embroidery. For the groom who wishes to stand out as much as the bride.",                                                                                                               details: ["Silk brocade","Extensive embroidery","Bandhgala collar","Fully lined","Includes churidar & stole","Three fittings included","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.05 PM (1).jpeg" },
+  "86": { title: "Topaz Embroidered Kurti",      price: "₹7,999",  rating: 4.3, reviews: 91,  category: "Kurti",           fabric: "Cotton Silk",        description: "A beautiful topaz cotton silk kurti with hand-embroidered floral motifs. Bright and cheerful for every festive occasion.",                                                                                                                          details: ["Cotton silk blend","Hand-embroidered floral motifs","A-line silhouette","Machine washable","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.05 PM (2).jpeg" },
+  "87": { title: "Marigold Silk Sharara",        price: "₹20,999", rating: 4.5, reviews: 161, category: "Sharara Set",     fabric: "Pure Silk",          description: "A vibrant marigold silk sharara set with intricate zardosi embroidery. Perfect for Diwali and festive celebrations.",                                                                                                                              details: ["Pure silk","Zardosi embroidery","Wide-leg sharara","Includes kurta & dupatta","Dry clean only","Made in India"], sizes: ["S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.06 PM.jpeg" },
+  "88": { title: "Electric Blue Bandhgala",      price: "₹23,499", rating: 4.7, reviews: 214, category: "Bandhgala",       fabric: "Structured Suiting", description: "A bold electric blue bandhgala that commands attention. Vivid colour with precision tailoring for the confident wearer.",                                                                                                                           details: ["Structured suiting fabric","Bold colour statement","Bandhgala collar","Fully lined","Includes trousers","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.06 PM (1).jpeg" },
+  "89": { title: "Snow White Anarkali",          price: "₹16,499", rating: 4.6, reviews: 188, category: "Anarkali",        fabric: "Georgette",          description: "A pristine snow white Anarkali with delicate silver embroidery and a dramatic flare. Timeless elegance for bridal and festive occasions.",                                                                                                       details: ["Premium georgette","Silver embroidery","Dramatic flared skirt","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.07 PM.jpeg" },
+  "90": { title: "Mulberry Net Lehenga",         price: "₹37,999", rating: 4.8, reviews: 293, category: "Lehenga Set",     fabric: "Net & Satin",        description: "A luxurious mulberry net lehenga with heavy resham embroidery and crystal work. A bridal showstopper.",                                                                                                                                            details: ["Net overlay on satin base","Resham embroidery","Crystal work","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.07 PM (1).jpeg" },
+  "91": { title: "Persimmon Kantha Kurta",       price: "₹10,999", rating: 4.3, reviews: 99,  category: "Kurta Set",       fabric: "Cotton",             description: "A warm persimmon cotton kurta with traditional Kantha embroidery from West Bengal artisans. Each running stitch tells a story.",                                                                                                                details: ["Pure cotton","Kantha embroidery","Straight silhouette","Includes palazzo","Machine washable","Made in India — West Bengal"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.07 PM (2).jpeg" },
+  "92": { title: "Sepia Brocade Sherwani",       price: "₹30,999", rating: 4.7, reviews: 237, category: "Sherwani",        fabric: "Brocade Silk",       description: "A distinguished sepia brocade sherwani with self-woven patterns and gold embroidery. Warm earthy tones for a sophisticated festive statement.",                                                                                                  details: ["Brocade silk","Self-woven patterns","Gold embroidery","Bandhgala collar","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.08 PM.jpeg" },
+  "93": { title: "Pearl Embroidered Suit",       price: "₹22,999", rating: 4.5, reviews: 173, category: "Suit Set",        fabric: "Net & Satin",        description: "An elegant pearl white suit with intricate pearl and sequin embroidery across the yoke and hem.",                                                                                                                                                    details: ["Net over satin base","Pearl & sequin embroidery","Straight kurta","Includes salwar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.08 PM (1).jpeg" },
+  "94": { title: "Claret Velvet Lehenga",        price: "₹41,999", rating: 4.9, reviews: 364, category: "Bridal Lehenga",  fabric: "Premium Velvet",     description: "A breathtaking claret velvet lehenga with gold embroidery and a regal trail. Handcrafted over weeks by master embroiderers.",                                                                                                                    details: ["Premium velvet","Gold embroidery","Regal trail","Includes blouse & dupatta","Complimentary alterations","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.09 PM.jpeg" },
+  "95": { title: "Turquoise Festive Kurta",      price: "₹13,499", rating: 4.4, reviews: 131, category: "Kurta Set",       fabric: "Chanderi Silk",      description: "A vibrant turquoise chanderi kurta with traditional motif embroidery and delicate zari border.",                                                                                                                                                    details: ["Chanderi silk","Traditional motif embroidery","Zari border","Includes palazzo & dupatta","Dry clean only","Made in India — Chanderi, MP"], sizes: ["XS","S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.09 PM (1).jpeg" },
+  "96": { title: "Cantaloupe Chanderi Suit",     price: "₹15,999", rating: 4.2, reviews: 82,  category: "Suit Set",        fabric: "Pure Chanderi",      description: "A warm cantaloupe chanderi suit with delicate woven motifs and a subtle zari border.",                                                                                                                                                              details: ["Pure chanderi","Woven motifs","Zari border","Includes salwar & dupatta","Dry clean only","Made in India — Chanderi, MP"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.09 PM (2).jpeg" },
+  "97": { title: "Midnight Blue Zari Sherwani",  price: "₹33,999", rating: 4.8, reviews: 308, category: "Sherwani",        fabric: "Silk",               description: "A magnificent midnight blue silk sherwani with elaborate gold zari embroidery. Deep navy and rich embroidery create an aura of authority.",                                                                                                      details: ["Pure silk","Elaborate gold zari embroidery","Bandhgala collar","Fully lined","Includes churidar","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.10 PM.jpeg" },
+  "98": { title: "Flamingo Silk Anarkali",       price: "₹19,999", rating: 4.6, reviews: 196, category: "Anarkali",        fabric: "Pure Silk",          description: "A vivid flamingo pink silk Anarkali with intricate sequin and thread embroidery. Fluid silk and vibrant colour create a joyful silhouette.",                                                                                                    details: ["Pure silk","Sequin & thread embroidery","Flared Anarkali","Includes churidar & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.10 PM (1).jpeg" },
+  "99": { title: "Golden Bridal Lehenga",        price: "₹49,999", rating: 5.0, reviews: 421, category: "Bridal Lehenga",  fabric: "Pure Silk & Zari",   description: "The crown jewel of our collection — a golden bridal lehenga with over 800 hours of hand embroidery. Pure silk with gold zari weaving, kundan work, and sequin detailing: a once-in-a-lifetime masterpiece.", details: ["Pure silk with gold zari","800+ hours hand embroidery","Kundan & sequin work","Full trail lehenga","Includes blouse & dupatta","Two complimentary fittings","Dedicated styling consultation","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/products/WhatsApp Image 2026-09-28 at 9.07.11 PM.jpeg" },
+  "100": { title: "Heritage Royal Sherwani",      price: "₹38,499", rating: 4.8, reviews: 156, category: "Sherwani",        fabric: "Premium Silk",       description: "A masterpiece of traditional craftsmanship. This Royal Sherwani features intricate zari work and is tailored to absolute perfection.", details: ["Premium silk fabric","Intricate zari embroidery","Fully lined","Includes churidar & stole","Dry clean only","Made in India"], sizes: ["S","M","L","XL","XXL"], image: "/33-1-scaled.webp" },
+  "101": { title: "Artisan Embroidered Lehenga", price: "₹42,999", rating: 4.9, reviews: 204, category: "Bridal Lehenga",  fabric: "Net & Silk",         description: "An artisan embroidered lehenga designed to make a stunning statement with detailed resham and zari work.", details: ["Net overlay on silk base","Resham & zari embroidery","Flared silhouette","Includes blouse & dupatta","Dry clean only","Made in India"], sizes: ["XS","S","M","L","XL"], image: "/34-1-scaled.webp" },
 };
 
-const FALLBACK = {
-  name: "SIDHANT Collection Piece",
-  label: "Ethnic Luxury",
-  price: "₹14,500",
-  category: "Ethnic Wear",
-  fabric: "Premium Fabric",
-  description:
-    "An exquisite piece crafted with precision, blending timeless heritage with modern elegance. Featuring delicate embroidery and luxurious fabric.",
-  details: [
-    "Hand-embroidered details",
-    "Premium Silk Blend",
-    "Dry clean only",
-    "Made in India",
-  ],
-  sizes: ["XS", "S", "M", "L", "XL"],
-  images: ["/35-1-scaled.webp", "/39-1-scaled.webp", "/33-1-scaled.webp", "/34-1-scaled.webp"],
-};
+// ─── Star rating renderer ─────────────────────────────────────────────────────
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <span className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => {
+        const filled = rating >= star;
+        const half = !filled && rating >= star - 0.5;
+        return (
+          <svg key={star} viewBox="0 0 20 20" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {half ? (
+              <>
+                <defs><linearGradient id={`pd-h-${star}`} x1="0" x2="1" y1="0" y2="0"><stop offset="50%" stopColor="#f59e0b" /><stop offset="50%" stopColor="transparent" /></linearGradient></defs>
+                <path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z" fill={`url(#pd-h-${star})`} stroke="#f59e0b" strokeWidth="1.5" strokeLinejoin="round" />
+              </>
+            ) : (
+              <path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z" fill={filled ? "#f59e0b" : "transparent"} stroke="#f59e0b" strokeWidth="1.5" strokeLinejoin="round" />
+            )}
+          </svg>
+        );
+      })}
+    </span>
+  );
+}
 
 export function ProductDetails({ id }: ProductProps) {
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-  const product = PRODUCTS[id] ?? { ...FALLBACK, name: `SIDHANT — ${id}` };
-  const [activeImage, setActiveImage] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [addedToBag, setAddedToBag] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
+  const product = PRODUCTS[id];
+  console.log("Looking up product ID:", id, "Found:", !!product);
+
+  if (!product) {
+    return (
+      <div className="w-full min-h-screen pt-28 pb-24 flex items-center justify-center" style={{ backgroundColor: isDark ? "#000" : "#fff", color: isDark ? "#fff" : "#000" }}>
+        <div className="text-center">
+          <p className="text-6xl mb-6">🧵</p>
+          <h1 className="text-3xl font-[family-name:var(--font-playfair)] mb-4">Product Not Found</h1>
+          <Link href={`/${locale}/retail`} className="text-[#2e8b57] text-sm uppercase tracking-widest hover:underline">← Back to Collection</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
       className="w-full min-h-screen pt-28 pb-24 transition-colors duration-300"
       style={{ backgroundColor: isDark ? "#000" : "#fff", color: isDark ? "#fff" : "#000" }}
     >
-      <div className="container mx-auto px-6 max-w-7xl">
+      <div className="container mx-auto px-6 max-w-6xl">
 
-        {/* ── Breadcrumb ─────────────────────────────────────────────── */}
-        <div className={`text-[10px] tracking-[0.3em] uppercase mb-10 font-[family-name:var(--font-inter)] flex items-center gap-2 ${isDark ? "text-white/70" : "text-black/70"}`}>
+        {/* ── Breadcrumb ── */}
+        <div className={`text-[10px] tracking-[0.3em] uppercase mb-10 font-[family-name:var(--font-inter)] flex items-center gap-2 ${isDark ? "text-white/50" : "text-black/50"}`}>
           <Link href={`/${locale}`} className="hover:text-[#2e8b57] transition-colors">Home</Link>
           <span>/</span>
-          <Link href={`/${locale}#collection`} className="hover:text-[#2e8b57] transition-colors">Collection</Link>
+          <Link href={`/${locale}/retail`} className="hover:text-[#2e8b57] transition-colors">Retail</Link>
           <span>/</span>
-          <span>{product.name}</span>
+          <span style={{ color: "#2e8b57" }}>{product.title}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
 
-          {/* ── Image Gallery ──────────────────────────────────────────── */}
-          <div className="flex flex-col gap-4">
-            {/* Main Image */}
-            <div className="relative w-full aspect-[3/4] overflow-hidden" style={{ backgroundColor: isDark ? "#111" : "#f3f4f6" }}>
-              <Image
-                src={product.images[activeImage]}
-                alt={product.name}
-                fill
-                className="object-cover object-center transition-opacity duration-500"
-                unoptimized
-              />
-              {/* Category badge */}
-              <span className="absolute top-5 left-5 text-[9px] tracking-[0.35em] uppercase bg-black/70 text-white px-3 py-1.5 backdrop-blur-sm">
-                {product.category}
-              </span>
-            </div>
-
-            {/* Thumbnails */}
-            <div className="grid grid-cols-4 gap-3">
-              {product.images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveImage(idx)}
-                  className={`relative aspect-[3/4] overflow-hidden transition-all duration-300 ${
-                    activeImage === idx
-                      ? `ring-2 ring-[#2e8b57] ring-offset-1 ${isDark ? "ring-offset-black" : "ring-offset-white"}`
-                      : "opacity-50 hover:opacity-100"
-                  }`}
-                >
-                  <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" unoptimized />
-                </button>
-              ))}
-            </div>
+          {/* ── Single Product Image ── */}
+          <div
+            className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl"
+            style={{ backgroundColor: isDark ? "#111" : "#f3f4f6" }}
+          >
+            <Image
+              src={product.image}
+              alt={product.title}
+              fill
+              className="object-cover object-center"
+              unoptimized
+            />
+            <span className="absolute top-5 left-5 text-[9px] tracking-[0.35em] uppercase bg-black/70 text-white px-3 py-1.5 backdrop-blur-sm rounded-full">
+              {product.category}
+            </span>
           </div>
 
-          {/* ── Product Info ───────────────────────────────────────────── */}
+          {/* ── Product Info ── */}
           <div className="flex flex-col pt-2 lg:sticky lg:top-28">
 
-            {/* Label & Name */}
-            <p className={`text-[10px] tracking-[0.4em] uppercase mb-3 font-[family-name:var(--font-inter)] ${isDark ? "text-white/70" : "text-black/70"}`}>
-              {product.label}
-            </p>
             <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-playfair)] mb-2 leading-tight tracking-tight">
-              {product.name}
+              {product.title}
             </h1>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-[#2e8b57] mb-6 font-[family-name:var(--font-inter)]">
+            <p className="text-[11px] tracking-[0.3em] uppercase mb-4 font-[family-name:var(--font-inter)]" style={{ color: "#2e8b57" }}>
               {product.fabric}
             </p>
 
-            {/* Price */}
-            <div className="flex items-baseline gap-4 mb-8">
-              <span className="text-2xl font-[family-name:var(--font-inter)] font-semibold">
-                {product.price}
-              </span>
-              {product.originalPrice && (
-                <span className={`text-sm line-through font-[family-name:var(--font-inter)] ${isDark ? "text-white/60" : "text-black/60"}`}>
-                  {product.originalPrice}
-                </span>
-              )}
+            {/* Rating */}
+            <div className="flex items-center gap-3 mb-6">
+              <StarRating rating={product.rating} />
+              <span className={`text-sm font-medium ${isDark ? "text-white/70" : "text-black/70"}`}>{product.rating.toFixed(1)}</span>
+              <span className={`text-xs ${isDark ? "text-white/40" : "text-black/40"}`}>({product.reviews} reviews)</span>
             </div>
 
-            {/* Divider */}
+            {/* Price */}
+            <div className="flex items-baseline gap-4 mb-8">
+              <span className="text-3xl font-[family-name:var(--font-inter)] font-bold">{product.price}</span>
+            </div>
+
             <div className="w-full h-px mb-8" style={{ backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
 
             {/* Description */}
-            <p className={`text-sm leading-relaxed font-[family-name:var(--font-inter)] mb-10 max-w-lg ${isDark ? "text-white/70" : "text-black/70"}`}>
+            <p className={`text-sm leading-relaxed font-[family-name:var(--font-inter)] mb-8 ${isDark ? "text-white/70" : "text-black/70"}`}>
               {product.description}
             </p>
 
             {/* Size Selector */}
-            <div className="mb-10">
-              <div className="flex justify-between items-center mb-5">
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
                 <span className={`text-[10px] tracking-[0.25em] uppercase font-semibold font-[family-name:var(--font-inter)] ${isDark ? "text-white" : "text-black"}`}>
                   Select Size {selectedSize && <span className="text-[#2e8b57] ml-2">— {selectedSize}</span>}
                 </span>
-                <button className={`text-[10px] tracking-wider uppercase underline underline-offset-4 transition-colors ${isDark ? "text-white/70 hover:text-white" : "text-black/70 hover:text-black"}`}>
-                  Size Guide
-                </button>
+                <button className={`text-[10px] tracking-wider uppercase underline underline-offset-4 transition-colors ${isDark ? "text-white/50 hover:text-white" : "text-black/50 hover:text-black"}`}>Size Guide</button>
               </div>
               <div className="flex flex-wrap gap-3">
                 {product.sizes.map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`w-12 h-12 border text-sm font-medium transition-all duration-200 font-[family-name:var(--font-inter)] ${
+                    className={`min-w-[3rem] px-3 h-11 border text-sm font-medium transition-all duration-200 font-[family-name:var(--font-inter)] rounded-lg ${
                       selectedSize === size
                         ? "border-[#2e8b57] bg-[#2e8b57] text-white"
                         : `${isDark ? "border-white/20 hover:border-white text-white" : "border-black/20 hover:border-black text-black"}`
@@ -243,49 +265,76 @@ export function ProductDetails({ id }: ProductProps) {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col gap-3 mb-12">
-              <button className="w-full py-4 bg-[#0d6b3e] text-white text-[11px] tracking-[0.3em] uppercase font-semibold hover:bg-[#2e8b57] transition-colors duration-300 font-[family-name:var(--font-inter)]">
-                Add to Bag
+            {/* CTA */}
+            <div className="flex flex-col gap-3 mb-10">
+              <button
+                onClick={() => {
+                  if (!selectedSize) {
+                    alert("Please select a size first.");
+                    return;
+                  }
+                  
+                  let cart: any[] = [];
+                  try {
+                    const stored = localStorage.getItem('cart');
+                    if (stored) {
+                      const parsed = JSON.parse(stored);
+                      cart = Array.isArray(parsed) ? parsed : [];
+                    }
+                  } catch (e) {
+                    cart = [];
+                  }
+                  const item = {
+                    id,
+                    title: product.title,
+                    price: product.price,
+                    image: product.image,
+                    size: selectedSize,
+                    quantity: 1
+                  };
+                  
+                  const existing = cart.find((i: any) => i.id === id && i.size === selectedSize);
+                  if (existing) {
+                    existing.quantity += 1;
+                  } else {
+                    cart.push(item);
+                  }
+                  
+                  localStorage.setItem('cart', JSON.stringify(cart));
+                  window.dispatchEvent(new Event('cartUpdated'));
+                  window.dispatchEvent(new Event('openCart'));
+                  
+                  setAddedToBag(true);
+                  setTimeout(() => setAddedToBag(false), 2000);
+                }}
+                className="w-full py-4 text-[11px] tracking-[0.3em] uppercase font-semibold transition-all duration-300 font-[family-name:var(--font-inter)] rounded-xl flex items-center justify-center gap-2"
+                style={{ background: addedToBag ? "#2e8b57" : "#0d6b3e", color: "#fff" }}
+              >
+                {addedToBag ? (
+                  <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg> Added to Bag!</>
+                ) : "Add to Bag"}
               </button>
-              <button className={`w-full py-4 bg-transparent text-[11px] tracking-[0.3em] uppercase font-semibold transition-colors duration-300 font-[family-name:var(--font-inter)] ${isDark ? "border border-white/30 text-white hover:bg-white/10" : "border border-black/30 text-black hover:bg-black/10"}`}>
+              <button className={`w-full py-4 bg-transparent text-[11px] tracking-[0.3em] uppercase font-semibold transition-colors duration-300 font-[family-name:var(--font-inter)] rounded-xl ${isDark ? "border border-white/30 text-white hover:bg-white/10" : "border border-black/30 text-black hover:bg-black/5"}`}>
                 Buy it Now
               </button>
             </div>
 
-            {/* Product Details Accordion */}
-            <div className={`border-t ${isDark ? "border-white/10" : "border-black/10"}`}>
-              <div className={`py-6 border-b ${isDark ? "border-white/10" : "border-black/10"}`}>
-                <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold mb-5 font-[family-name:var(--font-inter)]">
-                  Product Details
-                </h3>
-                <ul className="space-y-2.5">
-                  {product.details.map((detail, idx) => (
-                    <li key={idx} className={`flex items-start gap-3 text-sm font-[family-name:var(--font-inter)] ${isDark ? "text-white/70" : "text-black/70"}`}>
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-[#2e8b57] shrink-0" />
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className={`py-5 border-b ${isDark ? "border-white/10" : "border-black/10"}`}>
-                <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold font-[family-name:var(--font-inter)] flex justify-between items-center">
-                  Shipping & Returns
-                  <span className="text-lg font-light">+</span>
-                </h3>
-              </div>
-              <div className={`py-5 border-b ${isDark ? "border-white/10" : "border-black/10"}`}>
-                <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold font-[family-name:var(--font-inter)] flex justify-between items-center">
-                  Care Instructions
-                  <span className="text-lg font-light">+</span>
-                </h3>
-              </div>
+            {/* Product Details */}
+            <div className={`border-t pt-6 ${isDark ? "border-white/10" : "border-black/10"}`}>
+              <h3 className="text-[10px] tracking-[0.3em] uppercase font-semibold mb-4 font-[family-name:var(--font-inter)]">Product Details</h3>
+              <ul className="space-y-2.5">
+                {product.details.map((detail, idx) => (
+                  <li key={idx} className={`flex items-start gap-3 text-sm font-[family-name:var(--font-inter)] ${isDark ? "text-white/70" : "text-black/70"}`}>
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#2e8b57] shrink-0" />
+                    {detail}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Back link */}
             <Link
-              href={`/${locale}#collection`}
-              className="mt-8 inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#2e8b57]/80 hover:text-[#2e8b57] transition-colors font-[family-name:var(--font-inter)] group"
+              href={`/${locale}/retail`}
+              className="mt-10 inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#2e8b57]/80 hover:text-[#2e8b57] transition-colors font-[family-name:var(--font-inter)] group"
             >
               <span className="w-6 h-px bg-[#2e8b57]/50 group-hover:w-10 group-hover:bg-[#2e8b57] transition-all duration-500" />
               Back to Collection

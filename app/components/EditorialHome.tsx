@@ -16,9 +16,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ─── Video Slider ─────────────────────────────────────────────────────────────
 const HERO_VIDEOS = [
-  "/mainvideo1.mp4",
-  "/WhatsApp Video 2026-09-17 at 10.05.41 AM.mp4",
-  "/WhatsApp Video 2026-09-17 at 10.07.22 AM.mp4",
+  "/blackvideo.mp4",
+  "/maiunvideo2.mp4",
+  // "/mainvideo.mp4",
+
 ];
 
 function VideoSlider() {
@@ -165,18 +166,18 @@ function JaliPartnerSection({ locale }: { locale: string }) {
       />
 
       <div className="max-w-[1200px] mx-auto relative z-10 flex flex-col items-center">
-        
+
         {/* Abstract connector at the top center */}
         <div className="relative w-full max-w-3xl flex justify-center mb-8">
-           <div className="bg-white dark:bg-[#1a2b22] border border-[#2e8b57]/40 rounded-full px-6 py-2 flex flex-col items-center shadow-[0_0_15px_rgba(46,139,87,0.4)] backdrop-blur-md relative z-20 transition-colors duration-300">
-              <span className="text-[10px] tracking-widest text-[#4ade80] uppercase font-bold mb-1">Atelier Sync: Active</span>
-              <span className="text-[10px] tracking-widest text-black dark:text-white dark:text-white uppercase transition-colors duration-300">Craftsmanship Status: Seamless</span>
-           </div>
+          <div className="bg-white dark:bg-[#1a2b22] border border-[#2e8b57]/40 rounded-full px-6 py-2 flex flex-col items-center shadow-[0_0_15px_rgba(46,139,87,0.4)] backdrop-blur-md relative z-20 transition-colors duration-300">
+            <span className="text-[10px] tracking-widest text-[#4ade80] uppercase font-bold mb-1">Atelier Sync: Active</span>
+            <span className="text-[10px] tracking-widest text-black dark:text-white dark:text-white uppercase transition-colors duration-300">Craftsmanship Status: Seamless</span>
+          </div>
         </div>
 
         {/* Cards Container */}
         <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 w-full">
-          
+
           {/* ── Left Card: Boutique & Direct ── */}
           <button
             type="button"
@@ -187,28 +188,28 @@ function JaliPartnerSection({ locale }: { locale: string }) {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-b-xl border-x border-b border-black/10 dark:border-white/10 z-20 transition-colors duration-300">
               <span className="text-[11px] tracking-[0.2em] text-black dark:text-white dark:text-white uppercase font-medium transition-colors duration-300">Curated Retail</span>
             </div>
-            
-            <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
-               {/* Inner glowing border */}
-               <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#4ade80] shadow-[0_0_20px_rgba(74,222,128,0.1)_inset,0_0_20px_rgba(74,222,128,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(74,222,128,0.3)_inset,0_0_30px_rgba(74,222,128,0.3)] pointer-events-none" />
-               <div className="absolute inset-0 bg-gradient-to-br from-[#1a5c38]/40 via-transparent to-[#1a5c38]/10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
-               <div className="relative z-10 mt-8 w-full flex flex-col items-center">
-                 <div className="text-center mb-6">
-                   <span className="text-[11px] tracking-[0.3em] uppercase text-[#4ade80] font-semibold mb-2 block">Heritage Partners</span>
-                   <h3 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white transition-colors duration-300" style={{ fontFamily: "var(--font-playfair)" }}>Couture Access</h3>
-                 </div>
-                 
-                 <div className="text-center w-full px-4 sm:px-8 space-y-4">
-                    <p className="text-sm text-black dark:text-white dark:text-white font-light leading-relaxed transition-colors duration-300">
-                      Exclusive access to our handcrafted collections. Designed for boutique retailers who appreciate meticulous attention to detail and traditional artistry.
-                    </p>
-                    <div className="inline-flex items-center gap-3 text-[#4ade80] text-xs tracking-widest uppercase mt-4">
-                      <span>Explore Partnership</span>
-                      <span className="w-8 h-[1px] bg-[#4ade80] group-hover:w-12 transition-all duration-300"></span>
-                    </div>
-                 </div>
-               </div>
+            <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
+              {/* Inner glowing border */}
+              <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#4ade80] shadow-[0_0_20px_rgba(74,222,128,0.1)_inset,0_0_20px_rgba(74,222,128,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(74,222,128,0.3)_inset,0_0_30px_rgba(74,222,128,0.3)] pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a5c38]/40 via-transparent to-[#1a5c38]/10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10 mt-8 w-full flex flex-col items-center">
+                <div className="text-center mb-6">
+                  <span className="text-[11px] tracking-[0.3em] uppercase text-[#4ade80] font-semibold mb-2 block">Heritage Partners</span>
+                  <h3 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white transition-colors duration-300" style={{ fontFamily: "var(--font-playfair)" }}>Couture Access</h3>
+                </div>
+
+                <div className="text-center w-full px-4 sm:px-8 space-y-4">
+                  <p className="text-sm text-black dark:text-white dark:text-white font-light leading-relaxed transition-colors duration-300">
+                    Exclusive access to our handcrafted collections. Designed for boutique retailers who appreciate meticulous attention to detail and traditional artistry.
+                  </p>
+                  <div className="inline-flex items-center gap-3 text-[#4ade80] text-xs tracking-widest uppercase mt-4">
+                    <span>Explore Partnership</span>
+                    <span className="w-8 h-[1px] bg-[#4ade80] group-hover:w-12 transition-all duration-300"></span>
+                  </div>
+                </div>
+              </div>
             </div>
           </button>
 
@@ -222,28 +223,28 @@ function JaliPartnerSection({ locale }: { locale: string }) {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-b-xl border-x border-b border-black/10 dark:border-white/10 z-20 transition-colors duration-300">
               <span className="text-[11px] tracking-[0.2em] text-black dark:text-white dark:text-white uppercase font-medium transition-colors duration-300">Enterprise Partners</span>
             </div>
-            
-            <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
-               {/* Inner glowing border */}
-               <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#fde047] shadow-[0_0_20px_rgba(253,224,71,0.1)_inset,0_0_20px_rgba(253,224,71,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(253,224,71,0.3)_inset,0_0_30px_rgba(253,224,71,0.3)] pointer-events-none" />
-               <div className="absolute inset-0 bg-gradient-to-br from-[#c9a96e]/20 via-transparent to-transparent pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
-               <div className="relative z-10 mt-8 w-full flex flex-col items-center">
-                 <div className="text-center mb-6">
-                   <span className="text-[11px] tracking-[0.3em] uppercase text-black dark:text-white dark:text-white font-semibold mb-2 block transition-colors duration-300">Artisanal Wholesale</span>
-                   <h3 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white transition-colors duration-300" style={{ fontFamily: "var(--font-playfair)" }}>Global Access</h3>
-                 </div>
-                 
-                 <div className="text-center w-full px-4 sm:px-8 space-y-4">
-                    <p className="text-sm text-black dark:text-white dark:text-white font-light leading-relaxed transition-colors duration-300">
-                      Scale your offerings with our high-volume production capabilities. Maintaining uncompromising quality and heritage craftsmanship for global distribution.
-                    </p>
-                    <div className="inline-flex items-center gap-3 text-[#fde047] text-xs tracking-widest uppercase mt-4">
-                      <span>Join Global Network</span>
-                      <span className="w-8 h-[1px] bg-[#fde047] group-hover:w-12 transition-all duration-300"></span>
-                    </div>
-                 </div>
-               </div>
+            <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
+              {/* Inner glowing border */}
+              <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#fde047] shadow-[0_0_20px_rgba(253,224,71,0.1)_inset,0_0_20px_rgba(253,224,71,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(253,224,71,0.3)_inset,0_0_30px_rgba(253,224,71,0.3)] pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#c9a96e]/20 via-transparent to-transparent pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10 mt-8 w-full flex flex-col items-center">
+                <div className="text-center mb-6">
+                  <span className="text-[11px] tracking-[0.3em] uppercase text-black dark:text-white dark:text-white font-semibold mb-2 block transition-colors duration-300">Artisanal Wholesale</span>
+                  <h3 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white transition-colors duration-300" style={{ fontFamily: "var(--font-playfair)" }}>Global Access</h3>
+                </div>
+
+                <div className="text-center w-full px-4 sm:px-8 space-y-4">
+                  <p className="text-sm text-black dark:text-white dark:text-white font-light leading-relaxed transition-colors duration-300">
+                    Scale your offerings with our high-volume production capabilities. Maintaining uncompromising quality and heritage craftsmanship for global distribution.
+                  </p>
+                  <div className="inline-flex items-center gap-3 text-[#fde047] text-xs tracking-widest uppercase mt-4">
+                    <span>Join Global Network</span>
+                    <span className="w-8 h-[1px] bg-[#fde047] group-hover:w-12 transition-all duration-300"></span>
+                  </div>
+                </div>
+              </div>
             </div>
           </button>
 
@@ -272,11 +273,8 @@ export function LuxuryExperience() {
   const horizontalTrackRef = useRef<HTMLDivElement>(null);
 
   const craftDetails = [
-    { label: "01", title: "FABRIC", desc: "Premium mulmul, chanderi & pure silk — chosen for breathability and royal drape.", img: "/41-scaled.webp", slug: "the-nawab" },
-    { label: "02", title: "CUT", desc: "Each kurta and suit is pattern-drafted to your exact measurements by hand.", img: "/42-1-scaled.webp", slug: "the-regal" },
-    // { label: "03", title: "EMBROIDERY", desc: "Zardozi, chikankari & thread work — each stitch placed with purpose.", img: "/43-scaled.webp", slug: "the-rosette" },
-    // { label: "04", title: "FIT", desc: "Two fittings per garment. One silhouette that is entirely yours.", img: "/36-1-scaled.webp", slug: "the-rosette" },
-    // { label: "05", title: "FINISH", desc: "Hand-pressed, pearl-button detailing, and a signature embroidered cuff.", img: "/37-1-scaled.webp", slug: "the-regal" },
+    { label: "01", title: "ROYAL SHERWANI", desc: "Heritage Royal Sherwani. A masterpiece of traditional craftsmanship tailored to perfection.", img: "/33-1-scaled.webp", slug: "100" },
+    { label: "02", title: "ARTISAN LEHENGA", desc: "Artisan Embroidered Lehenga. Designed to make a stunning statement with detailed zari work.", img: "/34-1-scaled.webp", slug: "101" },
   ];
 
   useEffect(() => {
@@ -564,7 +562,7 @@ export function LuxuryExperience() {
                   className="hidden md:block w-[30vw] max-w-[450px] aspect-[3/4] shrink-0 relative mr-20 overflow-hidden rounded-[2rem] shadow-2xl"
                   style={{ background: "rgba(255,255,255,0.03)" }}
                 >
-                  <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover object-top" />
                 </Link>
               </div>
             ))}
@@ -596,9 +594,9 @@ export function LuxuryExperience() {
             {/* Editorial cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {[
-                { num: "01", name: "Ivory Chanderi Kurta Set", label: "The Regal", slug: "the-regal", img: "/33-1-scaled.webp", hoverImg: "/35-1-scaled.webp" },
-                { num: "02", name: "Deep Navy Sherwani Suit", label: "The Nawab", slug: "the-nawab", img: "/34-1-scaled.webp", hoverImg: "/41-scaled.webp" },
-                { num: "03", name: "Blush Pink Anarkali Kurta", label: "The Rosette", slug: "the-rosette", img: "/35-1-scaled.webp", hoverImg: "/36-1-scaled.webp" },
+                { num: "01", name: "Golden Bridal Lehenga", label: "Bridal Heirloom", slug: "99", img: "/products/WhatsApp Image 2026-09-28 at 9.07.11 PM.jpeg" },
+                { num: "02", name: "Heritage Royal Sherwani", label: "The Nawab", slug: "100", img: "/33-1-scaled.webp" },
+                { num: "03", name: "Artisan Embroidered Lehenga", label: "The Rosette", slug: "101", img: "/34-1-scaled.webp" },
               ].map((item, i) => (
                 <Link
                   key={item.num}
@@ -612,8 +610,8 @@ export function LuxuryExperience() {
                       className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out opacity-100 group-hover:opacity-0"
                     />
                     <img
-                      src={item.hoverImg}
-                      alt={`${item.label} — back view`}
+                      src={item.img}
+                      alt={`${item.label} — zoomed view`}
                       className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-all duration-[1200ms] ease-out opacity-0 group-hover:opacity-100"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-700" />
