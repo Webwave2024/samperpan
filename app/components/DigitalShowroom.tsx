@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useCurrency } from "../context/CurrencyContext";
 
 interface DigitalShowroomProps {
   mode?: "retail" | "wholesale";
@@ -328,7 +329,7 @@ function ProductCard({
   const [addedToCart, setAddedToCart] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
-  // Avoid hydration mismatch: use a stable default until client mounts
+  const { formatPrice } = useCurrency();
   const isDark = mounted && resolvedTheme === "dark";
 
   useEffect(() => { setMounted(true); }, []);
@@ -336,6 +337,35 @@ function ProductCard({
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // Save to localStorage
+    let cart: any[] = [];
+    try {
+      const stored = localStorage.getItem("cart");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        cart = Array.isArray(parsed) ? parsed : [];
+      }
+    } catch (_) { cart = []; }
+
+    const existing = cart.find((i: any) => i.id === product.id && !i.size);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        size: "Free Size",
+        quantity: 1,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event("cartUpdated"));
+    window.dispatchEvent(new Event("openCart"));
+
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1800);
   };
@@ -452,7 +482,7 @@ function ProductCard({
           className={`text-base font-bold tracking-tight ${isDark ? "text-white" : "text-gray-900"
             }`}
         >
-          {product.price}
+          {formatPrice(parseInt(product.price.replace(/\D/g, "")))}
         </span>
 
         {/* Rating row */}

@@ -6,6 +6,19 @@ import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useCurrency } from "../context/CurrencyContext";
+
+const CURRENCIES = [
+  { code: "INR", symbol: "₹", label: "Indian Rupee" },
+  { code: "USD", symbol: "$", label: "US Dollar" },
+  { code: "EUR", symbol: "€", label: "Euro" },
+  { code: "GBP", symbol: "£", label: "British Pound" },
+  { code: "AED", symbol: "د.إ", label: "UAE Dirham" },
+  { code: "SAR", symbol: "﷼", label: "Saudi Riyal" },
+  { code: "JPY", symbol: "¥", label: "Japanese Yen" },
+  { code: "CAD", symbol: "CA$", label: "Canadian Dollar" },
+  { code: "AUD", symbol: "A$", label: "Australian Dollar" },
+];
 
 const LOCALES = [
   { code: "en", label: "English", flag: "🇬🇧" },
@@ -25,11 +38,13 @@ export function Header() {
   const locale = useLocale();
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const { currency, setCurrency, formatPrice } = useCurrency();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -159,11 +174,39 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Right: Language, User, Bag */}
+          {/* Right: Language, Currency, User, Bag */}
           <div className={`flex items-center justify-end gap-5 transition-colors duration-300 ${
             scrolled ? "text-black dark:text-white dark:text-white" : isHomePage ? "text-black dark:text-white" : "text-black dark:text-white dark:text-white"
           }`}>
             
+            {/* Currency Switcher */}
+            <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => setCurrencyOpen((prev) => !prev)}
+                className="flex items-center gap-1 hover:text-amber-400 transition-colors"
+                aria-label="Currency"
+              >
+                <span className="text-[11px] font-medium tracking-[0.15em] uppercase">{currency}</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              {currencyOpen && (
+                <div className="absolute top-full right-0 mt-4 w-48 bg-white/95 dark:bg-black/95 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl rounded-sm overflow-hidden z-50">
+                  {CURRENCIES.map((c) => (
+                    <button
+                      key={c.code}
+                      onClick={() => { setCurrency(c.code); setCurrencyOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-xs tracking-wider ${
+                        currency === c.code ? "text-[#2e8b57] bg-black/5 dark:bg-white/5" : "text-black dark:text-white"
+                      }`}
+                    >
+                      <span className="font-semibold w-8">{c.symbol}</span>
+                      <span>{c.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Language Switcher */}
             <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>
               <button
@@ -456,7 +499,7 @@ export function Header() {
                             }}
                           >+</button>
                         </div>
-                        <span className="text-sm font-semibold">{item.price}</span>
+                        <span className="text-sm font-semibold">{formatPrice(parseInt(item.price.replace(/\D/g, '')) * item.quantity)}</span>
                       </div>
                     </div>
                   </div>
@@ -467,16 +510,26 @@ export function Header() {
 
           {cartItems.length > 0 && (
             <div className="pt-6 mt-6 border-t border-black/10 dark:border-white/10">
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex justify-between items-center mb-2">
                 <span className="text-xs font-semibold uppercase tracking-widest text-black/60 dark:text-white/60">Subtotal</span>
                 <span className="text-xl font-bold font-[family-name:var(--font-inter)]">
-                  ₹{cartItems.reduce((acc, item) => acc + (parseInt(item.price.replace(/\D/g, '')) * item.quantity), 0).toLocaleString('en-IN')}
+                  {formatPrice(cartItems.reduce((acc, item) => acc + (parseInt(item.price.replace(/\D/g, '')) * item.quantity), 0))}
                 </span>
               </div>
+              {currency !== "INR" && (
+                <p className="text-[10px] text-black/40 dark:text-white/40 mb-4 text-right">
+                  Prices shown in {currency} (converted from INR)
+                </p>
+              )}
               <p className="text-[10px] text-black/50 dark:text-white/50 mb-4 text-center">Shipping & taxes calculated at checkout.</p>
-              <button className="w-full py-4 bg-[#0d6b3e] text-white text-[11px] tracking-[0.2em] font-semibold uppercase rounded-xl hover:bg-[#2e8b57] transition-all shadow-lg shadow-[#0d6b3e]/20 hover:shadow-[#2e8b57]/40">
+              <Link
+                href={`/${locale}/checkout`}
+                onClick={() => setCartOpen(false)}
+                className="w-full py-4 bg-[#0d6b3e] text-white text-[11px] tracking-[0.2em] font-semibold uppercase rounded-xl hover:bg-[#2e8b57] transition-all shadow-lg shadow-[#0d6b3e]/20 hover:shadow-[#2e8b57]/40 flex items-center justify-center gap-2"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
                 Proceed to Checkout
-              </button>
+              </Link>
             </div>
           )}
         </div>

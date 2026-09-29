@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intl";
 import { useTheme } from "next-themes";
+import { useCurrency } from "../context/CurrencyContext";
 
 interface ProductProps {
   id: string;
@@ -157,6 +158,7 @@ export function ProductDetails({ id }: ProductProps) {
   const [mounted, setMounted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [addedToBag, setAddedToBag] = useState(false);
+  const { formatPrice, currency } = useCurrency();
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -229,8 +231,15 @@ export function ProductDetails({ id }: ProductProps) {
             </div>
 
             {/* Price */}
-            <div className="flex items-baseline gap-4 mb-8">
-              <span className="text-3xl font-[family-name:var(--font-inter)] font-bold">{product.price}</span>
+            <div className="flex flex-col gap-1 mb-8">
+              <span className="text-3xl font-[family-name:var(--font-inter)] font-bold">
+                {formatPrice(parseInt(product.price.replace(/\D/g, "")))}
+              </span>
+              {currency !== "INR" && (
+                <span className={`text-xs ${isDark ? "text-white/40" : "text-black/40"}`}>
+                  {product.price} (original INR)
+                </span>
+              )}
             </div>
 
             <div className="w-full h-px mb-8" style={{ backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
@@ -314,7 +323,37 @@ export function ProductDetails({ id }: ProductProps) {
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg> Added to Bag!</>
                 ) : "Add to Bag"}
               </button>
-              <button className={`w-full py-4 bg-transparent text-[11px] tracking-[0.3em] uppercase font-semibold transition-colors duration-300 font-[family-name:var(--font-inter)] rounded-xl ${isDark ? "border border-white/30 text-white hover:bg-white/10" : "border border-black/30 text-black hover:bg-black/5"}`}>
+              <button
+                onClick={() => {
+                  if (!selectedSize) {
+                    alert("Please select a size first.");
+                    return;
+                  }
+
+                  // Add to cart first
+                  let cart: any[] = [];
+                  try {
+                    const stored = localStorage.getItem('cart');
+                    if (stored) {
+                      const parsed = JSON.parse(stored);
+                      cart = Array.isArray(parsed) ? parsed : [];
+                    }
+                  } catch (_) { cart = []; }
+
+                  const existing = cart.find((i: any) => i.id === id && i.size === selectedSize);
+                  if (existing) {
+                    existing.quantity += 1;
+                  } else {
+                    cart.push({ id, title: product.title, price: product.price, image: product.image, size: selectedSize, quantity: 1 });
+                  }
+                  localStorage.setItem('cart', JSON.stringify(cart));
+                  window.dispatchEvent(new Event('cartUpdated'));
+
+                  // Navigate to checkout
+                  window.location.href = `/${locale}/checkout`;
+                }}
+                className={`w-full py-4 bg-transparent text-[11px] tracking-[0.3em] uppercase font-semibold transition-colors duration-300 font-[family-name:var(--font-inter)] rounded-xl ${isDark ? "border border-white/30 text-white hover:bg-white/10" : "border border-black/30 text-black hover:bg-black/5"}`}
+              >
                 Buy it Now
               </button>
             </div>
