@@ -27,9 +27,7 @@ export function Footer() {
             </p>
             <div className="text-sm tracking-wide leading-relaxed font-[family-name:var(--font-inter)] opacity-80 pt-2">
               <p className="font-semibold mb-1">Headquarters</p>
-              <p>Level 4, Designer Arcade</p>
-              <p>Bandra West, Mumbai 400050</p>
-              <p>Maharashtra, India</p>
+              C-97, 4th Floor, Sumel Business Park-2, <br /> Kankaria Road, Behind Vanijya Bhavan, <br />Sherkotda, Ahmedabad, Gujarat, <br />380002, India
             </div>
           </div>
 

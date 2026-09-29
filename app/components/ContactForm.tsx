@@ -21,19 +21,15 @@ export function ContactForm() {
             <div>
               <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#2e8b57]">Headquarters</h3>
               <p className="font-[family-name:var(--font-inter)] text-black dark:text-white dark:text-white leading-relaxed text-sm">
-                SIDHANT Design Studio<br />
-                123 Heritage Lane, Satellite<br />
-                Ahmedabad, Gujarat 380015<br />
-                India
+               C-97, 4th Floor, Sumel Business Park-2, <br /> Kankaria Road, Behind Vanijya Bhavan, <br />Sherkotda, Ahmedabad, Gujarat, <br />380002, India
               </p>
             </div>
             
             <div>
               <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#2e8b57]">Connect</h3>
               <p className="font-[family-name:var(--font-inter)] text-black dark:text-white dark:text-white leading-relaxed text-sm">
-                Email: inquiries@sidhant.com<br />
-                Phone: +91 98765 43210<br />
-                Mon - Sat: 10:00 AM - 7:00 PM (IST)
+                Email: support.samarpan@gmail.com<br />
+                Phone: +91  9913679022
               </p>
             </div>
           </div>
