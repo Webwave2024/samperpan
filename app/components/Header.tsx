@@ -288,7 +288,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
           className={`relative w-80 max-w-[80vw] h-full backdrop-blur-3xl border-r p-8 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[10px_0_60px_rgba(0,0,0,0.8)] bg-white dark:bg-[#080808] ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
-          style={{ bordercolor: "rgba(212,175,55,0.25)" }}
+          style={{ borderColor: "rgba(212,175,55,0.25)" }}
         >
           {/* Green accent line at top */}
           <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #b59536, #d4af37, transparent)" }} />
@@ -345,7 +345,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
             </Link>
 
             {/* ── Atelier Experience — 360° Virtual Tour ── */}
-            <div className="border-t mt-2 pt-8" style={{ bordercolor: "rgba(212,175,55,0.2)" }}>
+            <div className="border-t mt-2 pt-8" style={{ borderColor: "rgba(212,175,55,0.2)" }}>
               <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(212,175,55,0.6)" }}>{t('virtualExperience')}</p>
               <a
                 href="https://tourmkr.com/F1cqhLlGg3/47874105p&251.09h&78.25t"
@@ -437,7 +437,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
           className={`relative w-[400px] max-w-[90vw] h-full backdrop-blur-3xl border-l p-6 md:p-8 flex flex-col transition-transform duration-500 shadow-2xl bg-white dark:bg-[#080808] ${
             cartOpen ? "translate-x-0" : "translate-x-full"
           }`}
-          style={{ bordercolor: "rgba(212,175,55,0.25)" }}
+          style={{ borderColor: "rgba(212,175,55,0.25)" }}
         >
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-[family-name:var(--font-playfair)]">{t('yourBag')}</h2>
