@@ -27,6 +27,7 @@ export function Footer({ lang = 'en' }: { lang?: string }) {
             <p className="text-sm tracking-wide leading-relaxed font-[family-name:var(--font-inter)] opacity-80">
               {t("brandDesc")}
             </p>
+
             <div className="text-sm tracking-wide leading-relaxed font-[family-name:var(--font-inter)] opacity-80 pt-2">
               <p className="font-semibold mb-1">Headquarters</p>
               C-97, 4th Floor, Sumel Business Park-2, <br /> Kankaria Road, Behind Vanijya Bhavan, <br />Sherkotda, Ahmedabad, Gujarat, <br />380002, India

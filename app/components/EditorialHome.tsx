@@ -341,13 +341,13 @@ export function LuxuryExperience() {
           },
         });
       }
-      
+
       // Refresh ScrollTrigger after a slight delay to ensure all images and fonts have loaded
       // and the pin spacer has been correctly calculated.
       setTimeout(() => {
         ScrollTrigger.refresh();
       }, 500);
-      
+
     });
 
     return () => {
@@ -386,11 +386,11 @@ export function LuxuryExperience() {
                   className="text-[15vw] sm:text-[11vw] md:text-[8.5vw] lg:text-[7.5vw] font-light tracking-[-0.03em] leading-[0.9] text-white"
                   style={{ fontFamily: "var(--font-playfair)" }}
                 >
-                  Crafted
+                  The Legacy
                   <br />
-                  <em className="not-italic" style={{ color: "#d4af37" }}>For The</em>
+                  <em className="not-italic" style={{ color: "#d4af37" }}>of Fine</em>
                   <br />
-                  Heritage Look.
+                  Dressing.
                 </h1>
               </div>
 
@@ -447,7 +447,7 @@ export function LuxuryExperience() {
                 Every thread holds
               </span>
               <span className="block italic text-[7vw] md:text-[5vw]" style={{ color: "#d4af37" }}>
-                &nbsp;&nbsp;&nbsp;a tradition.
+                &nbsp;&nbsp;&nbsp;a legacy.
               </span>
               <span ref={line2Ref} className="block text-black dark:text-white mt-4">
                 Ours begins

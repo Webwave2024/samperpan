@@ -20,6 +20,31 @@ export function ContactForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* Contact Details */}
           <div className="flex flex-col gap-12">
+
+            {/* Founder Block */}
+            <div className="group">
+              <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#d4af37]">Founder</h3>
+              <div className="flex items-center gap-3">
+                <div className="h-[1px] w-6 group-hover:w-12 transition-all duration-700" style={{ background: "linear-gradient(90deg, transparent, #d4af37)" }} />
+                <span
+                  className="text-xl font-semibold tracking-[0.15em] uppercase group-hover:tracking-[0.25em] transition-all duration-500"
+                  style={{
+                    fontFamily: "var(--font-playfair)",
+                    background: "linear-gradient(135deg, #c9a84c, #d4af37, #f0d060, #b59536)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    animation: "bg-shift 4s ease-in-out infinite",
+                  }}
+                >
+                  Vansh Chandwani
+                </span>
+                <div className="h-[1px] w-6 group-hover:w-12 transition-all duration-700" style={{ background: "linear-gradient(90deg, #d4af37, transparent)" }} />
+              </div>
+              <p className="text-xs tracking-[0.15em] uppercase mt-2 opacity-40 font-[family-name:var(--font-inter)]">Sidhant — Ahmedabad</p>
+            </div>
+
             <div>
               <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#d4af37]">Headquarters</h3>
               <p className="font-[family-name:var(--font-inter)] text-black dark:text-white dark:text-white leading-relaxed text-sm">
