@@ -172,7 +172,7 @@ export function ProductDetails({ id }: ProductProps) {
         <div className="text-center">
           <p className="text-6xl mb-6">🧵</p>
           <h1 className="text-3xl font-[family-name:var(--font-playfair)] mb-4">Product Not Found</h1>
-          <Link href={`/${locale}/retail`} className="text-[#2e8b57] text-sm uppercase tracking-widest hover:underline">← Back to Collection</Link>
+          <Link href={`/${locale}/retail`} className="text-[#d4af37] text-sm uppercase tracking-widest hover:underline">← Back to Collection</Link>
         </div>
       </div>
     );
@@ -187,11 +187,11 @@ export function ProductDetails({ id }: ProductProps) {
 
         {/* ── Breadcrumb ── */}
         <div className={`text-[10px] tracking-[0.3em] uppercase mb-10 font-[family-name:var(--font-inter)] flex items-center gap-2 ${isDark ? "text-white/50" : "text-black/50"}`}>
-          <Link href={`/${locale}`} className="hover:text-[#2e8b57] transition-colors">Home</Link>
+          <Link href={`/${locale}`} className="hover:text-[#d4af37] transition-colors">Home</Link>
           <span>/</span>
-          <Link href={`/${locale}/retail`} className="hover:text-[#2e8b57] transition-colors">Retail</Link>
+          <Link href={`/${locale}/retail`} className="hover:text-[#d4af37] transition-colors">Retail</Link>
           <span>/</span>
-          <span style={{ color: "#2e8b57" }}>{product.title}</span>
+          <span style={{ color: "#d4af37" }}>{product.title}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
@@ -219,7 +219,7 @@ export function ProductDetails({ id }: ProductProps) {
             <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-playfair)] mb-2 leading-tight tracking-tight">
               {product.title}
             </h1>
-            <p className="text-[11px] tracking-[0.3em] uppercase mb-4 font-[family-name:var(--font-inter)]" style={{ color: "#2e8b57" }}>
+            <p className="text-[11px] tracking-[0.3em] uppercase mb-4 font-[family-name:var(--font-inter)]" style={{ color: "#d4af37" }}>
               {product.fabric}
             </p>
 
@@ -253,7 +253,7 @@ export function ProductDetails({ id }: ProductProps) {
             <div className="mb-8">
               <div className="flex justify-between items-center mb-4">
                 <span className={`text-[10px] tracking-[0.25em] uppercase font-semibold font-[family-name:var(--font-inter)] ${isDark ? "text-white" : "text-black"}`}>
-                  Select Size {selectedSize && <span className="text-[#2e8b57] ml-2">— {selectedSize}</span>}
+                  Select Size {selectedSize && <span className="text-[#d4af37] ml-2">— {selectedSize}</span>}
                 </span>
                 <button className={`text-[10px] tracking-wider uppercase underline underline-offset-4 transition-colors ${isDark ? "text-white/50 hover:text-white" : "text-black/50 hover:text-black"}`}>Size Guide</button>
               </div>
@@ -264,7 +264,7 @@ export function ProductDetails({ id }: ProductProps) {
                     onClick={() => setSelectedSize(size)}
                     className={`min-w-[3rem] px-3 h-11 border text-sm font-medium transition-all duration-200 font-[family-name:var(--font-inter)] rounded-lg ${
                       selectedSize === size
-                        ? "border-[#2e8b57] bg-[#2e8b57] text-white"
+                        ? "border-[#d4af37] bg-[#d4af37] text-white"
                         : `${isDark ? "border-white/20 hover:border-white text-white" : "border-black/20 hover:border-black text-black"}`
                     }`}
                   >
@@ -317,7 +317,7 @@ export function ProductDetails({ id }: ProductProps) {
                   setTimeout(() => setAddedToBag(false), 2000);
                 }}
                 className="w-full py-4 text-[11px] tracking-[0.3em] uppercase font-semibold transition-all duration-300 font-[family-name:var(--font-inter)] rounded-xl flex items-center justify-center gap-2"
-                style={{ background: addedToBag ? "#2e8b57" : "#0d6b3e", color: "#fff" }}
+                style={{ background: addedToBag ? "#d4af37" : "#b59536", color: "#fff" }}
               >
                 {addedToBag ? (
                   <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg> Added to Bag!</>
@@ -364,7 +364,7 @@ export function ProductDetails({ id }: ProductProps) {
               <ul className="space-y-2.5">
                 {product.details.map((detail, idx) => (
                   <li key={idx} className={`flex items-start gap-3 text-sm font-[family-name:var(--font-inter)] ${isDark ? "text-white/70" : "text-black/70"}`}>
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#2e8b57] shrink-0" />
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#d4af37] shrink-0" />
                     {detail}
                   </li>
                 ))}
@@ -373,9 +373,9 @@ export function ProductDetails({ id }: ProductProps) {
 
             <Link
               href={`/${locale}/retail`}
-              className="mt-10 inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#2e8b57]/80 hover:text-[#2e8b57] transition-colors font-[family-name:var(--font-inter)] group"
+              className="mt-10 inline-flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase text-[#d4af37]/80 hover:text-[#d4af37] transition-colors font-[family-name:var(--font-inter)] group"
             >
-              <span className="w-6 h-px bg-[#2e8b57]/50 group-hover:w-10 group-hover:bg-[#2e8b57] transition-all duration-500" />
+              <span className="w-6 h-px bg-[#d4af37]/50 group-hover:w-10 group-hover:bg-[#d4af37] transition-all duration-500" />
               Back to Collection
             </Link>
           </div>

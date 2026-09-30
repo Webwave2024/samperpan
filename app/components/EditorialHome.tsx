@@ -10,8 +10,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 // ─── Royal green palette ──────────────────────────────────────────────────────
-// Primary royal green: #1a5c38 / #145c38 / #0d6b3e
-// Accent lighter green: #2e8b57
+// Primary royal green: #8b7322 / #8b7322 / #b59536
+// Accent lighter green: #d4af37
 // Gold accent retained for fine details: #c9a96e
 
 // ─── Video Slider ─────────────────────────────────────────────────────────────
@@ -99,7 +99,7 @@ function VideoSlider() {
       {/* Royal green accent bar at bottom */}
       <div
         className="absolute bottom-0 left-0 right-0 h-[3px] z-20"
-        style={{ background: "linear-gradient(90deg, #0d6b3e, #2e8b57, #0d6b3e)" }}
+        style={{ background: "linear-gradient(90deg, #b59536, #d4af37, #b59536)" }}
       />
 
       {/* Slide indicators */}
@@ -116,7 +116,7 @@ function VideoSlider() {
               style={{
                 width: i === current ? "28px" : "8px",
                 height: "8px",
-                background: i === current ? "#2e8b57" : "rgba(255,255,255,0.35)",
+                background: i === current ? "#d4af37" : "rgba(255,255,255,0.35)",
               }}
             />
           </button>
@@ -126,14 +126,14 @@ function VideoSlider() {
       {/* Nav arrows */}
       <button
         onClick={() => goTo((current - 1 + HERO_VIDEOS.length) % HERO_VIDEOS.length)}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#2e8b57] hover:bg-[#0d6b3e]/60 transition-all duration-300 backdrop-blur-sm"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#d4af37] hover:bg-[#b59536]/60 transition-all duration-300 backdrop-blur-sm"
         aria-label="Previous video"
       >
         <span className="text-white text-sm">←</span>
       </button>
       <button
         onClick={() => goTo((current + 1) % HERO_VIDEOS.length)}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#2e8b57] hover:bg-[#0d6b3e]/60 transition-all duration-300 backdrop-blur-sm"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#d4af37] hover:bg-[#b59536]/60 transition-all duration-300 backdrop-blur-sm"
         aria-label="Next video"
       >
         <span className="text-white text-sm">→</span>
@@ -169,8 +169,8 @@ function JaliPartnerSection({ locale }: { locale: string }) {
 
         {/* Abstract connector at the top center */}
         <div className="relative w-full max-w-3xl flex justify-center mb-8">
-          <div className="bg-white dark:bg-[#1a2b22] border border-[#2e8b57]/40 rounded-full px-6 py-2 flex flex-col items-center shadow-[0_0_15px_rgba(46,139,87,0.4)] backdrop-blur-md relative z-20 transition-colors duration-300">
-            <span className="text-[10px] tracking-widest text-[#4ade80] uppercase font-bold mb-1">Atelier Sync: Active</span>
+          <div className="bg-white dark:bg-[#1a2b22] border border-[#d4af37]/40 rounded-full px-6 py-2 flex flex-col items-center shadow-[0_0_15px_rgba(212, 175, 55,0.4)] backdrop-blur-md relative z-20 transition-colors duration-300">
+            <span className="text-[10px] tracking-widest text-[#d4af37] uppercase font-bold mb-1">Atelier Sync: Active</span>
             <span className="text-[10px] tracking-widest text-black dark:text-white dark:text-white uppercase transition-colors duration-300">Craftsmanship Status: Seamless</span>
           </div>
         </div>
@@ -182,7 +182,7 @@ function JaliPartnerSection({ locale }: { locale: string }) {
           <button
             type="button"
             onClick={() => router.push(`/${locale}/retail`)}
-            className="partner-card group relative w-full lg:w-1/2 max-w-[550px] aspect-[1.4] rounded-[2rem] p-[2px] bg-gradient-to-b from-black/10 to-transparent dark:from-white/30 dark:to-white/5 overflow-hidden backdrop-blur-xl shadow-2xl transition-colors duration-300"
+            className="partner-card group relative w-full lg:w-1/2 max-w-[550px] min-h-[420px] md:min-h-0 md:aspect-[1.4] rounded-[2rem] p-[2px] bg-gradient-to-b from-black/10 to-transparent dark:from-white/30 dark:to-white/5 overflow-hidden backdrop-blur-xl shadow-2xl transition-colors duration-300"
           >
             {/* Top Label */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-b-xl border-x border-b border-black/10 dark:border-white/10 z-20 transition-colors duration-300">
@@ -191,12 +191,12 @@ function JaliPartnerSection({ locale }: { locale: string }) {
 
             <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
               {/* Inner glowing border */}
-              <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#4ade80] shadow-[0_0_20px_rgba(74,222,128,0.1)_inset,0_0_20px_rgba(74,222,128,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(74,222,128,0.3)_inset,0_0_30px_rgba(74,222,128,0.3)] pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1a5c38]/40 via-transparent to-[#1a5c38]/10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#fde047] shadow-[0_0_20px_rgba(253, 224, 71,0.1)_inset,0_0_20px_rgba(253, 224, 71,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(253, 224, 71,0.3)_inset,0_0_30px_rgba(253, 224, 71,0.3)] pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#8b7322]/40 via-transparent to-[#8b7322]/10 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="relative z-10 mt-8 w-full flex flex-col items-center">
+              <div className="relative z-10 mt-12 md:mt-8 w-full flex flex-col items-center">
                 <div className="text-center mb-6">
-                  <span className="text-[11px] tracking-[0.3em] uppercase text-[#4ade80] font-semibold mb-2 block">Heritage Partners</span>
+                  <span className="text-[11px] tracking-[0.3em] uppercase text-[#d4af37] font-semibold mb-2 block">Heritage Partners</span>
                   <h3 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white transition-colors duration-300" style={{ fontFamily: "var(--font-playfair)" }}>Couture Access</h3>
                 </div>
 
@@ -204,9 +204,9 @@ function JaliPartnerSection({ locale }: { locale: string }) {
                   <p className="text-sm text-black dark:text-white dark:text-white font-light leading-relaxed transition-colors duration-300">
                     Exclusive access to our handcrafted collections. Designed for boutique retailers who appreciate meticulous attention to detail and traditional artistry.
                   </p>
-                  <div className="inline-flex items-center gap-3 text-[#4ade80] text-xs tracking-widest uppercase mt-4">
+                  <div className="inline-flex items-center gap-3 text-[#d4af37] text-xs tracking-widest uppercase mt-4">
                     <span>Explore Partnership</span>
-                    <span className="w-8 h-[1px] bg-[#4ade80] group-hover:w-12 transition-all duration-300"></span>
+                    <span className="w-8 h-[1px] bg-[#fde047] group-hover:w-12 transition-all duration-300"></span>
                   </div>
                 </div>
               </div>
@@ -217,7 +217,7 @@ function JaliPartnerSection({ locale }: { locale: string }) {
           <button
             type="button"
             onClick={() => router.push(`/${locale}/wholesale`)}
-            className="partner-card group relative w-full lg:w-1/2 max-w-[550px] aspect-[1.4] rounded-[2rem] p-[2px] bg-gradient-to-b from-black/10 to-transparent dark:from-white/30 dark:to-white/5 overflow-hidden backdrop-blur-xl shadow-2xl transition-colors duration-300"
+            className="partner-card group relative w-full lg:w-1/2 max-w-[550px] min-h-[420px] md:min-h-0 md:aspect-[1.4] rounded-[2rem] p-[2px] bg-gradient-to-b from-black/10 to-transparent dark:from-white/30 dark:to-white/5 overflow-hidden backdrop-blur-xl shadow-2xl transition-colors duration-300"
           >
             {/* Top Label */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-b-xl border-x border-b border-black/10 dark:border-white/10 z-20 transition-colors duration-300">
@@ -229,7 +229,7 @@ function JaliPartnerSection({ locale }: { locale: string }) {
               <div className="absolute inset-3 rounded-[24px] border-[1.5px] border-[#fde047] shadow-[0_0_20px_rgba(253,224,71,0.1)_inset,0_0_20px_rgba(253,224,71,0.1)] transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(253,224,71,0.3)_inset,0_0_30px_rgba(253,224,71,0.3)] pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-br from-[#c9a96e]/20 via-transparent to-transparent pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="relative z-10 mt-8 w-full flex flex-col items-center">
+              <div className="relative z-10 mt-12 md:mt-8 w-full flex flex-col items-center">
                 <div className="text-center mb-6">
                   <span className="text-[11px] tracking-[0.3em] uppercase text-black dark:text-white dark:text-white font-semibold mb-2 block transition-colors duration-300">Artisanal Wholesale</span>
                   <h3 className="text-4xl sm:text-5xl font-bold tracking-tight text-black dark:text-white transition-colors duration-300" style={{ fontFamily: "var(--font-playfair)" }}>Global Access</h3>
@@ -275,6 +275,8 @@ export function LuxuryExperience() {
   const craftDetails = [
     { label: "01", title: "ROYAL SHERWANI", desc: "Heritage Royal Sherwani. A masterpiece of traditional craftsmanship tailored to perfection.", img: "/33-1-scaled.webp", slug: "100" },
     { label: "02", title: "ARTISAN LEHENGA", desc: "Artisan Embroidered Lehenga. Designed to make a stunning statement with detailed zari work.", img: "/34-1-scaled.webp", slug: "101" },
+    { label: "03", title: "CLASSIC KURTA", desc: "Classic Silk Kurta with intricate detailing. Elevate your everyday elegance.", img: "/products/WhatsApp Image 2026-09-28 at 9.06.42 PM (1).jpeg", slug: "18" },
+    { label: "04", title: "EMERALD SUIT", desc: "Emerald Georgette Suit. Exquisite design capturing the essence of royal heritage.", img: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM (1).jpeg", slug: "47" },
   ];
 
   useEffect(() => {
@@ -379,7 +381,7 @@ export function LuxuryExperience() {
                 >
                   Crafted
                   <br />
-                  <em className="not-italic" style={{ color: "#2e8b57" }}>For The</em>
+                  <em className="not-italic" style={{ color: "#d4af37" }}>For The</em>
                   <br />
                   Heritage Look.
                 </h1>
@@ -393,12 +395,12 @@ export function LuxuryExperience() {
                 <Link
                   href={`/${locale}/collections`}
                   className="inline-flex items-center gap-4 text-[10px] tracking-[0.4em] uppercase transition-colors duration-500 group"
-                  style={{ color: "#2e8b57" }}
+                  style={{ color: "#d4af37" }}
                 >
                   Explore Collection
                   <span
                     className="w-8 h-px group-hover:w-14 transition-all duration-700"
-                    style={{ background: "#2e8b57" }}
+                    style={{ background: "#d4af37" }}
                   />
                 </Link>
               </div>
@@ -415,7 +417,7 @@ export function LuxuryExperience() {
             </span>
             <div
               className="w-px h-10 animate-pulse"
-              style={{ background: "linear-gradient(to bottom, rgba(46,139,87,0.6), transparent)" }}
+              style={{ background: "linear-gradient(to bottom, rgba(212, 175, 55,0.6), transparent)" }}
             />
           </div>
         </section>
@@ -427,7 +429,7 @@ export function LuxuryExperience() {
           className="min-h-screen w-full flex items-center justify-start px-8 md:px-20 transition-colors duration-300 bg-white dark:bg-[#000]"
         >
           <div className="max-w-4xl">
-            <p className="text-[10px] tracking-[0.5em] uppercase mb-12" style={{ color: "#2e8b57" }}>
+            <p className="text-[10px] tracking-[0.5em] uppercase mb-12" style={{ color: "#d4af37" }}>
               Our Craft
             </p>
             <div
@@ -437,7 +439,7 @@ export function LuxuryExperience() {
               <span ref={line1Ref} className="block text-black dark:text-white dark:text-white">
                 Every thread holds
               </span>
-              <span className="block italic text-[7vw] md:text-[5vw]" style={{ color: "#2e8b57" }}>
+              <span className="block italic text-[7vw] md:text-[5vw]" style={{ color: "#d4af37" }}>
                 &nbsp;&nbsp;&nbsp;a tradition.
               </span>
               <span ref={line2Ref} className="block text-black dark:text-white mt-4">
@@ -455,14 +457,14 @@ export function LuxuryExperience() {
         <section
           ref={storyRef}
           id="story"
-          className="min-h-screen w-full flex items-center px-8 md:px-20 transition-colors duration-300 bg-gray-50 dark:bg-[#050505]"
+          className="min-h-screen w-full pt-24 pb-12 flex items-center px-8 md:px-20 transition-colors duration-300 bg-gray-50 dark:bg-[#050505]"
         >
           <div className="w-full flex flex-col md:flex-row items-center justify-between gap-16">
             {/* Left: Text */}
             <div ref={storyTextRef} className="max-w-lg flex-shrink-0">
               <span
                 className="reveal-line block text-[10px] tracking-[0.5em] uppercase mb-12"
-                style={{ color: "#2e8b57" }}
+                style={{ color: "#d4af37" }}
               >
                 The Art of Ethnic Wear
               </span>
@@ -487,12 +489,12 @@ export function LuxuryExperience() {
               <Link
                 href={`/${locale}/collections`}
                 className="reveal-line inline-flex items-center gap-4 mt-12 text-[11px] tracking-[0.35em] uppercase transition-colors duration-500 group"
-                style={{ color: "#2e8b57" }}
+                style={{ color: "#d4af37" }}
               >
                 Discover the craft
                 <span
                   className="w-8 h-px group-hover:w-16 transition-all duration-500"
-                  style={{ background: "#2e8b57" }}
+                  style={{ background: "#d4af37" }}
                 />
               </Link>
             </div>
@@ -508,12 +510,12 @@ export function LuxuryExperience() {
                 {/* Green accent bar */}
                 <div
                   className="absolute bottom-0 left-0 right-0 h-[3px]"
-                  style={{ background: "linear-gradient(90deg, #0d6b3e, #2e8b57, transparent)" }}
+                  style={{ background: "linear-gradient(90deg, #b59536, #d4af37, transparent)" }}
                 />
                 {/* Subtle overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 {/* Label badge */}
-                <span className="absolute top-5 left-5 text-[9px] tracking-[0.35em] uppercase bg-black/60 text-[#2e8b57] px-3 py-1.5 backdrop-blur-sm rounded-full">
+                <span className="absolute top-5 left-5 text-[9px] tracking-[0.35em] uppercase bg-black/60 text-[#d4af37] px-3 py-1.5 backdrop-blur-sm rounded-full">
                   Festive 2025
                 </span>
               </div>
@@ -526,7 +528,7 @@ export function LuxuryExperience() {
         <section
           ref={horizontalRef}
           id="craft"
-          className="w-full overflow-hidden transition-colors duration-300 bg-gray-100 dark:bg-[#080808]"
+          className="w-full pt-24 pb-12 overflow-hidden transition-colors duration-300 bg-gray-100 dark:bg-[#080808]"
           style={{ height: "100vh" }}
         >
           <div
@@ -543,7 +545,7 @@ export function LuxuryExperience() {
                 <div className="flex flex-col gap-8 flex-1">
                   <span
                     className="text-[10px] tracking-[0.5em] uppercase font-light"
-                    style={{ color: "#2e8b57" }}
+                    style={{ color: "#d4af37" }}
                   >
                     {item.label} / {craftDetails.length.toString().padStart(2, "0")}
                   </span>
@@ -559,7 +561,7 @@ export function LuxuryExperience() {
                 </div>
                 <Link
                   href={`/${locale}/product/${item.slug}`}
-                  className="hidden md:block w-[30vw] max-w-[450px] aspect-[3/4] shrink-0 relative mr-20 overflow-hidden rounded-[2rem] shadow-2xl"
+                  className="hidden md:block h-[65vh] max-h-[550px] aspect-[3/4] shrink-0 relative mr-20 overflow-hidden rounded-[2rem] shadow-2xl"
                   style={{ background: "rgba(255,255,255,0.03)" }}
                 >
                   <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover object-top" />
@@ -578,7 +580,7 @@ export function LuxuryExperience() {
             <div className="flex items-end justify-between mb-12">
               <h2
                 className="text-[7vw] md:text-[4.5vw] font-light leading-none tracking-tighter"
-                style={{ fontFamily: "var(--font-playfair)", color: "#2e8b57" }}
+                style={{ fontFamily: "var(--font-playfair)", color: "#d4af37" }}
               >
                 Signature
                 <br />
@@ -603,7 +605,7 @@ export function LuxuryExperience() {
                   href={`/${locale}/product/${item.slug}`}
                   className={`group relative cursor-pointer block max-w-sm mx-auto w-full ${i === 1 ? "md:mt-16" : ""}`}
                 >
-                  <div className="relative overflow-hidden aspect-[3/4] transition-all duration-500 group-hover:rounded-2xl" style={{ background: "#111" }}>
+                  <div className="relative overflow-hidden aspect-[3/4] transition-all duration-500 group-hover:rounded-2xl" style={{ background: "#111", paddingBottom: "calc(133.33% - 5px)" }}>
                     <img
                       src={item.img}
                       alt={item.label}
@@ -618,7 +620,7 @@ export function LuxuryExperience() {
                     {/* Green accent on hover */}
                     <div
                       className="absolute bottom-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{ background: "linear-gradient(90deg, #0d6b3e, #2e8b57)" }}
+                      style={{ background: "linear-gradient(90deg, #b59536, #d4af37)" }}
                     />
                     <span
                       className="absolute bottom-4 right-5 text-[5rem] font-bold leading-none select-none"
@@ -644,10 +646,10 @@ export function LuxuryExperience() {
                     </div>
                     <span
                       className="text-[9px] tracking-[0.35em] uppercase flex items-center gap-2 transition-colors duration-300 group-hover:text-white"
-                      style={{ color: "#2e8b57" }}
+                      style={{ color: "#d4af37" }}
                     >
                       View
-                      <span className="w-0 h-px group-hover:w-6 transition-all duration-500" style={{ background: "#2e8b57" }} />
+                      <span className="w-0 h-px group-hover:w-6 transition-all duration-500" style={{ background: "#d4af37" }} />
                     </span>
                   </div>
                 </Link>
@@ -665,10 +667,10 @@ export function LuxuryExperience() {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(13,107,62,0.12) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(181, 149, 54,0.12) 0%, transparent 70%)",
             }}
           />
-          <p className="text-[10px] tracking-[0.5em] uppercase mb-12 relative z-10" style={{ color: "#2e8b57" }}>
+          <p className="text-[10px] tracking-[0.5em] uppercase mb-12 relative z-10" style={{ color: "#d4af37" }}>
             Wear Your Heritage
           </p>
           <h2
@@ -677,7 +679,7 @@ export function LuxuryExperience() {
           >
             DRESS
             <br />
-            <span className="italic font-light" style={{ color: "#2e8b57" }}>with</span>
+            <span className="italic font-light" style={{ color: "#d4af37" }}>with</span>
             <br />
             PRIDE.
           </h2>
@@ -685,18 +687,18 @@ export function LuxuryExperience() {
             href={`/${locale}/collections`}
             className="inline-flex items-center gap-5 px-12 py-5 text-[11px] tracking-[0.4em] uppercase rounded-full group transition-all duration-700 relative z-10"
             style={{
-              border: "1px solid rgba(46,139,87,0.4)",
-              color: "#2e8b57",
+              border: "1px solid rgba(212, 175, 55,0.4)",
+              color: "#d4af37",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#0d6b3e";
+              (e.currentTarget as HTMLAnchorElement).style.background = "#b59536";
               (e.currentTarget as HTMLAnchorElement).style.color = "#fff";
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#0d6b3e";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#b59536";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#2e8b57";
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(46,139,87,0.4)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#d4af37";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(212, 175, 55,0.4)";
             }}
           >
             Shop the Collection

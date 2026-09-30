@@ -84,7 +84,7 @@ export function CheckoutClient() {
 
   if (!mounted) return (
     <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a]">
-      <div className="w-8 h-8 border-2 border-[#2e8b57] border-t-transparent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-2 border-[#d4af37] border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -99,7 +99,7 @@ export function CheckoutClient() {
           <div key={idx} className="flex gap-4 items-start">
             <div className="relative w-16 h-20 rounded-lg overflow-hidden shrink-0 border border-black/10 dark:border-white/10">
               <Image src={item.image} alt={item.title} fill className="object-cover" unoptimized />
-              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#2e8b57] text-white text-[10px] flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#d4af37] text-white text-[10px] flex items-center justify-center font-bold">
                 {item.quantity}
               </span>
             </div>
@@ -122,7 +122,7 @@ export function CheckoutClient() {
         <input
           type="text"
           placeholder="Discount code"
-          className="flex-1 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm text-black dark:text-white placeholder-black/30 dark:placeholder-white/30 outline-none focus:border-[#2e8b57] transition-colors"
+          className="flex-1 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm text-black dark:text-white placeholder-black/30 dark:placeholder-white/30 outline-none focus:border-[#d4af37] transition-colors"
         />
         <button className="px-5 py-2.5 bg-black/10 hover:bg-black/15 dark:bg-white/10 dark:hover:bg-white/15 text-black dark:text-white text-sm rounded-lg transition-colors">
           Apply
@@ -195,7 +195,7 @@ export function CheckoutClient() {
                 {i > 0 && <span>/</span>}
                 <button
                   onClick={() => stepIndex > i && setStep(s.id)}
-                  className={`transition-colors ${step === s.id ? "text-black dark:text-white font-semibold" : stepIndex > i ? "text-[#2e8b57] hover:text-black dark:hover:text-white cursor-pointer" : "text-black/30 dark:text-white/30 cursor-default"}`}
+                  className={`transition-colors ${step === s.id ? "text-black dark:text-white font-semibold" : stepIndex > i ? "text-[#d4af37] hover:text-black dark:hover:text-white cursor-pointer" : "text-black/30 dark:text-white/30 cursor-default"}`}
                 >
                   {s.label}
                 </button>
@@ -211,7 +211,7 @@ export function CheckoutClient() {
                   <h2 className="text-lg font-semibold">Contact</h2>
                   <span className="text-xs text-black/40 dark:text-white/40">
                     Already have an account?{" "}
-                    <button className="text-[#2e8b57] underline">Log in</button>
+                    <button className="text-[#d4af37] underline">Log in</button>
                   </span>
                 </div>
                 <div className="flex flex-col gap-3">
@@ -222,7 +222,7 @@ export function CheckoutClient() {
                       type="checkbox"
                       checked={form.saveInfo}
                       onChange={e => setField("saveInfo", e.target.checked)}
-                      className="accent-[#2e8b57] w-4 h-4 rounded"
+                      className="accent-[#d4af37] w-4 h-4 rounded"
                     />
                     Email me with news and offers
                   </label>
@@ -261,7 +261,7 @@ export function CheckoutClient() {
                     }
                     setStep("shipping");
                   }}
-                  className="w-full sm:w-auto px-10 py-4 bg-[#0d6b3e] hover:bg-[#2e8b57] text-white text-sm font-semibold uppercase tracking-widest rounded-xl transition-all"
+                  className="w-full sm:w-auto px-10 py-4 bg-[#b59536] hover:bg-[#d4af37] text-white text-sm font-semibold uppercase tracking-widest rounded-xl transition-all"
                 >
                   Continue to Shipping
                 </button>
@@ -288,13 +288,13 @@ export function CheckoutClient() {
                       key={opt.id}
                       className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${
                         form.shipping === opt.id
-                          ? "border-[#2e8b57] bg-[#2e8b57]/10"
+                          ? "border-[#d4af37] bg-[#d4af37]/10"
                           : "border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/5 dark:bg-white/5"
                       }`}
                     >
                       <div className="flex items-center gap-4">
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${form.shipping === opt.id ? "border-[#2e8b57]" : "border-black/30 dark:border-white/30"}`}>
-                          {form.shipping === opt.id && <div className="w-2 h-2 rounded-full bg-[#2e8b57]" />}
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${form.shipping === opt.id ? "border-[#d4af37]" : "border-black/30 dark:border-white/30"}`}>
+                          {form.shipping === opt.id && <div className="w-2 h-2 rounded-full bg-[#d4af37]" />}
                         </div>
                         <div>
                           <p className="text-sm font-medium">{opt.label}</p>
@@ -315,7 +315,7 @@ export function CheckoutClient() {
                 </button>
                 <button
                   onClick={() => setStep("payment")}
-                  className="w-full sm:w-auto px-10 py-4 bg-[#0d6b3e] hover:bg-[#2e8b57] text-white text-sm font-semibold uppercase tracking-widest rounded-xl transition-all"
+                  className="w-full sm:w-auto px-10 py-4 bg-[#b59536] hover:bg-[#d4af37] text-white text-sm font-semibold uppercase tracking-widest rounded-xl transition-all"
                 >
                   Continue to Payment
                 </button>
@@ -345,8 +345,8 @@ export function CheckoutClient() {
                 <div className="border border-black/10 dark:border-white/10 rounded-xl overflow-hidden">
                   <div className="flex items-center justify-between px-4 py-3 bg-black/5 dark:bg-white/5 border-b border-black/10 dark:border-white/10">
                     <div className="flex items-center gap-3">
-                      <div className="w-4 h-4 rounded-full border-2 border-[#2e8b57] flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-[#2e8b57]" />
+                      <div className="w-4 h-4 rounded-full border-2 border-[#d4af37] flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-[#d4af37]" />
                       </div>
                       <span className="text-sm">Razorpay — UPI, Cards, Net Banking & Wallets</span>
                     </div>
@@ -367,8 +367,8 @@ export function CheckoutClient() {
                 <h2 className="text-lg font-semibold mb-4">Billing address</h2>
                 <div className="border border-black/10 dark:border-white/10 rounded-xl overflow-hidden">
                   <label className="flex items-center gap-3 px-4 py-3 cursor-pointer bg-black/5 dark:bg-white/5">
-                    <div className="w-4 h-4 rounded-full border-2 border-[#2e8b57] flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-[#2e8b57]" />
+                    <div className="w-4 h-4 rounded-full border-2 border-[#d4af37] flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#d4af37]" />
                     </div>
                     <span className="text-sm">Same as shipping address</span>
                   </label>
@@ -382,7 +382,7 @@ export function CheckoutClient() {
                 </button>
                 <button
                   onClick={handleRazorpay}
-                  className="w-full sm:w-auto px-10 py-4 bg-[#0d6b3e] hover:bg-[#2e8b57] text-white text-sm font-semibold uppercase tracking-widest rounded-xl transition-all flex items-center gap-3 justify-center"
+                  className="w-full sm:w-auto px-10 py-4 bg-[#b59536] hover:bg-[#d4af37] text-white text-sm font-semibold uppercase tracking-widest rounded-xl transition-all flex items-center gap-3 justify-center"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                   Pay Now · {formatPrice(totalINR)}
@@ -417,7 +417,7 @@ function FormInput({
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/30 dark:placeholder-white/30 outline-none focus:border-[#2e8b57] transition-colors"
+        className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white placeholder-black/30 dark:placeholder-white/30 outline-none focus:border-[#d4af37] transition-colors"
       />
     </div>
   );
@@ -432,7 +432,7 @@ function FormSelect({ label, value, onChange, options }: {
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white outline-none focus:border-[#2e8b57] transition-colors appearance-none cursor-pointer"
+        className="w-full px-4 py-3 rounded-xl text-sm bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-black dark:text-white outline-none focus:border-[#d4af37] transition-colors appearance-none cursor-pointer"
       >
         {options.map(o => <option key={o} value={o} className="bg-white dark:bg-[#111]">{o}</option>)}
       </select>
@@ -447,7 +447,7 @@ function SummaryBox({ label, value, onEdit }: { label: string; value: string; on
         <span className="text-xs w-16 shrink-0 pt-0.5 text-black/40 dark:text-white/40">{label}</span>
         <span className="text-sm truncate text-black/80 dark:text-white/80">{value}</span>
       </div>
-      <button onClick={onEdit} className="text-xs text-[#2e8b57] hover:underline shrink-0">Change</button>
+      <button onClick={onEdit} className="text-xs text-[#d4af37] hover:underline shrink-0">Change</button>
     </div>
   );
 }

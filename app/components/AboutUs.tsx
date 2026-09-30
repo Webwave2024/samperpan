@@ -51,7 +51,7 @@ export function AboutUs() {
           style={{ backgroundColor: isDark ? "#000" : "#f3f4f6", color: isDark ? "#fff" : "#000" }}
         >
           <div className="relative z-10">
-            <h2 className="text-sm tracking-[0.3em] uppercase mb-6 font-semibold" style={{ color: "#2e8b57" }}>Join The Legacy</h2>
+            <h2 className="text-sm tracking-[0.3em] uppercase mb-6 font-semibold" style={{ color: "#d4af37" }}>Join The Legacy</h2>
             <p className="text-2xl md:text-4xl font-[family-name:var(--font-playfair)] max-w-3xl mx-auto leading-tight">
               Discover the art of fine dressing. <br/> Welcome to the world of SIDHANT.
             </p>

@@ -21,14 +21,14 @@ export function ContactForm() {
           {/* Contact Details */}
           <div className="flex flex-col gap-12">
             <div>
-              <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#2e8b57]">Headquarters</h3>
+              <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#d4af37]">Headquarters</h3>
               <p className="font-[family-name:var(--font-inter)] text-black dark:text-white dark:text-white leading-relaxed text-sm">
                C-97, 4th Floor, Sumel Business Park-2, <br /> Kankaria Road, Behind Vanijya Bhavan, <br />Sherkotda, Ahmedabad, Gujarat, <br />380002, India
               </p>
             </div>
             
             <div>
-              <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#2e8b57]">Connect</h3>
+              <h3 className="text-xs tracking-[0.2em] uppercase font-semibold mb-4 text-[#d4af37]">Connect</h3>
               <p className="font-[family-name:var(--font-inter)] text-black dark:text-white dark:text-white leading-relaxed text-sm">
                 Email: support.samarpan@gmail.com<br />
                 Phone: +91  9913679022
@@ -76,7 +76,7 @@ export function ContactForm() {
             </div>
             <button 
               type="submit" 
-              className="w-full py-4 bg-[#2e8b57] text-white rounded-full text-xs tracking-[0.2em] uppercase font-bold hover:bg-[#1a5c38] transition-colors"
+              className="w-full py-4 bg-[#d4af37] text-white rounded-full text-xs tracking-[0.2em] uppercase font-bold hover:bg-[#8b7322] transition-colors"
             >
               Send Message
             </button>

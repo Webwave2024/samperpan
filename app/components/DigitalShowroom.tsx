@@ -74,12 +74,12 @@ function WhatsAppModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Green accent top bar */}
-        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg,#0d6b3e,#2e8b57)" }} />
+        <div className="h-1 w-full" style={{ background: "linear-gradient(90deg,#b59536,#d4af37)" }} />
 
         {/* Header */}
         <div className="px-6 pt-6 pb-4 flex items-center justify-between">
           <div>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-[#2e8b57] font-semibold mb-1">
+            <p className="text-[10px] tracking-[0.3em] uppercase text-[#d4af37] font-semibold mb-1">
               {type === "quote" ? "Request Quote" : "Bulk Order"}
             </p>
             <h2 className={`text-lg font-bold truncate font-[family-name:var(--font-playfair)] ${isDark ? "text-white" : "text-black"}`}>
@@ -108,8 +108,8 @@ function WhatsAppModal({
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Rahul Sharma"
               className={`w-full px-4 py-3 rounded-xl text-sm outline-none border transition-colors ${isDark
-                  ? "bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#2e8b57]"
-                  : "bg-black/5 border-black/10 text-black placeholder-black/30 focus:border-[#2e8b57]"
+                  ? "bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#d4af37]"
+                  : "bg-black/5 border-black/10 text-black placeholder-black/30 focus:border-[#d4af37]"
                 }`}
             />
           </div>
@@ -123,8 +123,8 @@ function WhatsAppModal({
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. +91 98765 43210"
               className={`w-full px-4 py-3 rounded-xl text-sm outline-none border transition-colors ${isDark
-                  ? "bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#2e8b57]"
-                  : "bg-black/5 border-black/10 text-black placeholder-black/30 focus:border-[#2e8b57]"
+                  ? "bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#d4af37]"
+                  : "bg-black/5 border-black/10 text-black placeholder-black/30 focus:border-[#d4af37]"
                 }`}
             />
           </div>
@@ -136,8 +136,8 @@ function WhatsAppModal({
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className={`w-full px-4 py-3 rounded-xl text-sm outline-none border transition-colors resize-none ${isDark
-                  ? "bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#2e8b57]"
-                  : "bg-black/5 border-black/10 text-black placeholder-black/30 focus:border-[#2e8b57]"
+                  ? "bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-[#d4af37]"
+                  : "bg-black/5 border-black/10 text-black placeholder-black/30 focus:border-[#d4af37]"
                 }`}
             />
           </div>
@@ -145,7 +145,7 @@ function WhatsAppModal({
           <button
             type="submit"
             className="mt-2 w-full py-3.5 rounded-xl text-sm font-semibold uppercase tracking-widest text-white flex items-center justify-center gap-2.5 transition-all duration-300 hover:opacity-90 active:scale-95"
-            style={{ background: "linear-gradient(135deg,#0d6b3e,#2e8b57)" }}
+            style={{ background: "linear-gradient(135deg,#b59536,#d4af37)" }}
           >
             {/* WhatsApp icon */}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -405,7 +405,7 @@ function ProductCard({
             </button>
             <button
               onClick={() => onOpenModal?.(product.title, "bulk")}
-              className="flex-1 py-3 text-[10px] uppercase tracking-widest font-semibold rounded-lg text-white bg-[#0d6b3e] hover:bg-[#2e8b57] transition-colors shadow-lg shadow-green-900/20"
+              className="flex-1 py-3 text-[10px] uppercase tracking-widest font-semibold rounded-lg text-white bg-[#b59536] hover:bg-[#d4af37] transition-colors shadow-lg shadow-yellow-900/20"
             >
               Bulk Order
             </button>
@@ -428,12 +428,12 @@ function ProductCard({
           style={{
             background: isDark ? "#111" : "#f3f4f6",
             borderColor: hovered
-              ? "rgba(46, 139, 87, 0.5)"
+              ? "rgba(212, 175, 55, 0.5)"
               : isDark
                 ? "rgba(255, 255, 255, 0.06)"
                 : "rgba(0, 0, 0, 0.08)",
             boxShadow: hovered
-              ? "0 8px 32px rgba(13, 107, 62, 0.18)"
+              ? "0 8px 32px rgba(181, 149, 54, 0.18)"
               : "0 2px 8px rgba(0,0,0,0.08)",
           }}
         >
@@ -453,7 +453,7 @@ function ProductCard({
           />
           {/* Quick-view tag */}
           <div
-            className={`absolute top-3 left-3 bg-[#0d6b3e] text-white text-[9px] uppercase tracking-widest px-2.5 py-1 rounded-full transition-all duration-500 ${hovered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+            className={`absolute top-3 left-3 bg-[#b59536] text-white text-[9px] uppercase tracking-widest px-2.5 py-1 rounded-full transition-all duration-500 ${hovered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
               }`}
           >
             Quick View
@@ -467,7 +467,7 @@ function ProductCard({
         <Link href={`/${locale}/product/${product.id}`}>
           <h2
             className={`text-sm font-semibold leading-tight transition-colors duration-300 font-[family-name:var(--font-playfair)] ${hovered
-                ? "text-[#2e8b57]"
+                ? "text-[#d4af37]"
                 : isDark
                   ? "text-white"
                   : "text-gray-900"
@@ -508,9 +508,9 @@ function ProductCard({
           className="mt-2 w-full py-2.5 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2"
           style={{
             background: addedToCart
-              ? "#0d6b3e"
+              ? "#b59536"
               : hovered
-                ? "#0d6b3e"
+                ? "#b59536"
                 : isDark
                   ? "rgba(255,255,255,0.06)"
                   : "rgba(0,0,0,0.05)",
@@ -522,9 +522,9 @@ function ProductCard({
                   ? "rgba(255,255,255,0.8)"
                   : "rgba(0,0,0,0.7)",
             border: addedToCart
-              ? "1.5px solid #0d6b3e"
+              ? "1.5px solid #b59536"
               : hovered
-                ? "1.5px solid #0d6b3e"
+                ? "1.5px solid #b59536"
                 : isDark
                   ? "1.5px solid rgba(255,255,255,0.1)"
                   : "1.5px solid rgba(0,0,0,0.1)",
@@ -608,7 +608,7 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
           className="pt-24 pb-16 flex flex-col items-center text-center border-b mb-16"
           style={{ borderColor: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)" }}
         >
-          <p className="text-[10px] tracking-[0.5em] uppercase mb-5 font-light" style={{ color: "#2e8b57" }}>
+          <p className="text-[10px] tracking-[0.5em] uppercase mb-5 font-light" style={{ color: "#d4af37" }}>
             {pageSubtitle}
           </p>
           <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-playfair)] tracking-tight">

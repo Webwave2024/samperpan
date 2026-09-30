@@ -162,14 +162,8 @@ export function Header({ lang = 'en' }: { lang?: string }) {
                 alt="Logo"
                 width={120}
                 height={35}
-                className={`object-contain drop-shadow-md transition-all duration-300 opacity-90 hover:opacity-100 ${
-                  !mounted
-                    ? "brightness-0 invert sepia hue-rotate-180 saturate-200"
-                    : scrolled || theme === "dark" || isHomePage
-                    ? "brightness-0 invert sepia hue-rotate-180 saturate-200"
-                    : "brightness-0 sepia hue-rotate-[80deg] saturate-200"
-                }`}
-                style={{ width: "auto", height: "auto", filter: "invert(34%) sepia(85%) saturate(417%) hue-rotate(99deg) brightness(91%) contrast(89%)" }}
+                className="object-contain drop-shadow-md transition-all duration-300 opacity-90 hover:opacity-100"
+                style={{ width: "auto", height: "auto", filter: "brightness(0) saturate(100%) invert(72%) sepia(46%) saturate(497%) hue-rotate(5deg) brightness(96%) contrast(87%)" }}
               />
             </Link>
           </div>
@@ -196,7 +190,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
                       key={c.code}
                       onClick={() => { setCurrency(c.code); setCurrencyOpen(false); }}
                       className={`w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-xs tracking-wider ${
-                        currency === c.code ? "text-[#2e8b57] bg-black/5 dark:bg-white/5" : "text-black dark:text-white"
+                        currency === c.code ? "text-[#d4af37] bg-black/5 dark:bg-white/5" : "text-black dark:text-white"
                       }`}
                     >
                       <span className="font-semibold w-8">{c.symbol}</span>
@@ -264,7 +258,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
               {cartItems.length > 0 ? (
-                <span className="absolute -top-2 -right-2 w-[18px] h-[18px] bg-[#0d6b3e] rounded-full text-white text-[10px] flex items-center justify-center font-bold">
+                <span className="absolute -top-2 -right-2 w-[18px] h-[18px] bg-[#b59536] rounded-full text-white text-[10px] flex items-center justify-center font-bold">
                   {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                 </span>
               ) : (
@@ -294,18 +288,18 @@ export function Header({ lang = 'en' }: { lang?: string }) {
           className={`relative w-80 max-w-[80vw] h-full backdrop-blur-3xl border-r p-8 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[10px_0_60px_rgba(0,0,0,0.8)] bg-white dark:bg-[#080808] ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
-          style={{ borderColor: "rgba(46,139,87,0.25)" }}
+          style={{ bordercolor: "rgba(212,175,55,0.25)" }}
         >
           {/* Green accent line at top */}
-          <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #0d6b3e, #2e8b57, transparent)" }} />
+          <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #b59536, #d4af37, transparent)" }} />
 
           {/* Close Button */}
           <button 
             onClick={() => setMenuOpen(false)}
             className="absolute top-6 right-6 transition-colors"
-            style={{ color: "rgba(46,139,87,0.6)" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "#2e8b57")}
-            onMouseLeave={e => (e.currentTarget.style.color = "rgba(46,139,87,0.6)")}
+            style={{ color: "rgba(212,175,55,0.6)" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#d4af37")}
+            onMouseLeave={e => (e.currentTarget.style.color = "rgba(212, 175, 55,0.6)")}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -315,7 +309,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
 
           {/* Logo area */}
           <div className="mt-2 mb-10">
-            <span className="text-[9px] tracking-[0.5em] uppercase" style={{ color: "#2e8b57" }}>SIDHANT</span>
+            <span className="text-[9px] tracking-[0.5em] uppercase" style={{ color: "#d4af37" }}>SIDHANT</span>
           </div>
 
           {/* Menu Items */}
@@ -335,27 +329,37 @@ export function Header({ lang = 'en' }: { lang?: string }) {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
+            <Link href={`/${locale}/retail`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Couture Access</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </Link>
+
+            <Link href={`/${locale}/wholesale`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Global Access</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </Link>
+
             <Link href={`/${locale}/contact`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('contact')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
             {/* ── Atelier Experience — 360° Virtual Tour ── */}
-            <div className="border-t mt-2 pt-8" style={{ borderColor: "rgba(46,139,87,0.2)" }}>
-              <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(46,139,87,0.6)" }}>{t('virtualExperience')}</p>
+            <div className="border-t mt-2 pt-8" style={{ bordercolor: "rgba(212,175,55,0.2)" }}>
+              <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(212,175,55,0.6)" }}>{t('virtualExperience')}</p>
               <a
                 href="https://tourmkr.com/F1cqhLlGg3/47874105p&251.09h&78.25t"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
                 className="group flex items-center justify-between transition-colors"
-                style={{ color: "#2e8b57" }}
+                style={{ color: "#d4af37" }}
                 onMouseEnter={e => (e.currentTarget.style.color = "#5cb87a")}
-                onMouseLeave={e => (e.currentTarget.style.color = "#2e8b57")}
+                onMouseLeave={e => (e.currentTarget.style.color = "#d4af37")}
               >
                 <div className="flex flex-col">
                   <span className="text-base font-[family-name:var(--font-inter)] font-light tracking-wide">{t('theAtelierExperience')}</span>
-                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(46,139,87,0.5)" }}>{t('virtualTour')}</span>
+                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(212,175,55,0.5)" }}>{t('virtualTour')}</span>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </a>
@@ -433,7 +437,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
           className={`relative w-[400px] max-w-[90vw] h-full backdrop-blur-3xl border-l p-6 md:p-8 flex flex-col transition-transform duration-500 shadow-2xl bg-white dark:bg-[#080808] ${
             cartOpen ? "translate-x-0" : "translate-x-full"
           }`}
-          style={{ borderColor: "rgba(46,139,87,0.25)" }}
+          style={{ bordercolor: "rgba(212,175,55,0.25)" }}
         >
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-[family-name:var(--font-playfair)]">{t('yourBag')}</h2>
@@ -447,7 +451,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
               <div className="h-full flex flex-col items-center justify-center text-black/50 dark:text-white/50">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mb-4 opacity-50"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                 <p className="text-xs font-[family-name:var(--font-inter)] tracking-[0.2em] uppercase">{t('yourBagEmpty')}</p>
-                <button onClick={() => setCartOpen(false)} className="mt-6 text-[10px] tracking-widest text-[#2e8b57] uppercase underline">{t('continueShopping')}</button>
+                <button onClick={() => setCartOpen(false)} className="mt-6 text-[10px] tracking-widest text-[#d4af37] uppercase underline">{t('continueShopping')}</button>
               </div>
             ) : (
               <div className="flex flex-col gap-6">
@@ -525,7 +529,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
               <Link
                 href={`/${locale}/checkout`}
                 onClick={() => setCartOpen(false)}
-                className="w-full py-4 bg-[#0d6b3e] text-white text-[11px] tracking-[0.2em] font-semibold uppercase rounded-xl hover:bg-[#2e8b57] transition-all shadow-lg shadow-[#0d6b3e]/20 hover:shadow-[#2e8b57]/40 flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#b59536] text-white text-[11px] tracking-[0.2em] font-semibold uppercase rounded-xl hover:bg-[#d4af37] transition-all shadow-lg shadow-[#b59536]/20 hover:shadow-[#d4af37]/40 flex items-center justify-center gap-2"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
                 Proceed to Checkout
