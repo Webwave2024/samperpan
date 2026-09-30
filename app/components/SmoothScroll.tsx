@@ -4,9 +4,18 @@ import React, { useEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { usePathname } from "next/navigation";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname() || "";
+
   useEffect(() => {
+    // Only apply smooth scrolling on the home page (e.g. "/", "/en", "/ar")
+    const segments = pathname.split("/").filter(Boolean);
+    const isHome = segments.length <= 1;
+
+    if (!isHome) return;
+
     gsap.registerPlugin(ScrollTrigger);
     
     const lenis = new Lenis({
@@ -31,7 +40,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       lenis.destroy();
       gsap.ticker.remove(lenis.raf);
     };
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 }

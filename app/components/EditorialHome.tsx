@@ -341,6 +341,13 @@ export function LuxuryExperience() {
           },
         });
       }
+      
+      // Refresh ScrollTrigger after a slight delay to ensure all images and fonts have loaded
+      // and the pin spacer has been correctly calculated.
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 500);
+      
     });
 
     return () => {
