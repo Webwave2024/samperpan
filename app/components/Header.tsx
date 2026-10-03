@@ -290,10 +290,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
           {/* Close Button */}
           <button 
             onClick={() => setMenuOpen(false)}
-            className="absolute top-6 right-6 transition-colors"
-            style={{ color: "rgba(212,175,55,0.6)" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "#d4af37")}
-            onMouseLeave={e => (e.currentTarget.style.color = "rgba(212, 175, 55,0.6)")}
+            className="absolute top-6 right-6 transition-colors text-[#8b6914]/80 dark:text-[#d4af37]/60 hover:text-[#8b6914] dark:hover:text-[#d4af37]"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -303,7 +300,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
 
           {/* Logo area */}
           <div className="mt-2 mb-10">
-            <span className="text-[9px] tracking-[0.5em] uppercase" style={{ color: "#d4af37" }}>SIDHANT</span>
+            <span className="text-[9px] tracking-[0.5em] uppercase text-[#8b6914] dark:text-[#d4af37]">SIDHANT</span>
           </div>
 
           {/* Menu Items */}
@@ -324,12 +321,12 @@ export function Header({ lang = 'en' }: { lang?: string }) {
             </Link>
 
             <Link href={`/${locale}/retail`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Couture Access</span>
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Couture Access / Retail</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
             <Link href={`/${locale}/wholesale`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Global Access</span>
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Global Access / Wholesale</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
@@ -339,21 +336,18 @@ export function Header({ lang = 'en' }: { lang?: string }) {
             </Link>
 
             {/* ── Atelier Experience — 360° Virtual Tour ── */}
-            <div className="border-t mt-2 pt-8" style={{ borderColor: "rgba(212,175,55,0.2)" }}>
-              <p className="text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: "rgba(212,175,55,0.6)" }}>{t('virtualExperience')}</p>
+            <div className="border-t mt-2 pt-8 border-[#8b6914]/20 dark:border-[#d4af37]/20">
+              <p className="text-[9px] tracking-[0.4em] uppercase mb-4 text-[#8b6914]/80 dark:text-[#d4af37]/60">{t('virtualExperience')}</p>
               <a
                 href="https://tourmkr.com/F1cqhLlGg3/47874105p&251.09h&78.25t"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
-                className="group flex items-center justify-between transition-colors"
-                style={{ color: "#d4af37" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#5cb87a")}
-                onMouseLeave={e => (e.currentTarget.style.color = "#d4af37")}
+                className="group flex items-center justify-between transition-colors text-[#8b6914] dark:text-[#d4af37] hover:text-[#5cb87a] dark:hover:text-[#5cb87a]"
               >
                 <div className="flex flex-col">
                   <span className="text-base font-[family-name:var(--font-inter)] font-light tracking-wide">{t('theAtelierExperience')}</span>
-                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "rgba(212,175,55,0.5)" }}>{t('virtualTour')}</span>
+                  <span className="text-[9px] tracking-[0.25em] uppercase mt-1 text-[#8b6914]/70 dark:text-[#d4af37]/50">{t('virtualTour')}</span>
                 </div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </a>

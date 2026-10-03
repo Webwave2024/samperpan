@@ -103,7 +103,7 @@ function VideoSlider() {
       />
 
       {/* Slide indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-30">
         {HERO_VIDEOS.map((_, i) => (
           <button
             key={i}
@@ -126,14 +126,14 @@ function VideoSlider() {
       {/* Nav arrows */}
       <button
         onClick={() => goTo((current - 1 + HERO_VIDEOS.length) % HERO_VIDEOS.length)}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#d4af37] hover:bg-[#b59536]/60 transition-all duration-300 backdrop-blur-sm"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#d4af37] hover:bg-[#b59536]/60 transition-all duration-300 backdrop-blur-sm"
         aria-label="Previous video"
       >
         <span className="text-white text-sm">←</span>
       </button>
       <button
         onClick={() => goTo((current + 1) % HERO_VIDEOS.length)}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#d4af37] hover:bg-[#b59536]/60 transition-all duration-300 backdrop-blur-sm"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center border border-white/20 hover:border-[#d4af37] hover:bg-[#b59536]/60 transition-all duration-300 backdrop-blur-sm"
         aria-label="Next video"
       >
         <span className="text-white text-sm">→</span>
@@ -186,7 +186,7 @@ function JaliPartnerSection({ locale }: { locale: string }) {
           >
             {/* Top Label */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-b-xl border-x border-b border-black/10 dark:border-white/10 z-20 transition-colors duration-300">
-              <span className="text-[11px] tracking-[0.2em] text-black dark:text-white dark:text-white uppercase font-medium transition-colors duration-300">Curated Retail</span>
+              <span className="text-[11px] tracking-[0.2em] text-black dark:text-white dark:text-white uppercase font-medium transition-colors duration-300">Retail</span>
             </div>
 
             <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
@@ -221,7 +221,7 @@ function JaliPartnerSection({ locale }: { locale: string }) {
           >
             {/* Top Label */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-b-xl border-x border-b border-black/10 dark:border-white/10 z-20 transition-colors duration-300">
-              <span className="text-[11px] tracking-[0.2em] text-black dark:text-white dark:text-white uppercase font-medium transition-colors duration-300">Enterprise Partners</span>
+              <span className="text-[11px] tracking-[0.2em] text-black dark:text-white dark:text-white uppercase font-medium transition-colors duration-300">WHOLESALE</span>
             </div>
 
             <div className="w-full h-full rounded-[30px] bg-white/90 dark:bg-black/90 relative overflow-hidden p-8 flex flex-col justify-center transition-colors duration-500 group-hover:bg-gray-50 dark:group-hover:bg-[#0a0a0a]">
@@ -371,7 +371,7 @@ export function LuxuryExperience() {
           <VideoSlider />
 
           {/* Hero text overlay */}
-          <div className="absolute inset-0 z-20 flex items-center">
+          <div className="absolute inset-0 z-20 flex items-center pointer-events-none">
             <div className="w-full md:w-[55%] px-8 md:px-16 lg:px-20 flex flex-col justify-center">
               <p
                 ref={heroMetaRef}
@@ -398,7 +398,7 @@ export function LuxuryExperience() {
                 Suits · Kurtis · Ethnic Luxury
               </p>
 
-              <div className="mt-12">
+              <div className="mt-12 pointer-events-auto">
                 <Link
                   href={`/${locale}/collections`}
                   className="inline-flex items-center gap-4 text-[10px] tracking-[0.4em] uppercase transition-colors duration-500 group"
@@ -603,9 +603,9 @@ export function LuxuryExperience() {
             {/* Editorial cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {[
-                { num: "01", name: "Golden Bridal Lehenga", label: "Bridal Heirloom", slug: "99", img: "/products/WhatsApp Image 2026-09-28 at 9.07.11 PM.jpeg" },
-                { num: "02", name: "Heritage Royal Sherwani", label: "The Nawab", slug: "100", img: "/33-1-scaled.webp" },
-                { num: "03", name: "Artisan Embroidered Lehenga", label: "The Rosette", slug: "101", img: "/34-1-scaled.webp" },
+                { num: "01", name: "Golden Bridal Lehenga", label: "Bridal Heirloom", slug: "99", img: "/signature1.jpeg" },
+                { num: "02", name: "Heritage Royal Sherwani", label: "The Nawab", slug: "100", img: "/signature2.jpeg" },
+                { num: "03", name: "Artisan Embroidered Lehenga", label: "The Rosette", slug: "101", img: "/signature3.jpeg" },
               ].map((item, i) => (
                 <Link
                   key={item.num}
@@ -684,13 +684,13 @@ export function LuxuryExperience() {
             className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] mb-16 text-black dark:text-white relative z-10 transition-colors duration-300"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            DRESS
+            THE LEGACY 
             <br />
-            <span className="italic font-light" style={{ color: "#d4af37" }}>with</span>
+            <span className="italic font-light" style={{ color: "#d4af37" }}>OF FINE</span>
             <br />
-            PRIDE.
+            DRESSING.
           </h2>
-          <Link
+          {/* <Link
             href={`/${locale}/collections`}
             className="inline-flex items-center gap-5 px-12 py-5 text-[11px] tracking-[0.4em] uppercase rounded-full group transition-all duration-700 relative z-10"
             style={{
@@ -710,7 +710,7 @@ export function LuxuryExperience() {
           >
             Shop the Collection
             <span className="w-4 h-px bg-current group-hover:w-8 transition-all duration-500" />
-          </Link>
+          </Link> */}
         </section>
       </div>
     </>

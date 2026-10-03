@@ -578,7 +578,11 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
     if (q) setSearchQuery(q);
   }, [searchParams]);
 
-  const filteredProducts = PRODUCTS.filter((p) =>
+  const modeProducts = PRODUCTS.filter((p) =>
+    mode === "wholesale" ? p.id > 50 && p.id <= 98 : p.id <= 48
+  );
+
+  const filteredProducts = modeProducts.filter((p) =>
     p.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
