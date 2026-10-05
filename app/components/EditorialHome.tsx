@@ -16,7 +16,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ─── Video Slider ─────────────────────────────────────────────────────────────
 const HERO_VIDEOS = [
-  "/blackvideo.mp4",
+  "/mainvideo1.mp4",
+  "mainvideo2.mp4",
   "/maiunvideo2.mp4",
   // "/mainvideo.mp4",
 
@@ -684,7 +685,7 @@ export function LuxuryExperience() {
             className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] mb-16 text-black dark:text-white relative z-10 transition-colors duration-300"
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            THE LEGACY 
+            THE LEGACY
             <br />
             <span className="italic font-light" style={{ color: "#d4af37" }}>OF FINE</span>
             <br />
