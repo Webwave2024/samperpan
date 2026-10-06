@@ -18,8 +18,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "SIDHANT — Premium Kurtis & Suits",
-  description: "Elegant ethnic wear for every occasion",
+  title: "Premium Suits, Kurtis & Ethnic Luxury Wear | Sidhant",
+  description: "Discover Sidhant’s handcrafted suits, kurtis and ethnic luxury wear, crafted with fine fabrics, intricate detailing and timeless Indian artistry.",
+  icons: "/Untitled-design-18.webp",
 };
 
 export default async function RootLayout(props: Readonly<{

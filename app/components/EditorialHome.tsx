@@ -171,8 +171,8 @@ function JaliPartnerSection({ locale }: { locale: string }) {
         {/* Abstract connector at the top center */}
         <div className="relative w-full max-w-3xl flex justify-center mb-8">
           <div className="bg-white dark:bg-[#1a2b22] border border-[#d4af37]/40 rounded-full px-6 py-2 flex flex-col items-center shadow-[0_0_15px_rgba(212, 175, 55,0.4)] backdrop-blur-md relative z-20 transition-colors duration-300">
-            <span className="text-[10px] tracking-widest text-[#d4af37] uppercase font-bold mb-1">Atelier Sync: Active</span>
-            <span className="text-[10px] tracking-widest text-black dark:text-white dark:text-white uppercase transition-colors duration-300">Craftsmanship Status: Seamless</span>
+            <span className="text-[10px] tracking-widest text-[#d4af37] uppercase font-bold mb-1">Enter The World of SIDHANT</span>
+            <span className="text-[10px] tracking-widest text-black dark:text-white dark:text-white uppercase transition-colors duration-300">Select your bespoke pathway</span>
           </div>
         </div>
 

@@ -13,7 +13,7 @@ interface DigitalShowroomProps {
 }
 
 // ── WhatsApp Inquiry Modal ──────────────────────────────────────────────────────
-const WHATSAPP_NUMBER = "919588922752"; // Replace with actual WhatsApp number
+const WHATSAPP_NUMBER = "919913679022"; // Replace with actual WhatsApp number
 
 function WhatsAppModal({
   open,
@@ -486,7 +486,7 @@ function ProductCard({
         </span>
 
         {/* Rating row */}
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <StarRating rating={product.rating} />
           <span
             className={`text-xs font-medium ${isDark ? "text-white/60" : "text-gray-500"
@@ -500,7 +500,7 @@ function ProductCard({
           >
             ({product.reviews})
           </span>
-        </div>
+        </div> */}
 
         {/* Add to Cart button */}
         <button

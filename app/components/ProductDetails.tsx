@@ -224,11 +224,11 @@ export function ProductDetails({ id }: ProductProps) {
             </p>
 
             {/* Rating */}
-            <div className="flex items-center gap-3 mb-6">
+            {/* <div className="flex items-center gap-3 mb-6">
               <StarRating rating={product.rating} />
               <span className={`text-sm font-medium ${isDark ? "text-white/70" : "text-black/70"}`}>{product.rating.toFixed(1)}</span>
               <span className={`text-xs ${isDark ? "text-white/40" : "text-black/40"}`}>({product.reviews} reviews)</span>
-            </div>
+            </div> */}
 
             {/* Price */}
             <div className="flex flex-col gap-1 mb-8">

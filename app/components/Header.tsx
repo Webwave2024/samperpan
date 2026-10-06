@@ -202,7 +202,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
             </div>
 
             {/* Language Switcher */}
-            <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>
+            {/* <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => setLangOpen((prev) => !prev)}
                 className="flex items-center gap-1 hover:text-[#8b6914] dark:hover:text-[#8b6914] dark:text-amber-400 transition-colors"
@@ -227,7 +227,7 @@ export function Header({ lang = 'en' }: { lang?: string }) {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
 
 
             {/* Theme Switcher */}
@@ -309,24 +309,21 @@ export function Header({ lang = 'en' }: { lang?: string }) {
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('home')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
-
-            <Link href={`/${locale}/about`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('aboutUs')}</span>
+            <Link href={`/${locale}/wholesale`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Wholesale</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
-
+             <Link href={`/${locale}/retail`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide"> Retail</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </Link>
             <Link href={`/${locale}/collections`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
               <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('collections')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
-            <Link href={`/${locale}/retail`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Couture Access / Retail</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </Link>
-
-            <Link href={`/${locale}/wholesale`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
-              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">Global Access / Wholesale</span>
+            <Link href={`/${locale}/about`} onClick={() => setMenuOpen(false)} className="group flex items-center justify-between transition-colors text-black/75 dark:text-white/75 hover:text-black dark:hover:text-white">
+              <span className="text-lg font-[family-name:var(--font-inter)] font-light tracking-wide">{t('aboutUs')}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </Link>
 
