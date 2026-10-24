@@ -67,8 +67,9 @@ export function Footer({ lang = 'en' }: { lang?: string }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-black/5 dark:border-white/5 flex justify-center items-center text-xs tracking-[0.1em] uppercase opacity-50 font-[family-name:var(--font-inter)] text-center">
+        <div className="mt-12 pt-6 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs tracking-[0.1em] uppercase opacity-50 font-[family-name:var(--font-inter)] text-center sm:text-left">
           <p>&copy; {new Date().getFullYear()} SIDHANT. {t("rights")}</p>
+          <p>Website Design By Webwave Business Pvt Ltd.</p>
         </div>
       </div>
     </footer>

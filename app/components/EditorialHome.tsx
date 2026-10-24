@@ -274,10 +274,10 @@ export function LuxuryExperience() {
   const horizontalTrackRef = useRef<HTMLDivElement>(null);
 
   const craftDetails = [
-    { label: "01", title: "ROYAL SHERWANI", desc: "Heritage Royal Sherwani. A masterpiece of traditional craftsmanship tailored to perfection.", img: "/33-1-scaled.webp", slug: "100" },
-    { label: "02", title: "ARTISAN LEHENGA", desc: "Artisan Embroidered Lehenga. Designed to make a stunning statement with detailed zari work.", img: "/34-1-scaled.webp", slug: "101" },
-    { label: "03", title: "CLASSIC KURTA", desc: "Classic Silk Kurta with intricate detailing. Elevate your everyday elegance.", img: "/products/WhatsApp Image 2026-09-28 at 9.06.42 PM (1).jpeg", slug: "18" },
-    { label: "04", title: "EMERALD SUIT", desc: "Emerald Georgette Suit. Exquisite design capturing the essence of royal heritage.", img: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM (1).jpeg", slug: "47" },
+    { label: "01", title: "FESTIVE SUIT", desc: "Midnight Blue Festive Ensemble. A masterpiece of traditional craftsmanship tailored to absolute perfection.", img: "/products/(12)-6016.png", slug: "4" },
+    { label: "02", title: "CHANDERI SUIT", desc: "Heritage Handblock Chanderi Suit. Designed to make a stunning statement with detailed artisan work.", img: "/products/(12)-6004.png", slug: "5" },
+    { label: "03", title: "BANARASI SET", desc: "Mustard Banarasi Tunic Set with intricate detailing. Elevate your everyday elegance.", img: "/products/(11)-6033.png", slug: "6" },
+    { label: "04", title: "ROYAL ZARI", desc: "Royal Zari Embroidered Kurta Set. Exquisite design capturing the essence of royal heritage.", img: "/products/(11)-6007.png", slug: "7" },
   ];
 
   useEffect(() => {
@@ -604,9 +604,9 @@ export function LuxuryExperience() {
             {/* Editorial cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {[
-                { num: "01", name: "Golden Bridal Lehenga", label: "Bridal Heirloom", slug: "99", img: "/signature1.jpeg" },
-                { num: "02", name: "Heritage Royal Sherwani", label: "The Nawab", slug: "100", img: "/signature2.jpeg" },
-                { num: "03", name: "Artisan Embroidered Lehenga", label: "The Rosette", slug: "101", img: "/signature3.jpeg" },
+                { num: "01", name: "Ivory Floral Silk Straight Kurti", label: "Silk Kurti", slug: "1", img: "/products/(13)-6015.png" },
+                { num: "02", name: "Festive Zardozi Silk Ensemble", label: "Zardozi Suit", slug: "2", img: "/products/(13)-6003.png" },
+                { num: "03", name: "Blush Rose Chikankari Suit", label: "Chikankari", slug: "3", img: "/products/(12)-6037.png" },
               ].map((item, i) => (
                 <Link
                   key={item.num}

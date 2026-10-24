@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 import { useCurrency } from "../context/CurrencyContext";
+import { PRODUCTS, Product } from "../data/products";
 
 interface DigitalShowroomProps {
   mode?: "retail" | "wholesale";
@@ -160,110 +161,7 @@ function WhatsAppModal({
   );
 }
 
-// ── Product catalogue — all 99 unique images from public/products/ ────────────
-const PRODUCTS = [
-  { id: 1, title: "The Ruby Flagship Set", price: "₹18,999", rating: 4.5, reviews: 128, image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM.jpeg" },
-  { id: 2, title: "Midnight Zari Kurta", price: "₹14,999", rating: 4.2, reviews: 94, image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM (1).jpeg" },
-  { id: 3, title: "Ivory Silk Ensemble", price: "₹16,499", rating: 4.7, reviews: 211, image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM (2).jpeg" },
-  { id: 4, title: "Royal Emerald Kurti", price: "₹8,499", rating: 4.3, reviews: 76, image: "/products/WhatsApp Image 2026-09-28 at 9.06.37 PM (3).jpeg" },
-  { id: 5, title: "Golden Thread Sharara", price: "₹9,299", rating: 4.6, reviews: 153, image: "/products/WhatsApp Image 2026-09-28 at 9.06.38 PM.jpeg" },
-  { id: 6, title: "Organza Handloom Dupatta", price: "₹24,999", rating: 4.8, reviews: 307, image: "/products/WhatsApp Image 2026-09-28 at 9.06.38 PM (1).jpeg" },
-  { id: 7, title: "Crimson Velvet Anarkali", price: "₹21,999", rating: 4.1, reviews: 88, image: "/products/WhatsApp Image 2026-09-28 at 9.06.38 PM (2).jpeg" },
-  { id: 8, title: "Sapphire Silk Kurti", price: "₹7,999", rating: 4.4, reviews: 142, image: "/products/WhatsApp Image 2026-09-28 at 9.06.39 PM.jpeg" },
-  { id: 9, title: "Blush Pink Anarkali", price: "₹12,499", rating: 4.6, reviews: 179, image: "/products/WhatsApp Image 2026-09-28 at 9.06.39 PM (1).jpeg" },
-  { id: 10, title: "Deep Navy Sherwani", price: "₹19,999", rating: 4.9, reviews: 264, image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM.jpeg" },
-  { id: 11, title: "Mustard Chanderi Suit", price: "₹11,499", rating: 4.3, reviews: 97, image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM (1).jpeg" },
-  { id: 12, title: "Teal Banarasi Lehenga", price: "₹32,999", rating: 4.7, reviews: 193, image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM (2).jpeg" },
-  { id: 13, title: "Coral Georgette Kurta", price: "₹6,999", rating: 4.2, reviews: 61, image: "/products/WhatsApp Image 2026-09-28 at 9.06.40 PM (3).jpeg" },
-  { id: 14, title: "Jade Silk Sherwani", price: "₹22,999", rating: 4.5, reviews: 118, image: "/products/WhatsApp Image 2026-09-28 at 9.06.41 PM.jpeg" },
-  { id: 15, title: "Lavender Chikankari Set", price: "₹13,499", rating: 4.6, reviews: 204, image: "/products/WhatsApp Image 2026-09-28 at 9.06.41 PM (1).jpeg" },
-  { id: 16, title: "Maroon Brocade Jacket", price: "₹17,999", rating: 4.3, reviews: 89, image: "/products/WhatsApp Image 2026-09-28 at 9.06.41 PM (2).jpeg" },
-  { id: 17, title: "Peach Embroidered Lehenga", price: "₹28,999", rating: 4.8, reviews: 312, image: "/products/WhatsApp Image 2026-09-28 at 9.06.42 PM.jpeg" },
-  { id: 18, title: "Forest Green Kurta Pajama", price: "₹10,499", rating: 4.4, reviews: 137, image: "/products/WhatsApp Image 2026-09-28 at 9.06.42 PM (1).jpeg" },
-  { id: 19, title: "Wine Velvet Anarkali", price: "₹23,499", rating: 4.7, reviews: 186, image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM.jpeg" },
-  { id: 20, title: "Butter Yellow Salwar Suit", price: "₹8,999", rating: 4.1, reviews: 72, image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM (1).jpeg" },
-  { id: 21, title: "Steel Blue Bandhgala", price: "₹15,999", rating: 4.5, reviews: 145, image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM (2).jpeg" },
-  { id: 22, title: "Rose Gold Sharara Set", price: "₹19,499", rating: 4.6, reviews: 231, image: "/products/WhatsApp Image 2026-09-28 at 9.06.43 PM (3).jpeg" },
-  { id: 23, title: "Indigo Block Print Kurta", price: "₹7,499", rating: 4.3, reviews: 108, image: "/products/WhatsApp Image 2026-09-28 at 9.06.44 PM.jpeg" },
-  { id: 24, title: "Champagne Silk Dupatta", price: "₹5,999", rating: 4.4, reviews: 83, image: "/products/WhatsApp Image 2026-09-28 at 9.06.44 PM (1).jpeg" },
-  { id: 25, title: "Olive Khadi Jacket Kurta", price: "₹12,999", rating: 4.2, reviews: 67, image: "/products/WhatsApp Image 2026-09-28 at 9.06.44 PM (2).jpeg" },
-  { id: 26, title: "Fuchsia Lehenga Choli", price: "₹26,499", rating: 4.9, reviews: 278, image: "/products/WhatsApp Image 2026-09-28 at 9.06.45 PM.jpeg" },
-  { id: 27, title: "Turquoise Zardosi Kurta", price: "₹16,999", rating: 4.5, reviews: 159, image: "/products/WhatsApp Image 2026-09-28 at 9.06.45 PM (1).jpeg" },
-  { id: 28, title: "Rust Angrakha Suit", price: "₹11,999", rating: 4.3, reviews: 91, image: "/products/WhatsApp Image 2026-09-28 at 9.06.45 PM (2).jpeg" },
-  { id: 29, title: "Pearl White Sherwani", price: "₹29,999", rating: 4.8, reviews: 322, image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM.jpeg" },
-  { id: 30, title: "Mauve Crepe Anarkali", price: "₹13,999", rating: 4.4, reviews: 126, image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM (1).jpeg" },
-  { id: 31, title: "Cobalt Kota Doria Kurta", price: "₹9,499", rating: 4.2, reviews: 79, image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM (2).jpeg" },
-  { id: 32, title: "Mint Chanderi Saree", price: "₹18,499", rating: 4.6, reviews: 198, image: "/products/WhatsApp Image 2026-09-28 at 9.06.46 PM (3).jpeg" },
-  { id: 33, title: "Bronze Embroidered Sherwani", price: "₹27,999", rating: 4.7, reviews: 241, image: "/products/WhatsApp Image 2026-09-28 at 9.06.47 PM.jpeg" },
-  { id: 34, title: "Dusty Rose Kurti", price: "₹6,499", rating: 4.3, reviews: 84, image: "/products/WhatsApp Image 2026-09-28 at 9.06.47 PM (1).jpeg" },
-  { id: 35, title: "Tangerine Patola Suit", price: "₹20,999", rating: 4.5, reviews: 167, image: "/products/WhatsApp Image 2026-09-28 at 9.06.47 PM (2).jpeg" },
-  { id: 36, title: "Slate Grey Bandhgala Set", price: "₹24,499", rating: 4.4, reviews: 113, image: "/products/WhatsApp Image 2026-09-28 at 9.06.48 PM.jpeg" },
-  { id: 37, title: "Lilac Net Lehenga", price: "₹31,999", rating: 4.8, reviews: 289, image: "/products/WhatsApp Image 2026-09-28 at 9.06.48 PM (1).jpeg" },
-  { id: 38, title: "Saffron Mirror Work Kurta", price: "₹10,999", rating: 4.6, reviews: 172, image: "/products/WhatsApp Image 2026-09-28 at 9.06.48 PM (2).jpeg" },
-  { id: 39, title: "Black Zari Sherwani", price: "₹34,999", rating: 4.9, reviews: 341, image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM.jpeg" },
-  { id: 40, title: "Peacock Blue Suit", price: "₹14,499", rating: 4.5, reviews: 148, image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM (1).jpeg" },
-  { id: 41, title: "Cream Banarasi Dupatta", price: "₹7,999", rating: 4.2, reviews: 59, image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM (2).jpeg" },
-  { id: 42, title: "Magenta Silk Lehenga", price: "₹29,499", rating: 4.7, reviews: 217, image: "/products/WhatsApp Image 2026-09-28 at 9.06.49 PM (3).jpeg" },
-  { id: 43, title: "Amber Linen Kurta", price: "₹8,999", rating: 4.3, reviews: 95, image: "/products/WhatsApp Image 2026-09-28 at 9.06.50 PM.jpeg" },
-  { id: 44, title: "Aqua Chikankari Kurti", price: "₹9,999", rating: 4.4, reviews: 132, image: "/products/WhatsApp Image 2026-09-28 at 9.06.50 PM (1).jpeg" },
-  { id: 45, title: "Beige Embroidered Sherwani", price: "₹23,999", rating: 4.6, reviews: 188, image: "/products/WhatsApp Image 2026-09-28 at 9.06.50 PM (2).jpeg" },
-  { id: 46, title: "Burgundy Velvet Lehenga", price: "₹36,999", rating: 4.8, reviews: 334, image: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM.jpeg" },
-  { id: 47, title: "Sea Green Georgette Suit", price: "₹11,999", rating: 4.3, reviews: 101, image: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM (1).jpeg" },
-  { id: 48, title: "Gold Tissue Sharara", price: "₹22,499", rating: 4.7, reviews: 209, image: "/products/WhatsApp Image 2026-09-28 at 9.06.51 PM (2).jpeg" },
-  { id: 49, title: "Charcoal Nehru Jacket", price: "₹12,999", rating: 4.4, reviews: 116, image: "/products/WhatsApp Image 2026-09-28 at 9.06.52 PM.jpeg" },
-  { id: 50, title: "Pistachio Kalamkari Kurta", price: "₹10,499", rating: 4.2, reviews: 74, image: "/products/WhatsApp Image 2026-09-28 at 9.06.52 PM (1).jpeg" },
-  { id: 51, title: "Crimson Bridal Lehenga", price: "₹44,999", rating: 4.9, reviews: 398, image: "/products/WhatsApp Image 2026-09-28 at 9.06.52 PM (2).jpeg" },
-  { id: 52, title: "Sky Blue Lucknowi Kurta", price: "₹13,499", rating: 4.5, reviews: 162, image: "/products/WhatsApp Image 2026-09-28 at 9.06.53 PM.jpeg" },
-  { id: 53, title: "Dark Teal Bandhgala", price: "₹18,999", rating: 4.6, reviews: 201, image: "/products/WhatsApp Image 2026-09-28 at 9.06.53 PM (1).jpeg" },
-  { id: 54, title: "Flamingo Pink Anarkali", price: "₹17,499", rating: 4.4, reviews: 138, image: "/products/WhatsApp Image 2026-09-28 at 9.06.53 PM (2).jpeg" },
-  { id: 55, title: "Mocha Linen Suit Set", price: "₹15,999", rating: 4.3, reviews: 93, image: "/products/WhatsApp Image 2026-09-28 at 9.06.54 PM.jpeg" },
-  { id: 56, title: "Emerald Zari Kurta Pajama", price: "₹20,499", rating: 4.7, reviews: 224, image: "/products/WhatsApp Image 2026-09-28 at 9.06.54 PM (1).jpeg" },
-  { id: 57, title: "Silver Tissue Lehenga", price: "₹38,999", rating: 4.8, reviews: 287, image: "/products/WhatsApp Image 2026-09-28 at 9.06.54 PM (2).jpeg" },
-  { id: 58, title: "Copper Brocade Jacket", price: "₹16,499", rating: 4.5, reviews: 144, image: "/products/WhatsApp Image 2026-09-28 at 9.06.55 PM.jpeg" },
-  { id: 59, title: "Plum Silk Saree", price: "₹21,999", rating: 4.6, reviews: 176, image: "/products/WhatsApp Image 2026-09-28 at 9.06.55 PM (1).jpeg" },
-  { id: 60, title: "Neon Lime Sharara", price: "₹9,999", rating: 4.1, reviews: 65, image: "/products/WhatsApp Image 2026-09-28 at 9.06.56 PM.jpeg" },
-  { id: 61, title: "Nude Georgette Anarkali", price: "₹14,999", rating: 4.5, reviews: 157, image: "/products/WhatsApp Image 2026-09-28 at 9.06.56 PM (1).jpeg" },
-  { id: 62, title: "Khaki Handloom Kurta", price: "₹8,499", rating: 4.3, reviews: 87, image: "/products/WhatsApp Image 2026-09-28 at 9.06.56 PM (2).jpeg" },
-  { id: 63, title: "Cobalt Sherwani Set", price: "₹25,999", rating: 4.7, reviews: 232, image: "/products/WhatsApp Image 2026-09-28 at 9.06.57 PM.jpeg" },
-  { id: 64, title: "Blush Embroidered Kurti", price: "₹7,499", rating: 4.4, reviews: 109, image: "/products/WhatsApp Image 2026-09-28 at 9.06.57 PM (1).jpeg" },
-  { id: 65, title: "Taupe Kota Silk Suit", price: "₹13,999", rating: 4.2, reviews: 78, image: "/products/WhatsApp Image 2026-09-28 at 9.06.58 PM.jpeg" },
-  { id: 66, title: "Violet Net Lehenga", price: "₹33,999", rating: 4.8, reviews: 301, image: "/products/WhatsApp Image 2026-09-28 at 9.06.58 PM (1).jpeg" },
-  { id: 67, title: "Orange Patola Kurta", price: "₹11,499", rating: 4.5, reviews: 143, image: "/products/WhatsApp Image 2026-09-28 at 9.06.58 PM (2).jpeg" },
-  { id: 68, title: "Pink Embroidered Sherwani", price: "₹28,999", rating: 4.6, reviews: 197, image: "/products/WhatsApp Image 2026-09-28 at 9.06.59 PM.jpeg" },
-  { id: 69, title: "Grey Block Print Kurta Set", price: "₹10,999", rating: 4.3, reviews: 96, image: "/products/WhatsApp Image 2026-09-28 at 9.06.59 PM (1).jpeg" },
-  { id: 70, title: "Cerise Banarasi Lehenga", price: "₹39,999", rating: 4.9, reviews: 356, image: "/products/WhatsApp Image 2026-09-28 at 9.06.59 PM (2).jpeg" },
-  { id: 71, title: "Denim Blue Kurta Pajama", price: "₹12,499", rating: 4.4, reviews: 121, image: "/products/WhatsApp Image 2026-09-28 at 9.07.00 PM.jpeg" },
-  { id: 72, title: "Poppy Red Anarkali Suit", price: "₹15,499", rating: 4.5, reviews: 155, image: "/products/WhatsApp Image 2026-09-28 at 9.07.00 PM (1).jpeg" },
-  { id: 73, title: "Forest Zari Sherwani", price: "₹31,999", rating: 4.7, reviews: 218, image: "/products/WhatsApp Image 2026-09-28 at 9.07.01 PM.jpeg" },
-  { id: 74, title: "Honey Chikankari Kurta", price: "₹9,499", rating: 4.3, reviews: 86, image: "/products/WhatsApp Image 2026-09-28 at 9.07.01 PM (1).jpeg" },
-  { id: 75, title: "Lilac Embroidered Lehenga", price: "₹27,999", rating: 4.6, reviews: 241, image: "/products/WhatsApp Image 2026-09-28 at 9.07.01 PM (2).jpeg" },
-  { id: 76, title: "Ivory Bandhgala Jacket", price: "₹19,499", rating: 4.4, reviews: 134, image: "/products/WhatsApp Image 2026-09-28 at 9.07.02 PM.jpeg" },
-  { id: 77, title: "Teal Mirror Work Kurti", price: "₹8,999", rating: 4.2, reviews: 69, image: "/products/WhatsApp Image 2026-09-28 at 9.07.02 PM (1).jpeg" },
-  { id: 78, title: "Brick Red Silk Suit", price: "₹17,999", rating: 4.7, reviews: 203, image: "/products/WhatsApp Image 2026-09-28 at 9.07.02 PM (2).jpeg" },
-  { id: 79, title: "Aqua Embroidered Sharara", price: "₹21,499", rating: 4.5, reviews: 168, image: "/products/WhatsApp Image 2026-09-28 at 9.07.03 PM.jpeg" },
-  { id: 80, title: "Caramel Linen Sherwani", price: "₹26,999", rating: 4.6, reviews: 189, image: "/products/WhatsApp Image 2026-09-28 at 9.07.03 PM (1).jpeg" },
-  { id: 81, title: "Lavender Palazzo Suit", price: "₹11,999", rating: 4.3, reviews: 102, image: "/products/WhatsApp Image 2026-09-28 at 9.07.03 PM (2).jpeg" },
-  { id: 82, title: "Jet Black Velvet Kurta", price: "₹18,499", rating: 4.8, reviews: 276, image: "/products/WhatsApp Image 2026-09-28 at 9.07.04 PM.jpeg" },
-  { id: 83, title: "Sunset Orange Lehenga", price: "₹35,999", rating: 4.9, reviews: 319, image: "/products/WhatsApp Image 2026-09-28 at 9.07.04 PM (1).jpeg" },
-  { id: 84, title: "Sage Green Handloom Suit", price: "₹14,999", rating: 4.4, reviews: 127, image: "/products/WhatsApp Image 2026-09-28 at 9.07.05 PM.jpeg" },
-  { id: 85, title: "Rose Red Bridal Sherwani", price: "₹42,999", rating: 4.9, reviews: 387, image: "/products/WhatsApp Image 2026-09-28 at 9.07.05 PM (1).jpeg" },
-  { id: 86, title: "Topaz Embroidered Kurti", price: "₹7,999", rating: 4.3, reviews: 91, image: "/products/WhatsApp Image 2026-09-28 at 9.07.05 PM (2).jpeg" },
-  { id: 87, title: "Marigold Silk Sharara", price: "₹20,999", rating: 4.5, reviews: 161, image: "/products/WhatsApp Image 2026-09-28 at 9.07.06 PM.jpeg" },
-  { id: 88, title: "Electric Blue Bandhgala", price: "₹23,499", rating: 4.7, reviews: 214, image: "/products/WhatsApp Image 2026-09-28 at 9.07.06 PM (1).jpeg" },
-  { id: 89, title: "Snow White Anarkali", price: "₹16,499", rating: 4.6, reviews: 188, image: "/products/WhatsApp Image 2026-09-28 at 9.07.07 PM.jpeg" },
-  { id: 90, title: "Mulberry Net Lehenga", price: "₹37,999", rating: 4.8, reviews: 293, image: "/products/WhatsApp Image 2026-09-28 at 9.07.07 PM (1).jpeg" },
-  { id: 91, title: "Persimmon Kantha Kurta", price: "₹10,999", rating: 4.3, reviews: 99, image: "/products/WhatsApp Image 2026-09-28 at 9.07.07 PM (2).jpeg" },
-  { id: 92, title: "Sepia Brocade Sherwani", price: "₹30,999", rating: 4.7, reviews: 237, image: "/products/WhatsApp Image 2026-09-28 at 9.07.08 PM.jpeg" },
-  { id: 93, title: "Pearl Embroidered Suit", price: "₹22,999", rating: 4.5, reviews: 173, image: "/products/WhatsApp Image 2026-09-28 at 9.07.08 PM (1).jpeg" },
-  { id: 94, title: "Claret Velvet Lehenga", price: "₹41,999", rating: 4.9, reviews: 364, image: "/products/WhatsApp Image 2026-09-28 at 9.07.09 PM.jpeg" },
-  { id: 95, title: "Turquoise Festive Kurta", price: "₹13,499", rating: 4.4, reviews: 131, image: "/products/WhatsApp Image 2026-09-28 at 9.07.09 PM (1).jpeg" },
-  { id: 96, title: "Cantaloupe Chanderi Suit", price: "₹15,999", rating: 4.2, reviews: 82, image: "/products/WhatsApp Image 2026-09-28 at 9.07.09 PM (2).jpeg" },
-  { id: 97, title: "Midnight Blue Zari Sherwani", price: "₹33,999", rating: 4.8, reviews: 308, image: "/products/WhatsApp Image 2026-09-28 at 9.07.10 PM.jpeg" },
-  { id: 98, title: "Flamingo Silk Anarkali", price: "₹19,999", rating: 4.6, reviews: 196, image: "/products/WhatsApp Image 2026-09-28 at 9.07.10 PM (1).jpeg" },
-  { id: 99, title: "Golden Bridal Lehenga", price: "₹49,999", rating: 5.0, reviews: 421, image: "/products/WhatsApp Image 2026-09-28 at 9.07.11 PM.jpeg" },
-  { id: 100, title: "Heritage Royal Sherwani", price: "₹38,499", rating: 4.8, reviews: 156, image: "/33-1-scaled.webp" },
- 
-];
+// ── Product catalogue imported from ../data/products ──────────────────────────
 
 // ── Star rating renderer ───────────────────────────────────────────────────────
 function StarRating({ rating }: { rating: number }) {
@@ -320,7 +218,7 @@ function ProductCard({
   mode = "retail",
   onOpenModal,
 }: {
-  product: (typeof PRODUCTS)[0];
+  product: Product;
   locale: string;
   mode?: "retail" | "wholesale" | "digital";
   onOpenModal?: (productTitle: string, type: "quote" | "bulk") => void;
@@ -371,15 +269,18 @@ function ProductCard({
   };
 
   if (mode === "wholesale") {
-    const stock = 2500 + (product.id * 17) % 500;
+    const stock = product.stock;
 
     return (
       <div className="relative flex flex-col group border rounded-2xl overflow-hidden shadow-sm transition-transform duration-300 hover:-translate-y-1" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)", background: isDark ? "#111" : "#fff" }}>
         {/* Product Image */}
         <div className="relative aspect-[4/5] w-full bg-gray-100">
-          <Image src={product.image} alt={product.title} fill className="object-cover" unoptimized />
+          <Image src={product.image} alt={product.title} fill className="object-cover" unoptimized loading="eager" />
           <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-2.5 py-1.5 rounded-full border border-white/20">
-            MOQ: 50 pcs
+            MOQ: {Math.min(product.stock, 5)} pcs
+          </div>
+          <div className="absolute top-3 right-3 bg-emerald-950/80 backdrop-blur-sm text-emerald-300 text-[9px] font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded-full border border-emerald-500/30">
+            {product.stock} Units Available
           </div>
         </div>
 
@@ -387,12 +288,12 @@ function ProductCard({
         <div className="p-5 flex flex-col gap-4">
           <div>
             <h2 className={`text-sm font-semibold truncate font-[family-name:var(--font-playfair)] tracking-wide ${isDark ? "text-white" : "text-black"}`}>{product.title}</h2>
-            <p className="text-[11px] text-gray-500 font-mono mt-1 tracking-widest">SKU: PROD-{product.id.toString().padStart(3, '0')}</p>
+            <p className="text-[11px] text-gray-500 font-mono mt-1 tracking-widest">SKU: SDH-{product.id.toString().padStart(3, '0')}</p>
           </div>
 
-
           <div className="flex justify-between items-center text-xs mt-1">
-            <span className={isDark ? "text-gray-400" : "text-gray-500"}>Stock: <span className={`font-semibold ${isDark ? "text-white" : "text-black"}`}>{stock.toLocaleString()}</span></span>
+            <span className={isDark ? "text-gray-400" : "text-gray-500"}>Stock: <span className={`font-semibold ${isDark ? "text-white" : "text-black"}`}>{stock.toLocaleString()} units</span></span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#d4af37]">Price on Request</span>
           </div>
 
           <div className="flex gap-3 mt-2">
@@ -445,6 +346,7 @@ function ProductCard({
               }`}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             unoptimized
+            loading="eager"
           />
           {/* Subtle gradient overlay on hover */}
           <div
@@ -457,6 +359,10 @@ function ProductCard({
               }`}
           >
             Quick View
+          </div>
+          {/* Stock badge */}
+          <div className="absolute top-3 right-3 bg-black/75 backdrop-blur-sm text-white text-[9px] font-medium tracking-wide px-2.5 py-1 rounded-full border border-white/20">
+            Stock: {product.stock}
           </div>
         </div>
       </Link>
@@ -477,13 +383,18 @@ function ProductCard({
           </h2>
         </Link>
 
-        {/* Price */}
-        <span
-          className={`text-base font-bold tracking-tight ${isDark ? "text-white" : "text-gray-900"
-            }`}
-        >
-          {formatPrice(parseInt(product.price.replace(/\D/g, "")))}
-        </span>
+        {/* Price & Stock */}
+        <div className="flex items-center justify-between">
+          <span
+            className={`text-base font-bold tracking-tight ${isDark ? "text-white" : "text-gray-900"
+              }`}
+          >
+            {formatPrice(parseInt(product.price.replace(/\D/g, "")))}
+          </span>
+          <span className="text-[10px] font-medium tracking-wider uppercase text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+            {product.stock} in stock
+          </span>
+        </div>
 
         {/* Rating row */}
         {/* <div className="flex items-center gap-2">
@@ -578,13 +489,21 @@ export function DigitalShowroom({ mode }: DigitalShowroomProps) {
     if (q) setSearchQuery(q);
   }, [searchParams]);
 
-  const modeProducts = PRODUCTS.filter((p) =>
-    mode === "wholesale" ? p.id > 50 && p.id <= 98 : p.id <= 48
-  );
+  // Shuffle product ordering for wholesale so both pages show different positions ("aage peeche")
+  const modeProducts = mode === "wholesale"
+    ? [...PRODUCTS].sort((a, b) => ((a.id * 37) % 76) - ((b.id * 37) % 76))
+    : PRODUCTS;
 
-  const filteredProducts = modeProducts.filter((p) =>
-    p.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = modeProducts.filter((p) => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      p.title.toLowerCase().includes(q) ||
+      p.code.toLowerCase().includes(q) ||
+      p.fabric.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q)
+    );
+  });
 
   const pageTitle =
     mode === "retail"
