@@ -42,7 +42,6 @@ export function ProductDetails({ id }: ProductProps) {
   const locale = useParams().lang as string;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [addedToBag, setAddedToBag] = useState(false);
   const { formatPrice, currency } = useCurrency();
   const product = getProductById(id) || PRODUCTS_MAP[id];
@@ -131,21 +130,11 @@ export function ProductDetails({ id }: ProductProps) {
               {product.fabric}
             </p>
 
-            {/* Rating */}
-            {/* <div className="flex items-center gap-3 mb-6">
-              <StarRating rating={product.rating} />
-              <span className={`text-sm font-medium ${isDark ? "text-white/70" : "text-black/70"}`}>{product.rating.toFixed(1)}</span>
-              <span className={`text-xs ${isDark ? "text-white/40" : "text-black/40"}`}>({product.reviews} reviews)</span>
-            </div> */}
-
-            {/* Price & Stock */}
+            {/* Price */}
             <div className="flex flex-col gap-2 mb-8">
               <div className="flex items-baseline justify-between flex-wrap gap-3">
                 <span className="text-3xl font-[family-name:var(--font-inter)] font-bold">
                   {formatPrice(parseInt(product.price.replace(/\D/g, "")))}
-                </span>
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                  {product.stock} units in stock
                 </span>
               </div>
               {currency !== "INR" && (
@@ -162,40 +151,10 @@ export function ProductDetails({ id }: ProductProps) {
               {product.description}
             </p>
 
-            {/* Size Selector */}
-            <div className="mb-8">
-              <div className="flex justify-between items-center mb-4">
-                <span className={`text-[10px] tracking-[0.25em] uppercase font-semibold font-[family-name:var(--font-inter)] ${isDark ? "text-white" : "text-black"}`}>
-                  Select Size {selectedSize && <span className="text-[#d4af37] ml-2">— {selectedSize}</span>}
-                </span>
-                <button className={`text-[10px] tracking-wider uppercase underline underline-offset-4 transition-colors ${isDark ? "text-white/50 hover:text-white" : "text-black/50 hover:text-black"}`}>Size Guide</button>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`min-w-[3rem] px-3 h-11 border text-sm font-medium transition-all duration-200 font-[family-name:var(--font-inter)] rounded-lg ${
-                      selectedSize === size
-                        ? "border-[#d4af37] bg-[#d4af37] text-white"
-                        : `${isDark ? "border-white/20 hover:border-white text-white" : "border-black/20 hover:border-black text-black"}`
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* CTA */}
             <div className="flex flex-col gap-3 mb-10">
               <button
                 onClick={() => {
-                  if (!selectedSize) {
-                    alert("Please select a size first.");
-                    return;
-                  }
-                  
                   let cart: any[] = [];
                   try {
                     const stored = localStorage.getItem('cart');
@@ -211,11 +170,10 @@ export function ProductDetails({ id }: ProductProps) {
                     title: product.title,
                     price: product.price,
                     image: product.image,
-                    size: selectedSize,
                     quantity: 1
                   };
                   
-                  const existing = cart.find((i: any) => i.id === id && i.size === selectedSize);
+                  const existing = cart.find((i: any) => i.id === id);
                   if (existing) {
                     existing.quantity += 1;
                   } else {
@@ -238,11 +196,6 @@ export function ProductDetails({ id }: ProductProps) {
               </button>
               <button
                 onClick={() => {
-                  if (!selectedSize) {
-                    alert("Please select a size first.");
-                    return;
-                  }
-
                   // Add to cart first
                   let cart: any[] = [];
                   try {
@@ -253,11 +206,11 @@ export function ProductDetails({ id }: ProductProps) {
                     }
                   } catch (_) { cart = []; }
 
-                  const existing = cart.find((i: any) => i.id === id && i.size === selectedSize);
+                  const existing = cart.find((i: any) => i.id === id);
                   if (existing) {
                     existing.quantity += 1;
                   } else {
-                    cart.push({ id, title: product.title, price: product.price, image: product.image, size: selectedSize, quantity: 1 });
+                    cart.push({ id, title: product.title, price: product.price, image: product.image, quantity: 1 });
                   }
                   localStorage.setItem('cart', JSON.stringify(cart));
                   window.dispatchEvent(new Event('cartUpdated'));

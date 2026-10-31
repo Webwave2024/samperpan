@@ -460,7 +460,9 @@ export function Header({ lang = 'en' }: { lang?: string }) {
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                       </div>
-                      <p className="text-xs text-black/60 dark:text-white/60 mb-3 uppercase tracking-wider font-[family-name:var(--font-inter)]">{t('size')} {item.size}</p>
+                      {item.size ? (
+                        <p className="text-xs text-black/60 dark:text-white/60 mb-3 uppercase tracking-wider font-[family-name:var(--font-inter)]">{t('size')} {item.size}</p>
+                      ) : null}
                       
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-center gap-3 border border-black/10 dark:border-white/10 rounded-full px-2 py-1">

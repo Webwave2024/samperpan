@@ -274,10 +274,10 @@ export function LuxuryExperience() {
   const horizontalTrackRef = useRef<HTMLDivElement>(null);
 
   const craftDetails = [
-    { label: "01", title: "FESTIVE SUIT", desc: "Midnight Blue Festive Ensemble. A masterpiece of traditional craftsmanship tailored to absolute perfection.", img: "/products/(12)-6016.png", slug: "4" },
-    { label: "02", title: "CHANDERI SUIT", desc: "Heritage Handblock Chanderi Suit. Designed to make a stunning statement with detailed artisan work.", img: "/products/(12)-6004.png", slug: "5" },
-    { label: "03", title: "BANARASI SET", desc: "Mustard Banarasi Tunic Set with intricate detailing. Elevate your everyday elegance.", img: "/products/(11)-6033.png", slug: "6" },
-    { label: "04", title: "ROYAL ZARI", desc: "Royal Zari Embroidered Kurta Set. Exquisite design capturing the essence of royal heritage.", img: "/products/(11)-6007.png", slug: "7" },
+    { label: "01", title: "JAMDANI SUIT", desc: "Emerald Handcrafted Chanderi Suit. Pure cotton silk woven with delicate artisan floral motifs.", img: "/newdata/(14)-6002 jamdani.jpg", slug: "22" },
+    { label: "02", title: "BANDHANI SET", desc: "Royal Ivory Jacquard Kurta with vibrant Crimson Bandhani dupatta and heritage cart embroidery.", img: "/newdata/(14)-6006 jackard.jpg", slug: "24" },
+    { label: "03", title: "BANARASI SET", desc: "Mustard Banarasi Tunic Set in rich Jamdani Jacquard weave. Elevate your everyday elegance.", img: "/newdata/(11)-6033 jamdani jackard.jpg", slug: "13" },
+    { label: "04", title: "SALSA SHARARA", desc: "Pistachio Rose Mirrorwork Sharara. Shimmering texture and festive silhouette for grand celebrations.", img: "/newdata/(15)-6046 salsa.jpg", slug: "38" },
   ];
 
   useEffect(() => {
@@ -604,9 +604,9 @@ export function LuxuryExperience() {
             {/* Editorial cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {[
-                { num: "01", name: "Ivory Floral Silk Straight Kurti", label: "Silk Kurti", slug: "1", img: "/products/(13)-6015.png" },
-                { num: "02", name: "Festive Zardozi Silk Ensemble", label: "Zardozi Suit", slug: "2", img: "/products/(13)-6003.png" },
-                { num: "03", name: "Blush Rose Chikankari Suit", label: "Chikankari", slug: "3", img: "/products/(12)-6037.png" },
+                { num: "01", name: "Ivory Floral Silk Straight Kurti", label: "Silk Kurti", slug: "16", img: "/newdata/(13)-6015 shimmer lining.jpg" },
+                { num: "02", name: "Regal Gold Pure Crepe Couture Set", label: "Golden Couture", slug: "69", img: "/newdata/(24)-6076 pure crepe.jpg" },
+                { num: "03", name: "Peacock Blue Silk Anarkali Set", label: "Royal Anarkali", slug: "55", img: "/newdata/(20)-6011 shiffon.jpg" },
               ].map((item, i) => (
                 <Link
                   key={item.num}

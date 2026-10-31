@@ -269,43 +269,41 @@ function ProductCard({
   };
 
   if (mode === "wholesale") {
-    const stock = product.stock;
-
     return (
       <div className="relative flex flex-col group border rounded-2xl overflow-hidden shadow-sm transition-transform duration-300 hover:-translate-y-1" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)", background: isDark ? "#111" : "#fff" }}>
         {/* Product Image */}
-        <div className="relative aspect-[4/5] w-full bg-gray-100">
-          <Image src={product.image} alt={product.title} fill className="object-cover" unoptimized loading="eager" />
-          <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-2.5 py-1.5 rounded-full border border-white/20">
-            MOQ: {Math.min(product.stock, 5)} pcs
+        <Link href={`/${locale}/product/${product.id}`} className="block">
+          <div className="relative aspect-[4/5] w-full bg-gray-100">
+            <Image src={product.image} alt={product.title} fill className="object-cover" unoptimized loading="eager" />
+            <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white text-[9px] uppercase tracking-wider px-2.5 py-1.5 rounded-full border border-white/20">
+              MOQ: 5 pcs
+            </div>
           </div>
-          <div className="absolute top-3 right-3 bg-emerald-950/80 backdrop-blur-sm text-emerald-300 text-[9px] font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded-full border border-emerald-500/30">
-            {product.stock} Units Available
-          </div>
-        </div>
+        </Link>
 
         {/* Wholesale Info */}
         <div className="p-5 flex flex-col gap-4">
           <div>
-            <h2 className={`text-sm font-semibold truncate font-[family-name:var(--font-playfair)] tracking-wide ${isDark ? "text-white" : "text-black"}`}>{product.title}</h2>
+            <Link href={`/${locale}/product/${product.id}`} className="block overflow-hidden" title={product.title}>
+              <h2 className={`text-sm font-semibold truncate font-[family-name:var(--font-playfair)] tracking-wide hover:text-[#d4af37] transition-colors ${isDark ? "text-white" : "text-black"}`}>{product.title}</h2>
+            </Link>
             <p className="text-[11px] text-gray-500 font-mono mt-1 tracking-widest">SKU: SDH-{product.id.toString().padStart(3, '0')}</p>
           </div>
 
           <div className="flex justify-between items-center text-xs mt-1">
-            <span className={isDark ? "text-gray-400" : "text-gray-500"}>Stock: <span className={`font-semibold ${isDark ? "text-white" : "text-black"}`}>{stock.toLocaleString()} units</span></span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#d4af37]">Price on Request</span>
+            <span className="text-base font-bold tracking-tight text-[#b59536] dark:text-[#d4af37]">{formatPrice(product.priceNum)}</span>
           </div>
 
           <div className="flex gap-3 mt-2">
             <button
-              onClick={() => onOpenModal?.(product.title, "quote")}
+              onClick={() => onOpenModal?.(`${product.title} (${product.price})`, "quote")}
               className="flex-1 py-3 text-[10px] uppercase tracking-widest font-semibold border rounded-lg transition-colors hover:bg-black/5 dark:hover:bg-white/5"
               style={{ borderColor: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)", color: isDark ? "#fff" : "#000" }}
             >
               Request Quote
             </button>
             <button
-              onClick={() => onOpenModal?.(product.title, "bulk")}
+              onClick={() => onOpenModal?.(`${product.title} (${product.price})`, "bulk")}
               className="flex-1 py-3 text-[10px] uppercase tracking-widest font-semibold rounded-lg text-white bg-[#b59536] hover:bg-[#d4af37] transition-colors shadow-lg shadow-yellow-900/20"
             >
               Bulk Order
@@ -360,19 +358,15 @@ function ProductCard({
           >
             Quick View
           </div>
-          {/* Stock badge */}
-          <div className="absolute top-3 right-3 bg-black/75 backdrop-blur-sm text-white text-[9px] font-medium tracking-wide px-2.5 py-1 rounded-full border border-white/20">
-            Stock: {product.stock}
-          </div>
         </div>
       </Link>
 
       {/* ── Product Info ── */}
       <div className="flex flex-col gap-1.5 px-1">
         {/* Name */}
-        <Link href={`/${locale}/product/${product.id}`}>
+        <Link href={`/${locale}/product/${product.id}`} className="block overflow-hidden" title={product.title}>
           <h2
-            className={`text-sm font-semibold leading-tight transition-colors duration-300 font-[family-name:var(--font-playfair)] ${hovered
+            className={`text-sm font-semibold truncate leading-tight transition-colors duration-300 font-[family-name:var(--font-playfair)] ${hovered
                 ? "text-[#d4af37]"
                 : isDark
                   ? "text-white"
@@ -383,16 +377,13 @@ function ProductCard({
           </h2>
         </Link>
 
-        {/* Price & Stock */}
+        {/* Price */}
         <div className="flex items-center justify-between">
           <span
             className={`text-base font-bold tracking-tight ${isDark ? "text-white" : "text-gray-900"
               }`}
           >
             {formatPrice(parseInt(product.price.replace(/\D/g, "")))}
-          </span>
-          <span className="text-[10px] font-medium tracking-wider uppercase text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-            {product.stock} in stock
           </span>
         </div>
 

@@ -105,7 +105,7 @@ export function CheckoutClient() {
             </div>
             <div className="flex-1 flex flex-col gap-0.5">
               <p className="text-sm font-medium leading-snug text-black dark:text-white">{item.title}</p>
-              <p className="text-xs text-black/50 dark:text-white/50">Size: {item.size}</p>
+              {item.size ? <p className="text-xs text-black/50 dark:text-white/50">Size: {item.size}</p> : null}
               <p className="text-sm font-semibold mt-1 text-black dark:text-white">
                 {formatPrice(parseInt(item.price.replace(/\D/g, "")) * item.quantity)}
               </p>
