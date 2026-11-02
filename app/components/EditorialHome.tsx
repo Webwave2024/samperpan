@@ -605,7 +605,7 @@ export function LuxuryExperience() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               {[
                 { num: "01", name: "Ivory Floral Silk Straight Kurti", label: "Silk Kurti", slug: "16", img: "/newdata/(13)-6015 shimmer lining.jpg" },
-                { num: "02", name: "Regal Gold Pure Crepe Couture Set", label: "Golden Couture", slug: "69", img: "/newdata/(24)-6076 pure crepe.jpg" },
+                { num: "02", name: "Exotic Fauna Motif Silk Ensemble", label: "Palace Silk", slug: "68", img: "/newdata/(24)-6036 girrafe.png" },
                 { num: "03", name: "Peacock Blue Silk Anarkali Set", label: "Royal Anarkali", slug: "55", img: "/newdata/(20)-6011 shiffon.jpg" },
               ].map((item, i) => (
                 <Link
